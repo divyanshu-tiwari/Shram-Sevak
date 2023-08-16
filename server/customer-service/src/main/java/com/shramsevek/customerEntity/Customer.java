@@ -14,23 +14,23 @@ public class Customer {
 @Column(length = 36)
 private int customerId;
 
-@Column(length = 36)
+@Column(length = 36 ,nullable=false)
 private String firstName;
 
-@Column(length = 36)
+@Column(length = 36 ,nullable=false)
 private String lastName;
 
-@Column(length = 36)
+@Column(length = 36 ,nullable=false)
 private String email;
 
-@Column(length = 36)
+@Column(length = 36 ,nullable=false)
 private String password;
 
-@Column(length = 128)
+@Column(length = 128 ,nullable=false)
 private int contact;
 
 @Enumerated(EnumType.STRING)
-@Column(length = 16)
+@Column(length = 16 ,nullable=false)
 private Gender gender;
 
 @Column(length = 8)
