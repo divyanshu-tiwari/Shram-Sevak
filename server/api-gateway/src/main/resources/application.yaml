@@ -9,9 +9,9 @@ spring:
     - id: CUSTOMER-SERVICE
       uri: lb://USER-SERVICE
       predicates:
-       - Path=/customer/**s
+       - Path=/customer/**
     - id: WORKER-SERVICE
       uri: lb://WORKER-SERVICE
       predicates:
-       - Path=/worker/**s
+       - Path=/worker/**
       
