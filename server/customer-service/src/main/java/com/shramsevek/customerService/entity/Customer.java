@@ -1,4 +1,4 @@
-package com.shramsevek.customerEntity;
+package com.shramsevek.customerService.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -10,7 +10,7 @@ import lombok.*;
 @Table(name ="customers")
 public class Customer {
 
-//Number validation required either FrontEnd Or BackEnd
+
 @Id
 private int customerId;
 
@@ -26,7 +26,8 @@ private String email;
 @Column(length = 36 ,nullable=false)
 private String password;
 
-@Column(nullable=false)
+//Number validation required either FrontEnd Or BackEnd
+@Column(nullable=false )
 private int contact;
 
 @Enumerated(EnumType.STRING)

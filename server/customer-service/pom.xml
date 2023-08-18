@@ -7,11 +7,11 @@
     <version>3.1.2</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
-  <groupId>com.shramsevak</groupId>
-  <artifactId>customer-entity</artifactId>
+  <groupId>com.shram-sevak</groupId>
+  <artifactId>customer-service</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>customer-entity</name>
-  <description>Shramsevevak Entity for Customer </description>
+  <name>customer-service</name>
+  <description>customer service microservice for shram-sevak </description>
   <properties>
     <java.version>17</java.version>
     <spring-cloud.version>2022.0.4</spring-cloud.version>
