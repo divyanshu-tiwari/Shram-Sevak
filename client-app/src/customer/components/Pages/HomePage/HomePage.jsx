@@ -1,5 +1,7 @@
 import React from 'react'
 import MainCarousel from '../../MainCarousel/MainCarousel'
+import HomeSectionCarousel from '../../HomeSectionCarousel/HomeSectionCarousel'
+import { worker_list } from '../../../../Data/worker_list';
 
 
 export default function HomePage() {
@@ -9,7 +11,7 @@ export default function HomePage() {
       <MainCarousel/>
       
       <div className='space-y-10 py-20'>
-      Somt other data
+        <HomeSectionCarousel data={worker_list} sectionName={"Popular Services"}/>
       </div>
     </div>
   )
