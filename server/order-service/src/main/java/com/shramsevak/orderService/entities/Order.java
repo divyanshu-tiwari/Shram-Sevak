@@ -30,9 +30,8 @@ public class Order {
 	@Column(nullable = false)
 	private LocalDateTime endTime;
 	
-	// transaction id
-	//transaction amount
-	// transaction status
+	@Column(nullable = false)
+	private Long transactionId;
 	
 	@Column(nullable = false)
 	private Long customerId;
