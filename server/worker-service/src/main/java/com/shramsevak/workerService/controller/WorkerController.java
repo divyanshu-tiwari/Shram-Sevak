@@ -1,5 +1,5 @@
 package com.shramsevak.workerService.controller;
 
-public class WokerController {
+public class WorkerController {
 
 }
