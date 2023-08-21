@@ -12,7 +12,7 @@ public class Customer {
 
 
 @Id
-private int customerId;
+private long customerId;
 
 @Column(length = 32 ,nullable=false)
 private String firstName;
@@ -36,6 +36,9 @@ private Gender gender;
 
 @Column(nullable=false)
 private String profilePicherPath;
+
+@Column(nullable=true)
+private long primaryAddressId;
 
 private boolean isActive;  
 
