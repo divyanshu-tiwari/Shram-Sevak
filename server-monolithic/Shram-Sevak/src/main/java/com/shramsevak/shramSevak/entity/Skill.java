@@ -26,11 +26,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Skill {
+public class Skill extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long skillId;
+    
      
     @Column(nullable = false)
     private String skillTitle;
@@ -45,7 +43,7 @@ public class Skill {
     @Override
     public int hashCode() {
        
-        return (skillId == null) ? 0 : skillId.hashCode();
+        return (this.getId() == null) ? 0 : this.getId().hashCode();
     }
 
     @Override
@@ -55,7 +53,7 @@ public class Skill {
         if (obj == null || getClass() != obj.getClass())
             return false;
         Skill other = (Skill) obj;
-        return skillId != null && skillId.equals(other.skillId);
+        return this.getId() != null && this.getId().equals(other.getId());
     }
 
 }
