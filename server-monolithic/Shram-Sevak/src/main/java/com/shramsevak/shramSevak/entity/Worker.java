@@ -75,8 +75,10 @@ public class Worker extends BaseEntity {
     private Locality locality;
     
     @OneToMany(mappedBy = "worker", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Order> orders = new ArrayList<>();
+	private List<Order> acceptedOrders = new ArrayList<>();
     
+    @ManyToMany(mappedBy = "requestedWorkers", fetch = FetchType.LAZY)
+    private Set<Order> requestedOrders = new HashSet<>();
     // HASH CODE AND EQUALS
     // commented as hashCode and equals provided by @Data annotation in the base class
 	/*
@@ -106,12 +108,12 @@ public class Worker extends BaseEntity {
     
     // Order Helpers
     public void addOrder(Order order) {
-    	orders.add(order);
+    	acceptedOrders.add(order);
     	order.setWorker(this);
     }
     
     public void removeOrder(Order order) {
-    	orders.remove(order);
+    	acceptedOrders.remove(order);
     	order.setWorker(null);
     }
     
