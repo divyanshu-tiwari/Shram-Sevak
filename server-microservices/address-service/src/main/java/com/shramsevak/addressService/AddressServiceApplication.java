@@ -12,6 +12,7 @@ public class AddressServiceApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(AddressServiceApplication.class, args);
+		
 	}
 
 }
