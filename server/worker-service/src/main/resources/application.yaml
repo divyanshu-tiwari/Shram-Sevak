@@ -3,3 +3,7 @@ spring:
   name: WORKER-SERVICE
  config:
   import: configserver:http://localhost:8888
+ servlet:
+  multipart: 
+   max-file-size: 10MB
+   
