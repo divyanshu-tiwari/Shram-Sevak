@@ -1,5 +1,5 @@
 package com.shramsevak.shramSevak.entity;
 
 public enum OrderStatus {
-	CREATED,  PENDING, FULFILLED, CANCELLED, SUSPENDED
+	CREATED,  PROCESSING, FULFILLED, CANCELLED, SUSPENDED
 }
