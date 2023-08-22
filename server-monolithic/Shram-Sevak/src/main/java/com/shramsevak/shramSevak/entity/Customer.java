@@ -8,7 +8,7 @@ import lombok.*;
 @Data
 @Entity
 @Table(name ="customers")
-public class CustomerEntity extends BaseEntity {
+public class Customer extends BaseEntity {
 
 
 @Column(length = 32 ,nullable=false)
