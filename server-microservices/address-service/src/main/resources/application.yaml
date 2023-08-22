@@ -1,6 +1,0 @@
-spring:
- application:
-  name: ADDRESS-SERVICE
- config:
-  import: configserver:http://localhost:8888
-   
