@@ -1,5 +1,0 @@
-spring:
- application:
-  name: WORKER-SERVICE
- config:
-  import: configserver:http://localhost:8888
