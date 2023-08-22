@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename compilation unit &apos;com.shramsevak.workerService.entity.category.java&apos; to &apos;Category.java&apos;&#x0D;&#x0A;- Original project: &apos;worker-service&apos;&#x0D;&#x0A;- Original element: &apos;com.shramsevak.workerService.entity.category.java&apos;&#x0D;&#x0A;- Renamed element: &apos;com.shramsevak.workerService.entity.Category.java&apos;" description="Rename compilation unit &apos;category.java&apos;" flags="2" id="org.eclipse.jdt.ui.rename.compilationunit" input="/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.shramsevak.workerService.entity{category.java" name="Category.java" references="false" stamp="1692644544808" version="1.0"/>
+</session>
