@@ -34,6 +34,9 @@ public class Order extends BaseEntity  {
 	@Column(nullable = false)
 	private LocalDateTime endTime;
 	
+	
+	// RELATIONS
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "customer_id")
 	private Customer customer;

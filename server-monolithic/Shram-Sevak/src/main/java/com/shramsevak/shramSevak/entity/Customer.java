@@ -37,7 +37,7 @@ public class Customer extends BaseEntity {
 	@Column(length = 20, nullable = false)
 	private String password;
 
-	@Column(nullable = false, length = 10)
+	@Column(nullable = false, length = 10, unique = true)
 	private String contact;
 
 	@Enumerated(EnumType.STRING)
@@ -52,8 +52,15 @@ public class Customer extends BaseEntity {
 	@Column(length = 10)
 	private CustomerStatus status;
 	
+	// RELATIONS
+	
 	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Order> orders = new ArrayList<>();
+		
+	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Address> addresses = new ArrayList<>();
+	
+	
 	
 	// HELPER-METHODS
 	
@@ -68,4 +75,14 @@ public class Customer extends BaseEntity {
 		order.setCustomer(null);
 	}
 
+	// Address Helpers
+	public void addAddress(Address address) {
+		addresses.add(address);
+		address.setCustomer(this);
+	}
+	
+	public void removeAddress(Address address) {
+		addresses.remove(address);
+		address.setCustomer(this);
+	}
 }

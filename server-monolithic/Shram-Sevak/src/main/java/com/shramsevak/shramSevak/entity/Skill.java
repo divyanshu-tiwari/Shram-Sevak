@@ -25,7 +25,7 @@ import lombok.Setter;
 @Setter
 public class Skill extends BaseEntity {
     
-	@Column(name = "skill_name", nullable = false)
+	@Column(name = "skill_name", nullable = false, length = 50)
     private String skillName;
 
     @ManyToMany(mappedBy = "skills", fetch = FetchType.LAZY)

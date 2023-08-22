@@ -10,16 +10,7 @@ import jakarta.persistence.*;
 @Setter
 @Entity
 @Table(name = "customer_addresses")
-public class CustomerAddress extends BaseEntity {
-
-    
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "address_id")
-    private Long addressId;
-
-    @ManyToOne
-    @JoinColumn(name = "pincode")
-    private WorkLocation workLocation;
+public class Address extends BaseEntity {
 
     @Column(name = "lane1")
     private String lane1;
@@ -30,10 +21,16 @@ public class CustomerAddress extends BaseEntity {
     @Column(name = "lane3")
     private String lane3;
 
-    @Column(name = "land_mark")
+    @Column(name = "land_mark", nullable = true)
     private String landMark;
 
-    @Column(name = "customer_id", nullable = true)
-    private Long customerId;
-
+    // RELATIONS
+    @ManyToOne
+    @JoinColumn(name = "locality_id")
+    private Locality locality;
+    
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
+    
 }

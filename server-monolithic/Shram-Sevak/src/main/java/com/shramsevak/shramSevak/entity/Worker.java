@@ -18,6 +18,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -45,10 +46,10 @@ public class Worker extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @Column(name = "contact" ,nullable = false, length = 10)
+    @Column(name = "contact" , nullable = false, unique = true, length = 10)
     private String contact;
 
-    @Column(name = "email" ,nullable = true,unique = true, length = 100)
+    @Column(name = "email" ,nullable = true, unique = true, length = 100)
     private String email;
 
     @Column(name = "password" ,nullable = false, length = 20)
@@ -64,13 +65,14 @@ public class Worker extends BaseEntity {
 
     // RELATIONS
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    @JoinTable(name = "worker_skill",
+    @JoinTable(name = "worker_skills",
                joinColumns = @JoinColumn(name = "worker_id"),
                inverseJoinColumns = @JoinColumn(name = "skill_id"))
     private Set<Skill> skills = new HashSet<>();
     
-    @Column(nullable = true)
-    private long workLocationId;
+    @ManyToOne
+    @JoinColumn(name = "locality_id")
+    private Locality locality;
     
     @OneToMany(mappedBy = "worker", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Order> orders = new ArrayList<>();
@@ -86,6 +88,8 @@ public class Worker extends BaseEntity {
 	 * (Worker) obj; return this.getId() != null &&
 	 * this.getId().equals(other.getId()); }
 	 */
+    
+    
     
     // HELPER-METHODS
     
@@ -111,5 +115,6 @@ public class Worker extends BaseEntity {
     	order.setWorker(null);
     }
     
+   
 
 }
