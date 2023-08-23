@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom'
-import './Style.css';
 import React from 'react'
 import './StyleRouting.css';
 
@@ -18,10 +17,10 @@ function Routing() {
     const navigate = useNavigate();
 
     const handleClickCustomer = () => {
-      navigate('/FormCustomer')
+      navigate('/loginCustomer')
     };
     const handleClickWorker = () => {
-      navigate('/FormWorker')
+      navigate('/loginWorker')
     };
  
   return (
