@@ -16,6 +16,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,6 +24,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "customers")
+@ToString(exclude="password")
 public class Customer extends BaseEntity {
 
 	@Column(length = 50, nullable = false)
@@ -44,7 +46,7 @@ public class Customer extends BaseEntity {
 	@Column(nullable = false, length = 10)
 	private Gender gender;
 
-	@Column(nullable = false)
+	@Column(nullable = true)
     @ColumnDefault("'images/customers/customerDefaultImage.jpg'")
 	private String profilePicturePath;
 
