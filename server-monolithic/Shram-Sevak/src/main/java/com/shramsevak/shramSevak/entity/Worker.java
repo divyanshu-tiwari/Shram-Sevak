@@ -22,6 +22,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -34,6 +35,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString(exclude = "password")
+@Builder
 public class Worker extends BaseEntity {
    
     @Column(name = "first_name" ,nullable = false, length = 50)
@@ -55,7 +57,7 @@ public class Worker extends BaseEntity {
     @Column(name = "password" ,nullable = false, length = 20)
     private String password;
     
-    @Column(nullable = false)
+    @Column(nullable = true)
     @ColumnDefault("'images/workers/workerDefaultImage.jpg'")
     private String profilePicturePath;
 
@@ -75,8 +77,10 @@ public class Worker extends BaseEntity {
     private Locality locality;
     
     @OneToMany(mappedBy = "worker", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Order> orders = new ArrayList<>();
+	private List<Order> acceptedOrders = new ArrayList<>();
     
+    @ManyToMany(mappedBy = "requestedWorkers", fetch = FetchType.LAZY)
+    private Set<Order> requestedOrders = new HashSet<>();
     // HASH CODE AND EQUALS
     // commented as hashCode and equals provided by @Data annotation in the base class
 	/*
@@ -106,12 +110,12 @@ public class Worker extends BaseEntity {
     
     // Order Helpers
     public void addOrder(Order order) {
-    	orders.add(order);
+    	acceptedOrders.add(order);
     	order.setWorker(this);
     }
     
     public void removeOrder(Order order) {
-    	orders.remove(order);
+    	acceptedOrders.remove(order);
     	order.setWorker(null);
     }
     

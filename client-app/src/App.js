@@ -1,17 +1,19 @@
 import './App.css';
 import HomePage from './customer/components/Pages/HomePage/HomePage';
 import Navigation from './customer/components/navigation/Navigation';
+import {
+  Routes,
+  Route
+} from "react-router-dom";
 
 function App() {
   return (
-    <div className="">
-     <div>
-      <Navigation/>
-     </div>
-     <div>
-      <HomePage/>
-     </div>
-    </div>
+    <>
+      <Navigation />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+      </Routes>
+    </>
   );
 }
 
