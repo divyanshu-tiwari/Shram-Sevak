@@ -102,7 +102,8 @@ const Form = () => {
 
 return (
     <>
-    <div className="container" id="container">
+    <div className="flex justify-center items-center p-10">
+    <div className="container " id="container">
         <div className="form-container sign-up-container">
             <form action="#"  target="_self" >
           
@@ -118,6 +119,7 @@ return (
                         
                     <div className="footer">
                             <button
+                                className='text-white'
                                 id='back'
                                 disabled={page == 0}
                                 onClick={() => {
@@ -197,7 +199,7 @@ return (
                     onChange={(event) =>setFormData({ ...formData, confirmPassword: event.target.value })}
             />
             <a href="#">Forgot your password?</a>
-            <button 
+            <button
                     type='submit' 
                     id ="sub" 
                     name="sub" 
@@ -223,20 +225,21 @@ return (
          
          
          {/* <!-- This div use for Animation --> */}
-        <div className="overlay-container">
+        <div className="overlay-container ">
           <div className="overlay">          
             <div className="overlay-panel overlay-left">
               <h1>Welcome Back!</h1>
               <p>To keep connected with us please login with your personal info</p>
-              <button className="ghost" id="signIn">Sign In</button>
+              <button className="ghost text-white" id="signIn">Sign In</button>
             </div>
               <div className="overlay-panel overlay-right">
-                <h1>Hello, Friend!</h1>
+                <h1>Dear, Customer!</h1>
                 <p>Enter your personal details and start journey with us</p>
-                <button className="ghost" id="signUp"> Create Account</button>
+                <button className="ghost text-white" id="signUp"> Create Account</button>
               </div>
             </div>
           </div>
+    </div>
     </div>
     </>
 

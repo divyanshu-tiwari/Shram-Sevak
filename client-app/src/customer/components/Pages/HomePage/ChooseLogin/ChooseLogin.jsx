@@ -26,7 +26,7 @@ const ChooseLogin = () => {
           LogIn As Customer
         </h3>
         <button
-          className="mt-4 bg-red-500 hover:bg-yellow-500 hover:text-white text-white-800 font-bold py-2 px-4 rounded-full"
+          className="mt-4 bg-red-500 text-white hover:bg-yellow-500 hover:text-white text-white-800 font-bold py-2 px-4 rounded-full"
           onClick={handleClickCustomer}
         >
           Create Customer Account
@@ -42,7 +42,7 @@ const ChooseLogin = () => {
           LogIn As Worker
         </h3>
         <button
-          className="mt-4 bg-red-500 hover:bg-yellow-500 hover:text-white text-white-800 font-bold py-2 px-4 rounded-full"
+          className="mt-4 bg-red-500 text-white hover:bg-yellow-500 hover:text-white text-white-800 font-bold py-2 px-4 rounded-full"
           onClick={handleClickWorker}
         >
           Create Worker Account

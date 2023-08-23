@@ -100,6 +100,7 @@ const Form = () => {
   
 return (
     <>
+    <div className="flex justify-center items-center p-10">
     <div className="container" id="container">
         <div className="form-container sign-up-container">
             <form action="#"  target="_self" >
@@ -116,6 +117,7 @@ return (
                         
                     <div className="footer">
                             <button
+                                className='text-white'
                                 id='back'
                                 disabled={page === 0}
                                 onClick={() => {
@@ -195,6 +197,7 @@ return (
             />
             <a href="#">Forgot your password?</a>
             <button 
+                    
                     type='submit' 
                     id ="sub" 
                     name="sub" 
@@ -225,15 +228,16 @@ return (
             <div className="overlay-panel overlay-left">
               <h1>Welcome Back!</h1>
               <p>To keep connected with us please login with your personal info</p>
-              <button className="ghost" id="signIn">Sign In</button>
+              <button className="ghost text-white" id="signIn">Sign In</button>
             </div>
               <div className="overlay-panel overlay-right">
-                <h1>Hello, Friend!</h1>
+                <h1>Dear, Worker!</h1>
                 <p>Enter your personal details and start journey with us</p>
-                <button className="ghost" id="signUp"> Create Account</button>
+                <button className="ghost text-white" id="signUp"> Create Account</button>
               </div>
             </div>
           </div>
+    </div>
     </div>
     </>
 
