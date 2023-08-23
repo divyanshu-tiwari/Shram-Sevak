@@ -7,8 +7,10 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "states")
 public class State extends BaseEntity{
 	
 	@Column(nullable = false, length = 25)
