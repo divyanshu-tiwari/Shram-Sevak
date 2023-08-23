@@ -1,18 +1,18 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Navigation = () => {
   return (
     <nav className="bg-gradient-to-r from-gray-300 via-[#bce1ff] to-gray-300">
       <div className="px-5 xl:px-12 py-6 flex w-full items-center">
-        <a className="text-3xl font-bold font-heading" href="#">
-          <img src=".../Images/Logo.png" alt="logo">
-          </img>
-        </a>
+        <Link className="text-3xl font-bold font-heading" to="/">
+          <img src=".../Images/Logo.png" alt="logo" />
+        </Link>
         <ul className="hidden md:flex px-4 mx-auto font-semibold font-heading space-x-12">
-          <li><a className="hover:text-gray-200 focus:text-red-400" href="#">Home</a></li>
-          <li><a className="hover:text-gray-200" href="#">about us</a></li>
-          <li><a className="hover:text-gray-200" href="#">Login</a></li>
-          <li><a className="hover:text-gray-200" href="#">Contact Us</a></li>
+          <li><Link className="hover:text-gray-200 focus:text-red-400" to="/">Home</Link></li>
+          <li><Link className="hover:text-gray-200" to="/about">About Us</Link></li>
+          <li><Link className="hover:text-gray-200" to="/login">Login</Link></li>
+          <li><Link className="hover:text-gray-200" to="/contact">Contact Us</Link></li>
         </ul>
         <div className="hidden xl:flex items-center space-x-5 items-center">
           <a className="hover:text-gray-200" href="#">
