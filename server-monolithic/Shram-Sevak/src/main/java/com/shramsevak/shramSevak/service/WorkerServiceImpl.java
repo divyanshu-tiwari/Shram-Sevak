@@ -16,7 +16,7 @@ import com.shramsevak.shramSevak.repository.SkillRepository;
 import com.shramsevak.shramSevak.repository.WorkerRepository;
 
 import jakarta.transaction.Transactional;
-
+import static com.shramsevak.shramSevak.util.Utils.checkStatus;
 @Service
 @Transactional
 public class WorkerServiceImpl implements WorkerService {
@@ -46,5 +46,24 @@ public class WorkerServiceImpl implements WorkerService {
 		
 		return "Worker added successfully";
 	}
+	
+
+   @Override
+	public String deleteById(Long id) {
+		Worker worker=workerRepo.findById(id).orElseThrow(() -> new RuntimeException("Invalid worker ID"));
+		workerRepo.delete(worker);
+		
+	  return "Worker " + worker.getFirstName()+" "+worker.getLastName()+ "'s  details deleted Permanantly!";
+	}
+
+	@Override
+	public String deleteByIdTemp(Long id) {
+		Worker worker=workerRepo.findById(id).orElseThrow(() -> new RuntimeException("Invalid worker ID"));
+		checkStatus(worker);
+		worker.setStatus(WorkerStatus.INACTIVE);
+		
+		return worker.getFirstName()+" "+worker.getLastName()+"s  details deleted!";
+	}
+		
 
 }
