@@ -7,4 +7,8 @@ import com.shramsevak.shramSevak.entity.Customer;
 public interface CustomerService {
 	ApiResponse registerCustomer(CustomerSignUpRequest customer);
 
+	String deleteById(Long Id);
+
+	String deleteByIdTemp(Long id);
+
 }
