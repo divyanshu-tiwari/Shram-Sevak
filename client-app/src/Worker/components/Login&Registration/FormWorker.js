@@ -117,7 +117,7 @@ return (
                     <div className="footer">
                             <button
                                 id='back'
-                                disabled={page == 0}
+                                disabled={page === 0}
                                 onClick={() => {
                                     setPage((currPage) => currPage - 1);
                                 }}

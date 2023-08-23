@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom'
-import React from 'react'
 import './StyleRouting.css';
 
 const Card = ({ type, imageSrc, onClick }) => {
@@ -27,12 +26,12 @@ function Routing() {
     <div className="card-container">
     <Card
       type="customer"
-      imageSrc="./customer-retention-vector-icon-client.avif"
-      onClick={() => {handleClickCustomer}}
+      imageSrc="./customer.avif"
+      onClick={() => handleClickCustomer()}
     />
     <Card
       type="worker"
-      imageSrc="./download.png"
+      imageSrc="./worker.png"
       onClick={() => handleClickWorker()}
     />
   </div>
