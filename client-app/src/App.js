@@ -5,6 +5,7 @@ import FormWorker from './Worker/components/Login&Registration/FormWorker'
 import FormCustomer from './customer/components/Login&Registration/FormCustomer'
 import Routing from './RoutingSignIn-SignUp/Routing'
 import { Routes,Route} from "react-router-dom";
+import AdminLogin from "./admin/components/AdminLogin"
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/loginCustomer" element={<FormCustomer />} />
         <Route path="/loginWorker" element={<FormWorker />} />
         <Route path="/login" element={<Routing />} />
+        <Route path="/admin" element={<AdminLogin />} />
       </Routes>
     </>
   );
