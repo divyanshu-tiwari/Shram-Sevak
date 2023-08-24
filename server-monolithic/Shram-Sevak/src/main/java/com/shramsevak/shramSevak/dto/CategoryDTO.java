@@ -17,5 +17,4 @@ public class CategoryDTO {
 
     private Long id;
     private String categoryName;
-    //private List<Skill> skills; //Change skill to SkillDTO being written by pranay after merge with development branch
 }

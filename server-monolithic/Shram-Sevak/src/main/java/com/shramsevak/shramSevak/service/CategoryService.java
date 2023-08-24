@@ -6,5 +6,5 @@ import com.shramsevak.shramSevak.dto.CategoryDTO;
 
 public interface CategoryService {
 	
-	List<CategoryDTO> getAllState();
+	List<CategoryDTO> getAllCategories();
 }
