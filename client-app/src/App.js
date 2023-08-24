@@ -4,7 +4,11 @@ import Navigation from './customer/components/navigation/Navigation';
 import FormWorker from './Worker/components/Login&Registration/FormWorker'
 import FormCustomer from './customer/components/Login&Registration/FormCustomer'
 import { Routes,Route} from "react-router-dom";
+
+import AdminContainer from "./admin/components/AdminContainer"
+
 import ChooseLogin from './customer/components/Pages/HomePage/ChooseLogin/ChooseLogin';
+
 
 function App() {
   return (
@@ -14,7 +18,11 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/loginCustomer" element={<FormCustomer />} />
         <Route path="/loginWorker" element={<FormWorker />} />
+
+        <Route path="/admin" element={<AdminContainer />} />
+
         <Route path="/login" element={<ChooseLogin />} />
+
       </Routes>
     </>
   );
