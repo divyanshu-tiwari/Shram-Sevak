@@ -1,7 +1,5 @@
 package com.shramsevak.shramSevak.controller;
 
-//import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,17 +30,26 @@ public class AdminController {
 		log.info("Admin Controller - register admin");
 		return new ResponseEntity<>(adminService.register(adminDto), HttpStatus.CREATED);
 	}
+
+	@PostMapping("/signin")
+	public ResponseEntity<?> adminLogin(@RequestBody @Valid AdminDto adminDto) {
+		log.info("Admin Controller - sign admin");
+		return new ResponseEntity<>(adminService.signin(adminDto), HttpStatus.OK);
+	}
+	 
+
 	@GetMapping("/admin/view/{Id}")
 	public ResponseEntity<?> viewAdmin(@PathVariable Long Id) {
 		log.info("Admin Controller - view admin");
 		return new ResponseEntity<>(adminService.getAdminById(Id), HttpStatus.OK);
 	}
+
 	@GetMapping("/admin/view")
 	public ResponseEntity<?> viewAllAdmin() {
 		log.info("Admin Controller - view all admin");
 		return new ResponseEntity<>(adminService.getListOfAllAdmin(), HttpStatus.OK);
 	}
-	
+
 	@DeleteMapping("/admin/{Id}")
 	public ResponseEntity<?> deleteAdmin(@PathVariable Long Id) {
 		log.info("Admin Controller - delete admin");

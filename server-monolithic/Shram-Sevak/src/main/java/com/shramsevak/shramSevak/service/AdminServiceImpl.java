@@ -6,6 +6,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.shramsevak.shramSevak.customException.ResourceNotFoundException;
 import com.shramsevak.shramSevak.dto.AdminDto;
 import com.shramsevak.shramSevak.entity.Admin;
 import com.shramsevak.shramSevak.repository.AdminRepository;
@@ -29,18 +30,25 @@ public class AdminServiceImpl implements AdminService {
 		adminRepo.save(admin);
 		return "Admin added successfully";
 	}
-
+	
+	@Override
+	public String signin(@Valid AdminDto adminDto) {
+		Admin customer = adminRepo.findBy(adminDto.getUserName(), adminDto.getPassword())
+				.orElseThrow(() -> new ResourceNotFoundException("Bad Credentials , Invalid Login!!!!!!!!!!!!!"));
+		Admin admin = mapper.map(adminDto, Admin.class);
+		return "Signin Successfull";
+	}
+	
 	@Override
 	public String deleteById(Long id) {
-		Admin admin = adminRepo.findById(id).orElseThrow(() -> new RuntimeException("Invalid admin ID"));
+		Admin admin = adminRepo.findById(id).orElseThrow(() -> new AdminException("Invalid admin ID"));
 		adminRepo.delete(admin);
 		return "Admin with username " + admin.getUserName() + " deleted Permanantly!";
 	}
 
 	@Override
 	public String getAdminById(Long id) {
-		Admin admin = adminRepo.findById(id).orElseThrow(() -> new RuntimeException("Invalid admin ID"));
-		//adminRepo.findById(id);
+		Admin admin = adminRepo.findById(id).orElseThrow(() -> new AdminException("Invalid admin ID"));
 		return "Admin with username " + admin.getUserName() + " is Found.";
 	}
 
@@ -48,7 +56,7 @@ public class AdminServiceImpl implements AdminService {
 	public List<Admin> getListOfAllAdmin() {
 		List<Admin> adminList = adminRepo.findAll();
 		if(null == adminList || adminList.isEmpty()) {
-			throw new RuntimeException("No Admins available");
+			throw new AdminException("No Admins available");
 		}
 		return adminList;
 	}

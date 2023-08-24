@@ -10,7 +10,9 @@ import jakarta.validation.Valid;
 public interface AdminService {
 
 	String register(@Valid AdminDto adminDto);
-
+	
+	String signin(@Valid AdminDto adminDto);
+	
 	String deleteById(Long id);
 
 	String getAdminById(Long id);
