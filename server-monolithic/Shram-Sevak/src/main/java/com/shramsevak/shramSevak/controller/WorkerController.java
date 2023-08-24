@@ -3,7 +3,10 @@ package com.shramsevak.shramSevak.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,5 +29,18 @@ public class WorkerController {
 	public ResponseEntity<?> registerWorker(@RequestBody @Valid WorkerRegistrationDto workerDto) {
 		log.info("Worker Controller - register worker");
 		return new ResponseEntity<>(workerService.register(workerDto), HttpStatus.CREATED);
+	}
+	
+
+	@DeleteMapping("/deletePermanent/{Id}")
+	public ResponseEntity<?> deleteWorkerPermanently(@PathVariable Long Id) {
+		log.info("Worker Controller - delete worker");
+		return new ResponseEntity<>(workerService.deleteByIdPermanently(Id), HttpStatus.OK);
+	}
+	
+	@PutMapping("/delete/{Id}")
+	public ResponseEntity<?> deleteWorker(@PathVariable Long Id) {
+		log.info("Worker Controller - delete worker temparary");
+		return new ResponseEntity<>(workerService.deleteById(Id), HttpStatus.OK);
 	}
 }
