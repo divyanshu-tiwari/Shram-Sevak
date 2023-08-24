@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class AdminRegistrationDto {
+public class AdminDto {
 
 	@Nonnull
 	private String userName;

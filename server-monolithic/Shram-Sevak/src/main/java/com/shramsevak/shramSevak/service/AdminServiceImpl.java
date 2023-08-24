@@ -1,10 +1,12 @@
 package com.shramsevak.shramSevak.service;
 
+import java.util.List;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.shramsevak.shramSevak.dto.AdminRegistrationDto;
+import com.shramsevak.shramSevak.dto.AdminDto;
 import com.shramsevak.shramSevak.entity.Admin;
 import com.shramsevak.shramSevak.repository.AdminRepository;
 
@@ -22,11 +24,33 @@ public class AdminServiceImpl implements AdminService {
 	private AdminRepository adminRepo;
 
 	@Override
-	public String register(@Valid AdminRegistrationDto adminDto) {
+	public String register(@Valid AdminDto adminDto) {
 		Admin admin = mapper.map(adminDto, Admin.class);
 		adminRepo.save(admin);
 		return "Admin added successfully";
 	}
 
-	
+	@Override
+	public String deleteById(Long id) {
+		Admin admin = adminRepo.findById(id).orElseThrow(() -> new RuntimeException("Invalid admin ID"));
+		adminRepo.delete(admin);
+		return "Admin with username " + admin.getUserName() + " deleted Permanantly!";
+	}
+
+	@Override
+	public String getAdminById(Long id) {
+		Admin admin = adminRepo.findById(id).orElseThrow(() -> new RuntimeException("Invalid admin ID"));
+		//adminRepo.findById(id);
+		return "Admin with username " + admin.getUserName() + " is Found.";
+	}
+
+	@Override
+	public List<Admin> getListOfAllAdmin() {
+		List<Admin> adminList = adminRepo.findAll();
+		if(null == adminList || adminList.isEmpty()) {
+			throw new RuntimeException("No Admins available");
+		}
+		return adminList;
+	}
+
 }
