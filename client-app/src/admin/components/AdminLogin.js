@@ -1,8 +1,29 @@
-
-import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
+import { useState } from "react"
 
 export default function AdminLogin() {
+  
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  function handleUsernameChange(value){
+    setUsername(value);
+  }
+  
+  function handlePasswordChange(value){
+    setPassword(value);
+  }
+
+  function handleLogin(){
+    let adminCredentials = {username, password}
+    alert(adminCredentials.username+" "+adminCredentials.password)
+    // make axios call
+    // service.AdminLogin(adminCredentials)
+    // have to save the JWT token returned by webservice
+  }
+
   return (
+    // check how to handle form submission, for now keeping the button type to button rather than submit
+    // <form action="localhost:3000" method="POST">
     <form>
       <div className="space-y-12">
         
@@ -22,6 +43,8 @@ export default function AdminLogin() {
                     autoComplete="username"
                     className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                     placeholder="admin1"
+                    value={username}
+                    onChange={(event) => handleUsernameChange(event.target.value)}
                   />
                 </div>
               </div>
@@ -37,6 +60,8 @@ export default function AdminLogin() {
                     name="password"
                     id="password"
                     className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                    value={password}
+                    onChange={(event)=>handlePasswordChange(event.target.value)}
                   />
                 </div>
               </div>
@@ -46,8 +71,10 @@ export default function AdminLogin() {
 
       <div className="mt-3 flex items-center justify-end">
         <button
-          type="submit"
+          // type="submit"
+          type="button"
           className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          onClick={handleLogin}
         >
           Login
         </button>
