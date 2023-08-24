@@ -36,29 +36,25 @@ public class CustomerController {
 
     @PostMapping("/register")
     public ResponseEntity<ApiResponse> registerCustomer(@RequestBody @Valid CustomerSignUpRequest newCustomer) {
-    	try{
+    	
     		System.out.println(newCustomer);
         ApiResponse response = custService.registerCustomer(newCustomer);
         return new ResponseEntity<ApiResponse>(response, HttpStatus.OK);
-    	}
-    	catch(Exception e)
-    	{
-            ApiResponse response = new ApiResponse("Customer registration failed.");
-            e.printStackTrace();
-            return new ResponseEntity<ApiResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-    	}
+    	
     }
-    
-    @DeleteMapping("/customer/{Id}")
-	public ResponseEntity<?> deleteCustomer(@PathVariable Long Id) {
+
+
+    @DeleteMapping("/deletePermanent/{Id}")
+	public ResponseEntity<?> deleteCustomerPermanently(@PathVariable Long Id) {
 		log.info("Worker Controller - delete customer");
-		return new ResponseEntity<>(custService.deleteById(Id), HttpStatus.OK);
+		return new ResponseEntity<>(custService.deleteByIdPermanently(Id), HttpStatus.OK);
 	}
     
-    @PutMapping("/customerTemp/{Id}")
-	public ResponseEntity<?> deleteCustomerTemp(@PathVariable Long Id) {
+    @PutMapping("/delete/{Id}")
+	public ResponseEntity<?> deleteCustomer(@PathVariable Long Id) {
 		log.info("Worker Controller - delete customer temparary");
-		return new ResponseEntity<>(custService.deleteByIdTemp(Id), HttpStatus.OK);
+		return new ResponseEntity<>(custService.deleteById(Id), HttpStatus.OK);
+
 	}
     
     
