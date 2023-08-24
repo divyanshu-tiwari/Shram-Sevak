@@ -1,5 +1,5 @@
 export default class AdminUser{
-    constructor(userName, password, id, role, token){
+    constructor(id, userName, role, token){
         this.id = id
         this.userName = userName
         this.role = role

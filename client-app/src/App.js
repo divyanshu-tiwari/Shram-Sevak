@@ -10,7 +10,8 @@ import { AdminLogin } from "./admin/components/admin.login"
 import ChooseLogin from './customer/components/Pages/HomePage/ChooseLogin/ChooseLogin';
 import AdminDashboard from './admin/components/AdminDashboard';
 import { Unauthorized } from './pages/unauthorized.page';
-import { AuthGuard } from './guards/auth.guard';
+import { AdminAuthGuard } from './guards/admin.auth.guard';
+import { AdminLoginGuard } from './guards/admin.login.guard';
 import { Role } from './models/role';
 
 function App() {
@@ -22,18 +23,22 @@ function App() {
         <Route path="/loginCustomer" element={<FormCustomer />} />
         <Route path="/loginWorker" element={<FormWorker />} />
 
-        <Route path="/admin" element={<AdminLogin />} />
-
-        <Route path='/admin-dashboard' element={
-          <AuthGuard roles={[Role.ADMIN]}>
-            <AdminDashboard />
-          </AuthGuard>
+        <Route path="/admin" element={
+        // <AdminLoginGuard roles={[Role.ADMIN]}>
+          <AdminLogin />
+        // </AdminLoginGuard>
         } />
 
-        <Route path="/login" element={<ChooseLogin />} />
+      <Route path='/admin-dashboard' element={
+        <AdminAuthGuard roles={[Role.ADMIN]}>
+          <AdminDashboard />
+        </AdminAuthGuard>
+      } />
 
-        <Route path="/401" element={<Unauthorized />} />
-      </Routes>
+      <Route path="/login" element={<ChooseLogin />} />
+
+      <Route path="/401" element={<Unauthorized />} />
+    </Routes >
     </>
   );
 }
