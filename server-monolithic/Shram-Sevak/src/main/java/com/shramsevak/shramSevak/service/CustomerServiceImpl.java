@@ -8,8 +8,11 @@ import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
 import com.shramsevak.shramSevak.customException.CustomerException;
+import com.shramsevak.shramSevak.customException.ResourceNotFoundException;
 import com.shramsevak.shramSevak.dto.ApiResponse;
 import com.shramsevak.shramSevak.dto.CustomerSignUpRequest;
+import com.shramsevak.shramSevak.dto.SigninRequest;
+import com.shramsevak.shramSevak.dto.SigninResponse;
 import com.shramsevak.shramSevak.entity.Customer;
 import com.shramsevak.shramSevak.entity.CustomerStatus;
 import com.shramsevak.shramSevak.entity.Worker;
@@ -17,6 +20,7 @@ import com.shramsevak.shramSevak.entity.WorkerStatus;
 import com.shramsevak.shramSevak.repository.CustomerRepository;
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 
 @Service
 @Transactional
@@ -56,5 +60,14 @@ public class CustomerServiceImpl implements CustomerService {
 		return customer.getFirstName()+" "+customer.getLastName()+"s  details deleted!";
 		
 	}
+
+	@Override
+	public SigninResponse authenticate(@Valid SigninRequest request) {
+		Customer customer = customerRepo.findByContactAndPassword(request.getContact(), request.getPassword())
+				.orElseThrow(() -> new ResourceNotFoundException("Bad Credentials , Invalid Login!!!!!!!!!!!!!"));
+		
+		return mapper.map(customer, SigninResponse.class);
+	}
+		
 
 }

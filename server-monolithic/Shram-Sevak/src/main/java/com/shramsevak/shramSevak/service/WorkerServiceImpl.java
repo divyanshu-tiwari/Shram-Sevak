@@ -6,8 +6,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.shramsevak.shramSevak.customException.ResourceNotFoundException;
 import com.shramsevak.shramSevak.customException.WorkerException;
+import com.shramsevak.shramSevak.dto.SigninRequest;
+import com.shramsevak.shramSevak.dto.SigninResponse;
 import com.shramsevak.shramSevak.dto.WorkerRegistrationDto;
+import com.shramsevak.shramSevak.entity.Customer;
 import com.shramsevak.shramSevak.entity.Locality;
 import com.shramsevak.shramSevak.entity.Skill;
 import com.shramsevak.shramSevak.entity.Worker;
@@ -17,6 +21,8 @@ import com.shramsevak.shramSevak.repository.SkillRepository;
 import com.shramsevak.shramSevak.repository.WorkerRepository;
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
+
 import static com.shramsevak.shramSevak.util.Utils.checkStatus;
 @Service
 @Transactional
@@ -64,6 +70,15 @@ public class WorkerServiceImpl implements WorkerService {
 		worker.setStatus(WorkerStatus.INACTIVE);
 		
 		return worker.getFirstName()+" "+worker.getLastName()+"s  details deleted!";
+	}
+
+
+	@Override
+	public SigninResponse authenticate(@Valid SigninRequest request) {
+	 Worker worker = workerRepo.findByContactAndPassword(request.getContact(), request.getPassword())
+				.orElseThrow(() -> new ResourceNotFoundException("Bad Credentials , Invalid Login!!!!!!!!!!!!!"));
+		
+		return mapper.map(worker, SigninResponse.class);
 	}
 		
 
