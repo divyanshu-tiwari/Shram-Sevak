@@ -36,7 +36,6 @@ function AddressInfo({ formData, setFormData }) {
           setFormData({ ...formData, Pincode: e.target.value });
         }}
       />
-  
     </div>
   );
 }
