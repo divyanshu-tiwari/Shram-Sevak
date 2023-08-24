@@ -6,8 +6,8 @@ public interface WorkerService {
 
 	String register(WorkerRegistrationDto workerDto);
 	
-	String deleteById(Long id);
+	String deleteByIdPermanently(Long id);
 
-	String deleteByIdTemp(Long id);
+	String deleteById(Long id);
 
 }
