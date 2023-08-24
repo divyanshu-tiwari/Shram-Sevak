@@ -6,6 +6,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.shramsevak.shramSevak.customException.AdminException;
 import com.shramsevak.shramSevak.customException.ResourceNotFoundException;
 import com.shramsevak.shramSevak.dto.AdminDto;
 import com.shramsevak.shramSevak.entity.Admin;
@@ -33,9 +34,9 @@ public class AdminServiceImpl implements AdminService {
 	
 	@Override
 	public String signin(@Valid AdminDto adminDto) {
-		Admin customer = adminRepo.findBy(adminDto.getUserName(), adminDto.getPassword())
+		Admin customer = adminRepo.findByUserNameAndPassword(adminDto.getUserName(), adminDto.getPassword())
 				.orElseThrow(() -> new ResourceNotFoundException("Bad Credentials , Invalid Login!!!!!!!!!!!!!"));
-		Admin admin = mapper.map(adminDto, Admin.class);
+		AdminDto admin = mapper.map(customer, AdminDto.class);
 		return "Signin Successfull";
 	}
 	

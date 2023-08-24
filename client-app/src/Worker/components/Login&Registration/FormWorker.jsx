@@ -4,7 +4,8 @@ import SignUpInfo from "./SignUpInfo"
 import PersonalInfo from "./PersonalInfo"
 import './Style.css';
 import ChooseWorkingLocation from './ChooseWorkingLocation';
-import ChooseSkills from './ChooseSkills';
+import ChooseSkills from './CategorySelection';
+import CategorySelection from './CategorySelection';
 
 
 const Form = () => {
@@ -26,7 +27,7 @@ const Form = () => {
       skillIds: [1,2],// will be changed
     });
    
-    const FormTitles = ["Sign Up", "Personal Info", "Choose Your Working Location"]; //"Select Your Skill Set"
+    const FormTitles = ["Sign Up", "Personal Info", "Choose Your Working Location", "Select Your Skill Set"]; 
     const PageDisplay = () => {
       if (page === 0) {
         return <SignUpInfo formData={formData} setFormData={setFormData} />;
@@ -36,7 +37,7 @@ const Form = () => {
         return <ChooseWorkingLocation />;
       }
       //  else {
-      //   return <ChooseSkills />;
+      //   return <CategorySelection />;
       // }
     };
     
