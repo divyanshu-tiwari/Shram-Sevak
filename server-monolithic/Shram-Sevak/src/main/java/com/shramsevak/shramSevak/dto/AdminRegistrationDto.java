@@ -14,4 +14,5 @@ public class AdminRegistrationDto {
 	@Nonnull
 	private String password;
 
+	
 }

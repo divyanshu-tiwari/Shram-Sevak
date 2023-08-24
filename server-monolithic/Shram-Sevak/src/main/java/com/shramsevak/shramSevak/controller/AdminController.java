@@ -33,4 +33,5 @@ public class AdminController {
 		//log.info("Admin Controller - register admin");
 		return new ResponseEntity<>(adminService.register(adminDto), HttpStatus.CREATED);
 	}
+	
 }

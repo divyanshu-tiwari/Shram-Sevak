@@ -8,4 +8,5 @@ public interface AdminService {
 
 	String register(@Valid AdminRegistrationDto adminDto);
 
+	
 }

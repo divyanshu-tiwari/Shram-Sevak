@@ -28,4 +28,5 @@ public class AdminServiceImpl implements AdminService {
 		return "Admin added successfully";
 	}
 
+	
 }
