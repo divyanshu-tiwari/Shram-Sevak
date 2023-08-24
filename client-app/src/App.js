@@ -8,6 +8,7 @@ import { Routes,Route} from "react-router-dom";
 import AdminContainer from "./admin/components/AdminContainer"
 
 import ChooseLogin from './customer/components/Pages/HomePage/ChooseLogin/ChooseLogin';
+import AdminDashboard from './admin/components/AdminDashboard';
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
         <Route path="/loginWorker" element={<FormWorker />} />
 
         <Route path="/admin" element={<AdminContainer />} />
+        <Route path='/admin-dashboard' element={<AdminDashboard/>} />
 
         <Route path="/login" element={<ChooseLogin />} />
 

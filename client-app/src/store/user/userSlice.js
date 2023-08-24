@@ -15,7 +15,7 @@ export const userSlice = createSlice({
 
         clearCurrentUser: (state) => {
             console.log("clear current user : " + localStorage.getItem('currentUser'))
-            localStorage.clearItem('currentUser')
+            localStorage.removeItem('currentUser')
             state.value = null;
         },
     },
