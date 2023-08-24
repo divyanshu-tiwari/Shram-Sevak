@@ -22,12 +22,22 @@ function PersonalInfo({ formData, setFormData }) {
       />
       <input
         type="text"
-        placeholder="Username..."
-        value={formData.username}
+        placeholder="Email..."
+        value={formData.email}
         onChange={(e) => {
-          setFormData({ ...formData, username: e.target.value });
+          setFormData({ ...formData, email: e.target.value });
         }}
       />
+      <select
+            value={formData.gender}
+            onChange={(e) => {
+              setFormData({ ...formData, gender: e.target.value });
+            }}
+          >
+            <option value="MALE">Male</option>
+            <option value="FEMALE">Female</option>
+            <option value="OTHER">Other</option>
+          </select>
     </div>
   );
 }
