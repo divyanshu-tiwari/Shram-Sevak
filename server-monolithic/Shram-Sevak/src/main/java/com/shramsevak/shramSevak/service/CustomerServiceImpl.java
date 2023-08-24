@@ -6,6 +6,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
+
+import com.shramsevak.shramSevak.customException.CustomerException;
 import com.shramsevak.shramSevak.dto.ApiResponse;
 import com.shramsevak.shramSevak.dto.CustomerSignUpRequest;
 import com.shramsevak.shramSevak.entity.Customer;
