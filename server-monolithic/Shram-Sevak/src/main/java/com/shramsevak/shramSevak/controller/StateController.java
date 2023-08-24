@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Validated
 @RequestMapping("/state")
+@CrossOrigin(origins = "http://localhost:3000")
 public class StateController {
 
 	@Autowired
