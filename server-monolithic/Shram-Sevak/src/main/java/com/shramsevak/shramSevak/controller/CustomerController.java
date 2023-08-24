@@ -42,7 +42,8 @@ public class CustomerController {
         return new ResponseEntity<ApiResponse>(response, HttpStatus.OK);
     	
     }
-    
+
+
     @DeleteMapping("/deletePermanent/{Id}")
 	public ResponseEntity<?> deleteCustomerPermanently(@PathVariable Long Id) {
 		log.info("Worker Controller - delete customer");
@@ -53,6 +54,7 @@ public class CustomerController {
 	public ResponseEntity<?> deleteCustomer(@PathVariable Long Id) {
 		log.info("Worker Controller - delete customer temparary");
 		return new ResponseEntity<>(custService.deleteById(Id), HttpStatus.OK);
+
 	}
     
     
