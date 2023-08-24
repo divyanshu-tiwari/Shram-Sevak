@@ -2,8 +2,9 @@ import React, { useEffect,useState } from 'react';
 import axios from 'axios';
 import SignUpInfo from "./SignUpInfo"
 import PersonalInfo from "./PersonalInfo"
-import AddressInfo from "./AddressInfo"
 import './Style.css';
+import ChooseWorkingLocation from './ChooseWorkingLocation';
+import ChooseSkills from './ChooseSkills';
 
 
 const Form = () => {
@@ -25,15 +26,18 @@ const Form = () => {
       skillIds: [1,2],// will be changed
     });
    
-    const FormTitles = ["Sign Up", "Personal Info", "Address Info"];
+    const FormTitles = ["Sign Up", "Personal Info", "Choose Your Working Location"]; //"Select Your Skill Set"
     const PageDisplay = () => {
       if (page === 0) {
         return <SignUpInfo formData={formData} setFormData={setFormData} />;
       } else if (page === 1) {
         return <PersonalInfo formData={formData} setFormData={setFormData} />;
-      } else {
-        return <AddressInfo formData={formData} setFormData={setFormData} />;
+      }else if (page === 2) {
+        return <ChooseWorkingLocation />;
       }
+      //  else {
+      //   return <ChooseSkills />;
+      // }
     };
     
   // Validation functions for each field
