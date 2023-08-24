@@ -49,16 +49,16 @@ public class WorkerServiceImpl implements WorkerService {
 	
 
    @Override
-	public String deleteById(Long id) {
-		Worker worker=workerRepo.findById(id).orElseThrow(() -> new RuntimeException("Invalid myworker ID"));
+	public String deleteByIdPermanently(Long id) {
+		Worker worker=workerRepo.findById(id).orElseThrow(() -> new WorkerException("Invalid myworker ID"));
 		workerRepo.delete(worker);
 		
 	  return "Worker " + worker.getFirstName()+" "+worker.getLastName()+ "'s  details deleted Permanantly!";
 	}
 
 	@Override
-	public String deleteByIdTemp(Long id) {
-		Worker worker=workerRepo.findById(id).orElseThrow(() -> new RuntimeException("Invalid worker ID"));
+	public String deleteById(Long id) {
+		Worker worker=workerRepo.findById(id).orElseThrow(() -> new WorkerException("Invalid worker ID"));
 		checkStatus(worker);
 		worker.setStatus(WorkerStatus.INACTIVE);
 		

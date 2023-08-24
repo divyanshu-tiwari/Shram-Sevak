@@ -32,15 +32,15 @@ public class WorkerController {
 	}
 	
 
-	@DeleteMapping("/worker/{Id}")
-	public ResponseEntity<?> deleteWorker(@PathVariable Long Id) {
+	@DeleteMapping("/deletePermanent/{Id}")
+	public ResponseEntity<?> deleteWorkerPermanently(@PathVariable Long Id) {
 		log.info("Worker Controller - delete worker");
-		return new ResponseEntity<>(workerService.deleteById(Id), HttpStatus.OK);
+		return new ResponseEntity<>(workerService.deleteByIdPermanently(Id), HttpStatus.OK);
 	}
 	
-	@PutMapping("/workerTemp/{Id}")
-	public ResponseEntity<?> deleteWorkerTemp(@PathVariable Long Id) {
+	@PutMapping("/delete/{Id}")
+	public ResponseEntity<?> deleteWorker(@PathVariable Long Id) {
 		log.info("Worker Controller - delete worker temparary");
-		return new ResponseEntity<>(workerService.deleteByIdTemp(Id), HttpStatus.OK);
+		return new ResponseEntity<>(workerService.deleteById(Id), HttpStatus.OK);
 	}
 }

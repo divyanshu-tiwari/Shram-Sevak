@@ -37,8 +37,8 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public String deleteById(Long Id) {
-		Customer customer=customerRepo.findById(Id).orElseThrow(() -> new RuntimeException("Invalid worker ID"));
+	public String deleteByIdPermanently(Long Id) {
+		Customer customer=customerRepo.findById(Id).orElseThrow(() -> new CustomerException("Invalid worker ID"));
 		customerRepo.delete(customer);
 		
 	  return "Worker " + customer.getFirstName()+" "+customer.getLastName()+ "'s  details deleted Permanantly!";
@@ -46,8 +46,8 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public String deleteByIdTemp(Long id) {
-		Customer customer=customerRepo.findById(id).orElseThrow(() -> new RuntimeException("Invalid worker ID"));
+	public String deleteById(Long id) {
+		Customer customer=customerRepo.findById(id).orElseThrow(() -> new CustomerException("Invalid worker ID"));
 		checkStatusC(customer);
 		customer.setStatus(CustomerStatus.INACTIVE);
 		
