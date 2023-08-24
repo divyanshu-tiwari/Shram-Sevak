@@ -2,6 +2,10 @@
 // import { useDispatcher, useSelector } from "react-redux";
 // import { setCurrentUser, clearCurrentUser, selectUser } from "../store/user/userSlice";
 
-export const getUser = (currentUser) => {
-    alert(currentUser?.userName+" "+currentUser?.role);
+import store from "../store/store";
+
+export const getUserRole = () => {
+    const currentUser = store.getState().user
+    console.log("Current user in store : "+JSON.stringify(currentUser))
+    return currentUser.value.role;
 }
