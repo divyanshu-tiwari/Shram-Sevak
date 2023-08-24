@@ -19,7 +19,7 @@ import jakarta.transaction.Transactional;
 public class StateServiceImpl implements StateService {
 
 	@Autowired
-	private StateRepository stateDao;
+	private StateRepository stateRepo;
 
 	@Autowired
 	private ModelMapper mapper;
@@ -27,39 +27,39 @@ public class StateServiceImpl implements StateService {
 	@Override
 	public ApiResponse addState(StateDTO stateDTO) {
 		State stateEntity = mapper.map(stateDTO, State.class);
-		State savedState = stateDao.save(stateEntity);
+		State savedState = stateRepo.save(stateEntity);
 		return new ApiResponse("State " + savedState.getState() + " Added Successfully...");
 	}
 
 	@Override
 	public StateDTO getStateById(Long id) {
-		return mapper.map(stateDao.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid State")),
+		return mapper.map(stateRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid State")),
 				StateDTO.class);
 	}
 
 	@Override
 	public ApiResponse deleteStateById(Long id) {
-		State state = stateDao.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid State ID"));
-		stateDao.delete(state);
+		State state = stateRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid State ID"));
+		stateRepo.delete(state);
 		return new ApiResponse("State " + state.getState() + " Deteleted Successfully...");
 	}
 
 	@Override
 	public ApiResponse deleteAllStates() {
-		stateDao.deleteAll();
+		stateRepo.deleteAll();
 		return new ApiResponse("All states deleted successfully");
 	}
 
 	@Override
 	public StateDTO updateState(Long stateId, StateDTO stateDTO) {
-		State state = stateDao.findById(stateId).orElseThrow(() -> new ResourceNotFoundException("Invalid State ID"));
+		State state = stateRepo.findById(stateId).orElseThrow(() -> new ResourceNotFoundException("Invalid State ID"));
 		mapper.map(stateDTO, state);
 		return mapper.map(state, StateDTO.class);
 	}
 
 	@Override
 	public List<StateDTO> getAllStates() {
-		return stateDao.findAll().stream().map(state -> mapper.map(state, StateDTO.class)).collect(Collectors.toList());
+		return stateRepo.findAll().stream().map(state -> mapper.map(state, StateDTO.class)).collect(Collectors.toList());
 	}
 
 }
