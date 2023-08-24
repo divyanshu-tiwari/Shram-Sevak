@@ -8,4 +8,7 @@ public class StateDTO {
 	
 @Nonnull
  private String state;
+
+ private Long id;
+ 
 }
