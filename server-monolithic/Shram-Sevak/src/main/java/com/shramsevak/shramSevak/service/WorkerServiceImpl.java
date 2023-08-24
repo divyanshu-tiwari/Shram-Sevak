@@ -1,13 +1,21 @@
 package com.shramsevak.shramSevak.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import org.springframework.data.domain.Pageable;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.shramsevak.shramSevak.customException.ResourceNotFoundException;
 import com.shramsevak.shramSevak.customException.WorkerException;
+import com.shramsevak.shramSevak.dto.CustomerResponceDto;
 import com.shramsevak.shramSevak.dto.WorkerRegistrationDto;
+import com.shramsevak.shramSevak.dto.WorkerResponceDto;
+import com.shramsevak.shramSevak.entity.Customer;
 import com.shramsevak.shramSevak.entity.Locality;
 import com.shramsevak.shramSevak.entity.Skill;
 import com.shramsevak.shramSevak.entity.Worker;
@@ -65,6 +73,28 @@ public class WorkerServiceImpl implements WorkerService {
 		
 		return worker.getFirstName()+" "+worker.getLastName()+"s  details deleted!";
 	}
+
+
+	@Override
+	public WorkerResponceDto getWorkerDetails(Long id) {
+    Worker worker=workerRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid Customer ID!!!"));
+		
+		return mapper.map(worker,WorkerResponceDto.class);
+	}
+
+
+	@Override
+	public List<WorkerResponceDto> getAllWorkers(int pageNumber, int pageSize) {
+		
+     Pageable pageable = PageRequest.of(pageNumber, pageSize);
+		
+		List<Worker> workerList = workerRepo.findAll(pageable).getContent();
+		return workerList.stream().
+				map( worker -> mapper.map(worker, WorkerResponceDto.class))
+				.collect(Collectors.toList());
+		
+	}
+	
 		
 
 }
