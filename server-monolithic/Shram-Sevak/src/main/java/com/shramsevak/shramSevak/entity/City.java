@@ -22,6 +22,17 @@ public class City extends BaseEntity {
     
     @OneToMany(mappedBy = "city", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Locality> localities;
+
+    // HELPER METHOD
+    public void addLocality(Locality locality) {
+    	localities.add(locality);
+    	locality.setCity(this);
+    }
+    
+    public void removeLocality(Locality locality) {
+    	localities.remove(locality);
+    	locality.setCity(null);
+    }
     
 }
 
