@@ -5,7 +5,7 @@ import FormWorker from './Worker/components/Login&Registration/FormWorker'
 import FormCustomer from './customer/components/Login&Registration/FormCustomer'
 import { Routes, Route } from "react-router-dom";
 
-import AdminContainer from "./admin/components/AdminContainer"
+import { AdminLogin } from "./admin/components/admin.login"
 
 import ChooseLogin from './customer/components/Pages/HomePage/ChooseLogin/ChooseLogin';
 import AdminDashboard from './admin/components/AdminDashboard';
@@ -22,7 +22,7 @@ function App() {
         <Route path="/loginCustomer" element={<FormCustomer />} />
         <Route path="/loginWorker" element={<FormWorker />} />
 
-        <Route path="/admin" element={<AdminContainer />} />
+        <Route path="/admin" element={<AdminLogin />} />
 
         <Route path='/admin-dashboard' element={
           <AuthGuard roles={[Role.ADMIN]}>
