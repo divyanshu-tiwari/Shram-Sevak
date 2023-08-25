@@ -52,8 +52,6 @@ public class WorkerRegistrationDto {
 	@Nonnull
 	private Long localityId;
 	
-	//@Nonnull
-	@Column(nullable=true)
-	private List<Long> skillIds;
+	
 
 }

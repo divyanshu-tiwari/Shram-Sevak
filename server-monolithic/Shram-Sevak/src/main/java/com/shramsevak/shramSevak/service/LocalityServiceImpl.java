@@ -51,5 +51,13 @@ public class LocalityServiceImpl implements LocalityService {
 				.map(locality -> mapper.map(locality, LocalityResponceDTO.class))
 				.collect(Collectors.toList());
 	}
+
+	@Override
+	public Long getPin(Long id) {
+		Locality locality=localityRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid Locality Id"));
+		Long pinCode=locality.getPincode();
+		return pinCode;
+	}
+	
 }
 
