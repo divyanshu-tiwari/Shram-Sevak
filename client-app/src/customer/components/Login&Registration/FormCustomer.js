@@ -9,7 +9,7 @@ import './Style.css';
 const Form = () => {
     const [page, setPage] = useState(0);
     const [formData, setFormData] = useState({
-      phonno: "",
+      contact: "",
       password: "",
       confirmPassword: "",
       firstName: "",
@@ -34,7 +34,7 @@ const Form = () => {
     };
     
   // Validation functions for each field
-  const isPhoneValid = () => formData.phonno !== "" && formData.phonno !==undefined && formData.phonno.length===10;
+  const isPhoneValid = () => formData.contact !== "" && formData.contact !==undefined && formData.contact.length===10;
   const isPasswordValid = () => formData.password !== "" && formData.password === formData.confirmPassword  
                                                          && formData.password.length >= 4 && formData.password !==undefined;
   const isFirstNameValid = () => formData.firstName !== "";
@@ -135,7 +135,8 @@ return (
                                         if (isPageValid()) { // Check if the current page's data is valid
                                             if (page === FormTitles.length - 1) {
                                                 try {
-                                                    const response = await axios.post('YOUR_BACKEND_API_ENDPOINT', formData);
+                                                    console.log(formData.gender + "Is selected Gender");
+                                                    const response = await axios.post('http://localhost:8080/customer/register', formData);
                                                     if (response.status === 200) {
                                                         alert('Form submitted successfully!');
                                                         console.log(response.data); // Assuming the backend sends a response
@@ -144,7 +145,9 @@ return (
                                                     }
                                                     } catch (error) {
                                                     alert('An error occurred while submitting the form.');
+                                                    alert(formData.gender);
                                                     console.error(error);
+                                                    
                                                     }
                                                 } else {
                                                     setPage((currPage) => currPage + 1);
@@ -173,12 +176,12 @@ return (
             </div>
             <span>or use your account</span>
             <input 
-                    type="phonno" 
-                    id='phonno'
-                    name="phonno" 
+                    type="contact" 
+                    id='contact'
+                    name="contact" 
                     placeholder="Phon No."
-                    value={formData.phonno} 
-                    onChange={(event) =>setFormData({ ...formData, phonno: event.target.value })}  
+                    value={formData.contact} 
+                    onChange={(event) =>setFormData({ ...formData, contact: event.target.value })}  
                     
                     />
             <input 

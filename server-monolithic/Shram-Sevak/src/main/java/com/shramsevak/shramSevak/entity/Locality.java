@@ -3,9 +3,13 @@ package com.shramsevak.shramSevak.entity;
 import java.util.ArrayList;
 import java.util.List;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "localities")
 @Getter

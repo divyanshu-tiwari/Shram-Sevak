@@ -2,38 +2,47 @@ import React, { useEffect,useState } from 'react';
 import axios from 'axios';
 import SignUpInfo from "./SignUpInfo"
 import PersonalInfo from "./PersonalInfo"
-import AddressInfo from "./AddressInfo"
 import './Style.css';
+import ChooseWorkingLocation from './ChooseWorkingLocation';
+import ChooseSkills from './CategorySelection';
+import CategorySelection from './CategorySelection';
 
 
 const Form = () => {
     const [page, setPage] = useState(0);
     const [formData, setFormData] = useState({
-      phonno: "",
-      password: "",
-      confirmPassword: "",
       firstName: "",
       lastName: "",
       gender:"",
+      contact: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      profilePicturePath: "path/to/profile/picture.jpg",
       Lane_1:"",
       Lane_2:"",
       Lane_3:"",
-      Pincode:"",
+      localityId: 1, //Will be changed
+      pincode:"",
+      skillIds: [1,2],// will be changed
     });
    
-    const FormTitles = ["Sign Up", "Personal Info", "Address Info"];
+    const FormTitles = ["Sign Up", "Personal Info", "Choose Your Working Location", "Select Your Skill Set"]; 
     const PageDisplay = () => {
       if (page === 0) {
         return <SignUpInfo formData={formData} setFormData={setFormData} />;
       } else if (page === 1) {
         return <PersonalInfo formData={formData} setFormData={setFormData} />;
-      } else {
-        return <AddressInfo formData={formData} setFormData={setFormData} />;
+      }else if (page === 2) {
+        return <ChooseWorkingLocation />;
       }
+      //  else {
+      //   return <CategorySelection />;
+      // }
     };
     
   // Validation functions for each field
-  const isPhoneValid = () => formData.phonno !== "" && formData.phonno !==undefined && formData.phonno.length===10;
+  const isPhoneValid = () => formData.contact !== "" && formData.contact !==undefined && formData.contact.length===10;
   const isPasswordValid = () => formData.password !== "" && formData.password === formData.confirmPassword  
                                                          && formData.password.length >= 4 && formData.password !==undefined;
   const isFirstNameValid = () => formData.firstName !== "";
@@ -133,15 +142,19 @@ return (
                                         if (isPageValid()) { // Check if the current page's data is valid
                                             if (page === FormTitles.length - 1) {
                                                 try {
-                                                    const response = await axios.post('YOUR_BACKEND_API_ENDPOINT', formData);
-                                                    if (response.status === 200) {
+                                                    const response = await axios.post('http://localhost:8080/worker/register', formData);
+                                                    if (response.status === 201) {
                                                         alert('Form submitted successfully!');
                                                         console.log(response.data); // Assuming the backend sends a response
                                                     } else {
+                                                        
                                                         alert('Failed to submit form.');
                                                     }
                                                     } catch (error) {
+                                                    
                                                     alert('An error occurred while submitting the form.');
+                                                    
+                                                    alert(error);
                                                     console.error(error);
                                                     }
                                                 } else {
@@ -171,12 +184,12 @@ return (
             </div>
             <span>or use your account</span>
             <input 
-                    type="phonno" 
-                    id='phonno'
-                    name="phonno" 
+                    type="contact" 
+                    id='contact'
+                    name="contact" 
                     placeholder="Phon No."
-                    value={formData.phonno} 
-                    onChange={(event) =>setFormData({ ...formData, phonno: event.target.value })}        
+                    value={formData.contact} 
+                    onChange={(event) =>setFormData({ ...formData, contact: event.target.value })}        
             />
             <input 
                     type="password" 

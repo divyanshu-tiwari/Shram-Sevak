@@ -1,6 +1,9 @@
 package com.shramsevak.shramSevak.service;
 
+import java.util.List;
+
 import com.shramsevak.shramSevak.dto.ApiResponse;
+import com.shramsevak.shramSevak.dto.CustomerResponceDto;
 import com.shramsevak.shramSevak.dto.CustomerSignUpRequest;
 import com.shramsevak.shramSevak.dto.SigninRequest;
 import com.shramsevak.shramSevak.dto.SigninResponse;
@@ -15,6 +18,12 @@ public interface CustomerService {
 
 	String deleteById(Long id);
 
+
 	SigninResponse authenticate(@Valid SigninRequest request);
+
+	CustomerResponceDto getCustomerDetails(Long id) ;
+
+	List<CustomerResponceDto> getAllCustomers(int pageNumber, int pageSize);
+
 
 }
