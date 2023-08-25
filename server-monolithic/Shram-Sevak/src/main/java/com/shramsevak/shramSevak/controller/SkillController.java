@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @Slf4j
-@RequestMapping("/Skill")
+@RequestMapping("/skill")
 @CrossOrigin(origins = "http://localhost:3000")
 public class SkillController {
 	@Autowired

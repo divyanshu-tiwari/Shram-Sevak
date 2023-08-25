@@ -24,7 +24,7 @@ public class CategoryServiceImpl implements CategoryService {
 	private ModelMapper mapper;
 
 	@Override
-	public List<CategoryDTO> getAllState() {
+	public List<CategoryDTO> getAllCategories() {
 		
 		return  categoryRepo.findAll().stream().map(state -> mapper.map(state, CategoryDTO.class)).collect(Collectors.toList());
 	}

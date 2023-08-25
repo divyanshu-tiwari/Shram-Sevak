@@ -1,21 +1,19 @@
 package com.shramsevak.shramSevak.dto;
-
 import jakarta.annotation.Nonnull;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
-@AllArgsConstructor
+@ToString
 @NoArgsConstructor
-public class AdminDto {
-
+@AllArgsConstructor
+public class CityDTO {
 	@Nonnull
-	private String userName;
-
-	@Nonnull
-	private String password;
-
+	private String city;
 	
+	@Nonnull
+	private Long stateId;
+
 }

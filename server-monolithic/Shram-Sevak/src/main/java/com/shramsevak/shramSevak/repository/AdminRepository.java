@@ -8,6 +8,6 @@ import com.shramsevak.shramSevak.entity.Admin;
 
 public interface AdminRepository extends JpaRepository<Admin, Long>{
 
-	Optional<Admin> findBy(String userName, String password);
+	Optional<Admin> findByUserNameAndPassword(String userName, String password);
 
 }
