@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.shramsevak.shramSevak.dto.PlaceOrderDTO;
+import com.shramsevak.shramSevak.dto.CreateOrderDTO;
 import com.shramsevak.shramSevak.service.OrderService;
 
 import jakarta.validation.Valid;
@@ -45,19 +46,25 @@ public class OrderController {
 		return new ResponseEntity<>(orderService.getAllByWorkerId(workerId), HttpStatus.OK);
 	}
 	
-	/*
-	 * @PostMapping("/place-order/customer/{customerId}/worker/{workerId}") public
-	 * ResponseEntity<?> placeOrder(@PathVariable Long customerId, @PathVariable
-	 * Long workerId, @RequestBody PlaceOrderDTO orderDetails){
-	 * log.info("order details in controller : " + orderDetails.toString()); return
-	 * new ResponseEntity<>(orderService.placeOrder(customerId, workerId,
-	 * orderDetails), HttpStatus.CREATED); }
-	 */
-	
-	@PostMapping("/place-order")
-	public ResponseEntity<?> placeOrder(@RequestBody @Valid PlaceOrderDTO orderDetails){
+	@PostMapping("/create")
+	public ResponseEntity<?> createOrder(@RequestBody @Valid CreateOrderDTO orderDetails){
 		log.info("order details in controller : " + orderDetails.toString());
-		return new ResponseEntity<>(orderService.placeOrder(orderDetails), HttpStatus.CREATED);
+		return new ResponseEntity<>(orderService.createOrder(orderDetails), HttpStatus.CREATED);
 	}
 		
+	@PatchMapping("/fulfill/{orderId}")
+	public ResponseEntity<?> fulfillOrder(@PathVariable Long orderId){
+		return new ResponseEntity<>(orderService.fulfillOrder(orderId), HttpStatus.ACCEPTED);
+	}
+	
+	@PatchMapping("/cancel/{orderId}")
+	public ResponseEntity<?> cancelOrder(@PathVariable Long orderId){
+		return new ResponseEntity<>(orderService.cancelOrder(orderId), HttpStatus.ACCEPTED);
+	}
+	
+	@PatchMapping("/suspend/{orderId}")
+	public ResponseEntity<?> suspendOrder(@PathVariable Long orderId){
+		return new ResponseEntity<>(orderService.suspendOrder(orderId), HttpStatus.ACCEPTED);
+	}
+	
 }

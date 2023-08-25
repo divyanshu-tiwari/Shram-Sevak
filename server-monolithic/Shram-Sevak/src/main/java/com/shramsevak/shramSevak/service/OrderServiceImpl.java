@@ -1,5 +1,6 @@
 package com.shramsevak.shramSevak.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,10 +14,11 @@ import com.shramsevak.shramSevak.customException.CustomerException;
 import com.shramsevak.shramSevak.customException.OrderException;
 import com.shramsevak.shramSevak.customException.WorkerException;
 import com.shramsevak.shramSevak.dto.ApiResponse;
+import com.shramsevak.shramSevak.dto.CreateOrderDTO;
 import com.shramsevak.shramSevak.dto.OrderDTO;
-import com.shramsevak.shramSevak.dto.PlaceOrderDTO;
 import com.shramsevak.shramSevak.entity.Customer;
 import com.shramsevak.shramSevak.entity.Order;
+import com.shramsevak.shramSevak.entity.OrderStatus;
 import com.shramsevak.shramSevak.entity.Worker;
 import com.shramsevak.shramSevak.repository.CustomerRepository;
 import com.shramsevak.shramSevak.repository.OrderRepository;
@@ -70,41 +72,46 @@ public class OrderServiceImpl implements OrderService{
 			throw new OrderException("No orders found for the customer");
 		return orders;
 	}
-
-	/*
-	 * @Override public ApiResponse placeOrder(Long customerId, Long workerId,
-	 * PlaceOrderDTO orderDetails) { log.info("inside placeOrder"); Customer
-	 * customer = customerRepo.findById(customerId).orElseThrow(() -> new
-	 * CustomerException("No such customer found."));
-	 * log.info("Customer record found"); Worker worker =
-	 * workerRepo.findById(workerId).orElseThrow(() -> new
-	 * WorkerException("No such worker found.")); log.info("Worker record found");
-	 * Order order = mapper.map(orderDetails, Order.class);
-	 * log.info("order entity mapped"); log.info(order.toString());
-	 * customer.addOrder(order); worker.addOrder(order); orderRepo.save(order);
-	 * log.info("order persisted");
-	 * 
-	 * return new ApiResponse("Order placed successfully. ORDER_ID : " +
-	 * order.getId()); }
-	 */
 	
 	@Override
-	public ApiResponse placeOrder(PlaceOrderDTO orderDetails) {
-		log.info("inside placeOrder");	
-		Customer customer = customerRepo.findById(1L).orElseThrow(() -> new CustomerException("No such customer found."));
-		log.info("Customer record found");
-		Worker worker = workerRepo.findById(1L).orElseThrow(() -> new WorkerException("No such worker found."));
-		log.info("Worker record found");
+	public ApiResponse createOrder(CreateOrderDTO orderDetails) {
+		Customer customer = customerRepo.findById(orderDetails.getCustomerId()).orElseThrow(() -> new CustomerException("No such customer found."));
+		Worker worker = workerRepo.findById(orderDetails.getWorkerId()).orElseThrow(() -> new WorkerException("No such worker found."));
 		Order order = mapper.map(orderDetails, Order.class);
-		log.info("order entity mapped");	
-		log.info(order.toString());
+		order.setStatus(OrderStatus.CREATED);
 		customer.addOrder(order);
 		worker.addOrder(order);
 		orderRepo.save(order);
-		log.info("order persisted");
-		
 		return new ApiResponse("Order placed successfully. ORDER_ID : " + order.getId());
 	}
 
+	@Override
+	public ApiResponse fulfillOrder(Long orderId) {
+		Order order = orderRepo.findById(orderId).orElseThrow(() -> new OrderException("No such order found."));
+		if(order.getStartTime().isBefore(LocalDateTime.now()))
+			throw new OrderException("INVALID OPERATION : can not fulfill an order before its scheduled time");
+		order.setStatus(OrderStatus.FULFILLED);
+		return new ApiResponse("Order fulfilled. ORDER_ID : " + order.getId());
+	}
+
+	@Override
+	public ApiResponse cancelOrder(Long orderId) {
+		Order order = orderRepo.findById(orderId).orElseThrow(() -> new OrderException("No such order found."));
+		if(!order.getStatus().equals(OrderStatus.CREATED))
+			throw new OrderException("INVALID OPERATION : can not cancel the order in " + order.getStatus() + " state.");
+		order.setStatus(OrderStatus.CANCELLED);
+		if(LocalDateTime.now().minusHours(1).isBefore(order.getStartTime()))
+			return new ApiResponse("Order cancelled. 80% amount will be refunded within 5 working days. ORDER_ID : " + order.getId());
+		return new ApiResponse("Order cancelled. ORDER_ID : " + order.getId());
+	}
+
+	@Override
+	public ApiResponse suspendOrder(Long orderId) {
+		Order order = orderRepo.findById(orderId).orElseThrow(() -> new OrderException("No such order found."));
+		if(order.getStatus().equals(OrderStatus.SUSPENDED))
+			throw new OrderException("INVALID OPERATION : can not suspend an already suspended order");
+		order.setStatus(OrderStatus.SUSPENDED);
+		return new ApiResponse("Order suspended. ORDER_ID : " + order.getId());
+	}
 	
 }
