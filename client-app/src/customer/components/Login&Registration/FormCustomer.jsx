@@ -51,7 +51,7 @@ const Form = ({showNavbar=true}) => {
   
     return age >= 18;
   }
-  // Define other validation functions for each field
+  
 
 
   const singInPageValid = () => {
