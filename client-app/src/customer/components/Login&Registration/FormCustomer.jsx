@@ -14,7 +14,8 @@ const Form = () => {
       confirmPassword: "",
       firstName: "",
       lastName: "",
-      gender: '',
+      dateOfBirth:"",
+      gender: "",
       Lane_1:"",
       Lane_2:"",
       Lane_3:"",
@@ -38,6 +39,17 @@ const Form = () => {
   const isPasswordValid = () => formData.password !== "" && formData.password === formData.confirmPassword  
                                                          && formData.password.length >= 4 && formData.password !==undefined;
   const isFirstNameValid = () => formData.firstName !== "";
+  const isLastNameValid = () => formData.lastName !== "";
+  const isDOBValid =()=>{
+    const currentDate = new Date();
+    const enteredDOB = new Date(formData.dateOfBirth);
+    const timeDifference = currentDate - enteredDOB;
+  
+    // Calculate the age based on milliseconds in a year (365 days * 24 hours * 60 minutes * 60 seconds * 1000 milliseconds)
+    const age = timeDifference / (365 * 24 * 60 * 60 * 1000);
+  
+    return age >= 18;
+  }
   // Define other validation functions for each field
 
 
@@ -56,24 +68,30 @@ const Form = () => {
   };
 
 
-  // Validation function for the current page
-  const isPageValid = () => {
-    if (page === 0) {
-        if(!isPhoneValid()){
-            alert("Enter Currect Moble No.( It Should be 10 Digit )")
-        }
-        else if(!isPasswordValid()){
-            alert("Incorrect Currect Password ( Password Should be min 4 Digit )")
-        }else {
-            return true;
-        }
-        } else if (page === 1) {
-        return isFirstNameValid(); // Add other validation checks for PersonalInfo
+ // Validation function for the current page
+ const isPageValid = () => {
+  if (page === 0) {
+        if (!isPhoneValid()) {
+          alert("Enter Correct Mobile No. (It Should be 10 Digits)");
+        } else if (!isPasswordValid()) {
+          alert("Incorrect Password (Password Should be at least 4 Digits)");
         } else {
-        // Add validation checks for OtherInfo
-        return true; // For now, assume OtherInfo is always valid
+          return true;
         }
-  };
+      } else if (page === 1) {
+        if (!isFirstNameValid()) {
+          alert("Enter First Name");
+        } else if (!isLastNameValid()) {
+          alert("Enter Last Name");
+        } else if (!isDOBValid()) {
+            alert("Minimum Age Should be 18");
+          } else {
+          return true;
+        }
+      } 
+      
+      return false;
+};
 
 
   useEffect(() => {
@@ -162,8 +180,6 @@ return (
                     </div>                
             </form>
         </div>
-
-
 
         {/* <!-- Sign In --> */}
         <div className="form-container sign-in-container">

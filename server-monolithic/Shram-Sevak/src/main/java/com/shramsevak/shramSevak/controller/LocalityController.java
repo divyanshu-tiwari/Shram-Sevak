@@ -49,12 +49,4 @@ public class LocalityController {
 		return new ResponseEntity<>(localityDTOs, HttpStatus.OK);
 
 	}
-//	
-//	@GetMapping("/state/{stateId}")
-//	public ResponseEntity<List<CityResponseDTO>> getAllCitiesByStateId(@PathVariable Long stateId) {
-//		List<CityResponseDTO> cityDTOs = cityService.getAllCitiesByStateId(stateId);
-//		log.info("ity Controller - Get All Citys by given State Id");
-//		return new ResponseEntity<>(cityDTOs, HttpStatus.OK);
-//
-//	}
 }

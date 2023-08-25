@@ -28,6 +28,14 @@ function PersonalInfo({ formData, setFormData }) {
           setFormData({ ...formData, email: e.target.value });
         }}
       />
+        <input
+        type="date"
+        placeholder="Date of Birth..."
+        value={formData.dateOfBirth}
+        onChange={(e) => {
+          setFormData({ ...formData, dateOfBirth: e.target.value });
+        }}
+      />
       <select
             value={formData.gender}
             onChange={(e) => {
