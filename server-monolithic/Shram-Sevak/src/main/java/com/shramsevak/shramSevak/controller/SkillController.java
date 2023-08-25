@@ -7,9 +7,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.shramsevak.shramSevak.dto.SkillAddDto;
 import com.shramsevak.shramSevak.service.SkillService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -27,5 +30,10 @@ public class SkillController {
 		
     	return ResponseEntity.ok(skillService.getSkills(CategoryId));
  }
+	
+	@PostMapping("/addSkills")
+	public ResponseEntity<?> addRegistrastionSkills(@RequestBody SkillAddDto skillAddDto){
+		return ResponseEntity.ok(skillService.addRegSkills(skillAddDto));
+	}
 
 }

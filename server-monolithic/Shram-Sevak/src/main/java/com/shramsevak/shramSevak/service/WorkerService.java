@@ -14,7 +14,7 @@ import jakarta.validation.Valid;
 
 public interface WorkerService {
 
-	String register(WorkerRegistrationDto workerDto);
+	WorkerResponceDto register(WorkerRegistrationDto workerDto);
 	
 	String deleteByIdPermanently(Long id);
 
