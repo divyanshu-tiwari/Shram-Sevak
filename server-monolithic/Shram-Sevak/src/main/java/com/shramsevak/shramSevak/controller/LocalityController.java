@@ -49,4 +49,13 @@ public class LocalityController {
 		return new ResponseEntity<>(localityDTOs, HttpStatus.OK);
 
 	}
+	
+	@GetMapping("/getPin/{id}")
+	public ResponseEntity<?> getPinbyLocalityId(@PathVariable Long id) {
+	return new ResponseEntity<>(localityService.getPin(id), HttpStatus.OK);
+	}
+	
+	
+	
+	
 }

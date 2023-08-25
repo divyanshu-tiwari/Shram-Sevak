@@ -12,5 +12,6 @@ public interface LocalityService {
 	
 	ApiResponse addLocality( @Valid LocalityDTO localityDTO);
 	List<LocalityResponceDTO>getAllLocalitiesByCityId(Long id);
+	Long getPin(Long id);
 
 }
