@@ -18,6 +18,7 @@ const Form = () => {
       email: "",
       password: "",
       confirmPassword: "",
+      dateOfBirth:"",
       profilePicturePath: "path/to/profile/picture.jpg",
       Lane_1:"",
       Lane_2:"",
