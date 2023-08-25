@@ -4,9 +4,10 @@ import SignUpInfo from "./SignUpInfo"
 import PersonalInfo from "./PersonalInfo"
 import AddressInfo from "./AddressInfo"
 import './Style.css';
+import Navigation from '../navigation/Navigation';
 
 
-const Form = () => {
+const Form = ({showNavbar=true}) => {
     const [page, setPage] = useState(0);
     const [formData, setFormData] = useState({
       contact: "",
@@ -120,6 +121,7 @@ const Form = () => {
 
 return (
     <>
+    { showNavbar && <Navigation />}
     <div className="flex justify-center items-center p-10">
     <div className="container " id="container">
         <div className="form-container sign-up-container">

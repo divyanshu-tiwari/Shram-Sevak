@@ -4,9 +4,10 @@ import SignUpInfo from "./SignUpInfo"
 import PersonalInfo from "./PersonalInfo"
 import './Style.css';
 import ChooseWorkingLocation from './ChooseWorkingLocation';
+import Navigation from '../../../customer/components/navigation/Navigation';
 
 
-const Form = () => {
+const Form = ({showNavbar=true}) => {
     const [page, setPage] = useState(0);
     const [formData, setFormData] = useState({
       firstName: "",
@@ -18,22 +19,18 @@ const Form = () => {
       confirmPassword: "",
       dateOfBirth:"",
       profilePicturePath: "path/to/profile/picture.jpg",
-      Lane_1:"",
-      Lane_2:"",
-      Lane_3:"",
-      localityId: 1, //Will be changed
-      pincode:"",
-      skillIds: [1,2],// will be changed
+      localityId: "",
+      pincode:""
     });
    
-    const FormTitles = ["Sign Up", "Personal Info", "Choose Your Working Location", "Select Your Skill Set"]; 
+    const FormTitles = ["Sign Up", "Personal Info", "Choose Your Working Location"]; 
     const PageDisplay = () => {
       if (page === 0) {
         return <SignUpInfo formData={formData} setFormData={setFormData} />;
       } else if (page === 1) {
         return <PersonalInfo formData={formData} setFormData={setFormData} />;
-      }else {
-        return <ChooseWorkingLocation />;
+      }else if(page===2) {
+        return <ChooseWorkingLocation formData={formData} setFormData={setFormData} />;
       }
        
     };
@@ -92,7 +89,10 @@ const isPageValid = () => {
           } else {
           return true;
         }
-      } 
+      } else if (page === 2)
+      {
+        return true;
+      }
       
       return false;
 };
@@ -124,6 +124,7 @@ const isPageValid = () => {
   
 return (
     <>
+    { showNavbar && <Navigation />}
     <div className="flex justify-center items-center p-10">
     <div className="container" id="container">
         <div className="form-container sign-up-container">
@@ -154,6 +155,7 @@ return (
                             id='next'
                                 type={page === FormTitles.length - 1 ? "submit" : "button"}
                                     onClick={async () => {
+                                        console.log(JSON.stringify(formData))
                                         if (isPageValid()) { // Check if the current page's data is valid
                                             if (page === FormTitles.length - 1) {
                                                 try {

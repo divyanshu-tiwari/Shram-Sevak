@@ -9,12 +9,12 @@ import ChooseLogin from './customer/components/Pages/HomePage/ChooseLogin/Choose
 function App() {
   return (
     <>
-      <Navigation />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<ChooseLogin />} />
         <Route path="/loginCustomer" element={<FormCustomer />} />
         <Route path="/loginWorker" element={<FormWorker />} />
-        <Route path="/login" element={<ChooseLogin />} />
+        
       </Routes>
     </>
   );
