@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.shramsevak.shramSevak.dto.ApiResponse;
 import com.shramsevak.shramSevak.dto.CustomerResponceDto;
 import com.shramsevak.shramSevak.dto.CustomerSignUpRequest;
+import com.shramsevak.shramSevak.dto.CustomerUpdateDto;
 import com.shramsevak.shramSevak.service.CustomerService;
 
 import jakarta.validation.Valid;
@@ -68,16 +69,23 @@ public class CustomerController {
 
     @DeleteMapping("/deletePermanent/{Id}")
 	public ResponseEntity<?> deleteCustomerPermanently(@PathVariable Long Id) {
-		log.info("Worker Controller - delete customer");
+		log.info("Customer Controller - delete customer");
 		return new ResponseEntity<>(custService.deleteByIdPermanently(Id), HttpStatus.OK);
 	}
     
     @PutMapping("/delete/{Id}")
 	public ResponseEntity<?> deleteCustomer(@PathVariable Long Id) {
-		log.info("Worker Controller - delete customer temparary");
+		log.info("Customer Controller - delete customer temparary");
 		return new ResponseEntity<>(custService.deleteById(Id), HttpStatus.OK);
 
 	}
+    
+    @PutMapping("/update")
+    public ResponseEntity<?> updateCustomerDetails(@RequestBody CustomerUpdateDto customerDto){
+    	log.info("Customer Controller - updating  customer");
+    	return new ResponseEntity<>(custService.updateCustomer(customerDto), HttpStatus.OK);
+    }
+    
     
     
     
