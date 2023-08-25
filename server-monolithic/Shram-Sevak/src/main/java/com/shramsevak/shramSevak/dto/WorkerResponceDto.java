@@ -2,6 +2,7 @@ package com.shramsevak.shramSevak.dto;
 
 import com.shramsevak.shramSevak.entity.CustomerStatus;
 import com.shramsevak.shramSevak.entity.Gender;
+import com.shramsevak.shramSevak.entity.WorkerStatus;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -18,5 +19,5 @@ public class WorkerResponceDto {
 	private String email;
 	private String contact;
 	private Gender gender;
-	private CustomerStatus status;
+	private WorkerStatus status;
 }
