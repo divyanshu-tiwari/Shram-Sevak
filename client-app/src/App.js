@@ -5,10 +5,10 @@ import FormWorker from './Worker/components/Login&Registration/FormWorker'
 import FormCustomer from './customer/components/Login&Registration/FormCustomer'
 import { Routes, Route } from "react-router-dom";
 
-import { AdminLogin } from "./admin/components/admin.login"
+import { AdminLogin } from "./admin/pages/admin.login"
 
 import ChooseLogin from './customer/components/Pages/HomePage/ChooseLogin/ChooseLogin';
-import AdminDashboard from './admin/components/AdminDashboard';
+import AdminDashboard from './admin/pages/AdminDashboard';
 import { Unauthorized } from './pages/unauthorized.page';
 import { AdminAuthGuard } from './guards/admin.auth.guard';
 import { AdminLoginGuard } from './guards/admin.login.guard';
