@@ -4,8 +4,6 @@ import SignUpInfo from "./SignUpInfo"
 import PersonalInfo from "./PersonalInfo"
 import './Style.css';
 import ChooseWorkingLocation from './ChooseWorkingLocation';
-import ChooseSkills from './CategorySelection';
-import CategorySelection from './CategorySelection';
 
 
 const Form = () => {
@@ -33,12 +31,10 @@ const Form = () => {
         return <SignUpInfo formData={formData} setFormData={setFormData} />;
       } else if (page === 1) {
         return <PersonalInfo formData={formData} setFormData={setFormData} />;
-      }else if (page === 2) {
+      }else {
         return <ChooseWorkingLocation />;
       }
-      //  else {
-      //   return <CategorySelection />;
-      // }
+       
     };
     
   // Validation functions for each field
