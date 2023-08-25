@@ -21,6 +21,8 @@ import com.shramsevak.shramSevak.dto.ApiResponse;
 import com.shramsevak.shramSevak.dto.CustomerResponceDto;
 import com.shramsevak.shramSevak.dto.CustomerSignUpRequest;
 import com.shramsevak.shramSevak.dto.CustomerUpdateDto;
+import com.shramsevak.shramSevak.dto.SigninRequest;
+import com.shramsevak.shramSevak.entity.Customer;
 import com.shramsevak.shramSevak.service.CustomerService;
 
 import jakarta.validation.Valid;
@@ -80,12 +82,22 @@ public class CustomerController {
 
 	}
     
+
     @PutMapping("/update")
     public ResponseEntity<?> updateCustomerDetails(@RequestBody CustomerUpdateDto customerDto){
     	log.info("Customer Controller - updating  customer");
     	return new ResponseEntity<>(custService.updateCustomer(customerDto), HttpStatus.OK);
     }
-    
+
+    @PostMapping("/signin")
+	public ResponseEntity<?> customerLogin(@RequestBody @Valid SigninRequest request) {
+		System.out.println("Customer login " + request);
+		
+			return new ResponseEntity<>(custService.authenticate(request),
+					HttpStatus.OK);
+		}
+	
+
     
     
     

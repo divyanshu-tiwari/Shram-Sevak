@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.shramsevak.shramSevak.dto.SigninRequest;
+
 import com.shramsevak.shramSevak.dto.CustomerResponceDto;
+
 import com.shramsevak.shramSevak.dto.WorkerRegistrationDto;
 import com.shramsevak.shramSevak.dto.WorkerResponceDto;
 import com.shramsevak.shramSevak.service.WorkerService;
@@ -70,4 +73,12 @@ public class WorkerController {
 		log.info("Worker Controller - delete worker temparary");
 		return new ResponseEntity<>(workerService.deleteById(Id), HttpStatus.OK);
 	}
+	
+	@PostMapping("/signin")
+	public ResponseEntity<?> workerLogin(@RequestBody @Valid SigninRequest request) {
+		System.out.println("Worker login " + request);
+		
+			return new ResponseEntity<>(workerService.authenticate(request),
+					HttpStatus.OK);
+		}
 }
