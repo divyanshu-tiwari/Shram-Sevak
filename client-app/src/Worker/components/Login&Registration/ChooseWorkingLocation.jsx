@@ -17,6 +17,9 @@ const ChooseWorkingLocation = ({ formData, setFormData }) => {
       .catch((error) => {
         console.error(error);
       });
+
+      
+
   }, []);
 
   const handleStateChange = (event) => {
