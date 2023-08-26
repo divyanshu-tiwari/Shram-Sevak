@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react"
-import AdminUser from "../../models/admin.user";
-import { Role } from "../../models/role";
+import AdminUser from "../../utils/models/admin.user"
+import { Role } from "../../utils/models/role";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import { setCurrentUser, clearCurrentUser, selectUser } from "../../store/user/userSlice";
-import { getUserRole } from "../../service/base.service";
-import AdminService from "../../service/admin.service";
+import { setCurrentUser, clearCurrentUser, selectUser } from "../../utils/store/user/userSlice";
+import { getUserRole } from "../../utils/service/base.service";
+import AdminService from "../../utils/service/admin.service";
 
 export const AdminLogin = () => {
 
