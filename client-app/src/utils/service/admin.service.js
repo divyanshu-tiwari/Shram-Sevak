@@ -5,7 +5,7 @@ const BASE_URL = BASE_API_URL + '/admin'
 
 class AdminService {
 
-    login(adminCredentials){
+    signin(adminCredentials){
         return axios.post(BASE_URL + '/login', adminCredentials);
     }
 
