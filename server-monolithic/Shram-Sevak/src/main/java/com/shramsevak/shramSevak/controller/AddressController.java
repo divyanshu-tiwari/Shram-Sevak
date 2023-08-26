@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.shramsevak.shramSevak.dto.AddressDto;
 import com.shramsevak.shramSevak.dto.AddressUpdateDto;
-import com.shramsevak.shramSevak.dto.ApiResponse;
-import com.shramsevak.shramSevak.dto.StateDTO;
 import com.shramsevak.shramSevak.service.AddressService;
 
 import jakarta.validation.Valid;

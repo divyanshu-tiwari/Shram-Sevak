@@ -57,9 +57,6 @@ public class LocalityServiceImpl implements LocalityService {
 		Long pinCode=locality.getPincode();
 		return pinCode;
 	}
-	
-}
-
 
 	@Override
 	public LocalityResponceDTO getLocalityById(Long id) {
