@@ -5,11 +5,11 @@ const BASE_URL = BASE_API_URL + '/customer'
 
 class CustomerService {
 
-    signin(adminCredentials){
+    signin(customerCredentials){
         return axios.post(BASE_URL + '/signin', adminCredentials);
     }
 
-    register(adminData){
+    register(customerData){
         return axios.post(BASE_URL + '/register', adminData)
     }
 }

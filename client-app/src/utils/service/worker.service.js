@@ -5,11 +5,11 @@ const BASE_URL = BASE_API_URL + '/worker'
 
 class WorkerService {
 
-    login(adminCredentials){
+    signin(workerCredentials){
         return axios.post(BASE_URL + '/signin', adminCredentials);
     }
 
-    register(adminData){
+    register(workerData){
         return axios.post(BASE_URL + '/register', adminData)
     }
 }

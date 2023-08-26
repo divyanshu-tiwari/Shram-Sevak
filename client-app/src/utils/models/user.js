@@ -1,10 +1,11 @@
 export default class User {
-    constructor(firstName, lastName, contact, password, role, id) { // add token
+    constructor(id, firstName, lastName, contact, password, role, token) { 
+        this.id = id
         this.firstName = firstName
         this.lastName = lastName
         this.contact = contact
         this.password = password
         this.role = role
-        this.id = id
+        this.token = token
     }
 }
