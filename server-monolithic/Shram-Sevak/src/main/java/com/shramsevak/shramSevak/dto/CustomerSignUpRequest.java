@@ -25,7 +25,7 @@ public class CustomerSignUpRequest {
     @Size(max = 50, message = "Last name should not exceed 50 characters")
     private String lastName;
 
-    @NotBlank(message = "Email is required")
+    //@NotBlank(message = "Email is required")
     @Email(message = "Invalid email address")
     @Size(max = 100, message = "Email should not exceed 100 characters")
     private String email;

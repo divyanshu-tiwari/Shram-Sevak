@@ -17,9 +17,9 @@ import { Role } from './models/role';
 function App() {
   return (
     <>
-      <Navigation />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<ChooseLogin />} />
         <Route path="/loginCustomer" element={<FormCustomer />} />
         <Route path="/loginWorker" element={<FormWorker />} />
 
@@ -39,6 +39,7 @@ function App() {
 
       <Route path="/401" element={<Unauthorized />} />
     </Routes >
+
     </>
   );
 }

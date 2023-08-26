@@ -7,12 +7,12 @@ function SignUpInfo({ formData, setFormData }) {
     
       {/* Inside your SignUpInfo, PersonalInfo, and OtherInfo components */}
               <input
-                type="phonno"
-                name="phonno"
+                type="contact"
+                name="contact"
                 
                 placeholder="Phon No."
-                value={formData.phonno}
-                onChange={(event) => setFormData({ ...formData, phonno: event.target.value })}
+                value={formData.contact}
+                onChange={(event) => setFormData({ ...formData, contact: event.target.value })}
                 className="custom-input"
               />
 

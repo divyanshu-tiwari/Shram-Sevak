@@ -2,12 +2,13 @@ import React from 'react'
 import MainCarousel from '../../MainCarousel/MainCarousel'
 import HomeSectionCarousel from '../../HomeSectionCarousel/HomeSectionCarousel'
 import { worker_list } from '../../../../Data/worker_list';
+import Navigation from '../../navigation/Navigation';
 
 
-export default function HomePage() {
+export default function HomePage({ showNavbar=true }) {
   return (
     <div>
-      
+      { showNavbar && <Navigation />}
       <MainCarousel/>
       
       <div className='space-y-10 py-20'>
