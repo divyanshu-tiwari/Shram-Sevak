@@ -1,6 +1,7 @@
 package com.shramsevak.shramSevak.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,10 @@ import org.springframework.stereotype.Service;
 
 import com.shramsevak.shramSevak.customException.AdminException;
 import com.shramsevak.shramSevak.customException.ResourceNotFoundException;
-import com.shramsevak.shramSevak.dto.AdminDto;
+import com.shramsevak.shramSevak.dto.AdminDTO;
+import com.shramsevak.shramSevak.dto.AdminSigninDTO;
+import com.shramsevak.shramSevak.dto.AdminSigninResponseDTO;
+import com.shramsevak.shramSevak.dto.ApiResponse;
 import com.shramsevak.shramSevak.entity.Admin;
 import com.shramsevak.shramSevak.repository.AdminRepository;
 
@@ -26,40 +30,39 @@ public class AdminServiceImpl implements AdminService {
 	private AdminRepository adminRepo;
 
 	@Override
-	public String register(@Valid AdminDto adminDto) {
-		Admin admin = mapper.map(adminDto, Admin.class);
+	public AdminSigninResponseDTO register(@Valid AdminSigninDTO adminDetails) {
+		Admin admin = mapper.map(adminDetails, Admin.class);
 		adminRepo.save(admin);
-		return "Admin added successfully";
+		return mapper.map(admin, AdminSigninResponseDTO.class);
 	}
 	
 	@Override
-	public String signin(@Valid AdminDto adminDto) {
-		Admin customer = adminRepo.findByUserNameAndPassword(adminDto.getUserName(), adminDto.getPassword())
-				.orElseThrow(() -> new ResourceNotFoundException("Bad Credentials , Invalid Login!!!!!!!!!!!!!"));
-		AdminDto admin = mapper.map(customer, AdminDto.class);
-		return "Signin Successfull";
+	public AdminSigninResponseDTO signin(@Valid AdminSigninDTO adminCredentials) {
+		Admin admin = adminRepo.findByUserNameAndPassword(adminCredentials.getUserName(), adminCredentials.getPassword())
+				.orElseThrow(() -> new ResourceNotFoundException("AUTHENTICATION FAILED : Incorrect user name or password"));
+		return mapper.map(admin, AdminSigninResponseDTO.class);
+		
 	}
 	
 	@Override
-	public String deleteById(Long id) {
+	public ApiResponse deleteById(Long id) {
 		Admin admin = adminRepo.findById(id).orElseThrow(() -> new AdminException("Invalid admin ID"));
 		adminRepo.delete(admin);
-		return "Admin with username " + admin.getUserName() + " deleted Permanantly!";
+		return new ApiResponse("Admin with username " + admin.getUserName() + " deleted Permanantly!");
 	}
 
 	@Override
-	public String getAdminById(Long id) {
+	public AdminDTO getAdminById(Long id) {
 		Admin admin = adminRepo.findById(id).orElseThrow(() -> new AdminException("Invalid admin ID"));
-		return "Admin with username " + admin.getUserName() + " is Found.";
+		return mapper.map(admin, AdminDTO.class);
 	}
 
 	@Override
-	public List<Admin> getListOfAllAdmin() {
+	public List<AdminDTO> getListOfAllAdmin() {
 		List<Admin> adminList = adminRepo.findAll();
-		if(null == adminList || adminList.isEmpty()) {
+		if(adminList.isEmpty())
 			throw new AdminException("No Admins available");
-		}
-		return adminList;
+		return adminList.stream().map(admin -> mapper.map(admin, AdminDTO.class)).collect(Collectors.toList());
 	}
 
 }

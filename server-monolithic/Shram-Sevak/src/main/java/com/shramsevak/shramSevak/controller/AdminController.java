@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.shramsevak.shramSevak.dto.AdminDto;
+import com.shramsevak.shramSevak.dto.AdminSigninDTO;
 import com.shramsevak.shramSevak.service.AdminService;
 
 import jakarta.validation.Valid;
@@ -26,18 +26,17 @@ public class AdminController {
 	AdminService adminService;
 
 	@PostMapping("/register")
-	public ResponseEntity<?> registerAdmin(@RequestBody @Valid AdminDto adminDto) {
+	public ResponseEntity<?> registerAdmin(@RequestBody @Valid AdminSigninDTO adminDetails) {
 		log.info("Admin Controller - register admin");
-		return new ResponseEntity<>(adminService.register(adminDto), HttpStatus.CREATED);
+		return new ResponseEntity<>(adminService.register(adminDetails), HttpStatus.CREATED);
 	}
 
 	@PostMapping("/signin")
-	public ResponseEntity<?> adminLogin(@RequestBody @Valid AdminDto adminDto) {
+	public ResponseEntity<?> adminLogin(@RequestBody @Valid AdminSigninDTO adminCredentials) {
 		log.info("Admin Controller - sign admin");
-		return new ResponseEntity<>(adminService.signin(adminDto), HttpStatus.OK);
+		return new ResponseEntity<>(adminService.signin(adminCredentials), HttpStatus.OK);
 	}
 	 
-
 	@GetMapping("/admin/view/{Id}")
 	public ResponseEntity<?> viewAdmin(@PathVariable Long Id) {
 		log.info("Admin Controller - view admin");
