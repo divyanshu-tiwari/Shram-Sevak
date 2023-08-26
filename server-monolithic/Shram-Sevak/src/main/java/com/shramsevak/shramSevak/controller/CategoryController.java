@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.shramsevak.shramSevak.dto.CategoryDTO;
-import com.shramsevak.shramSevak.dto.StateDTO;
 import com.shramsevak.shramSevak.service.CategoryService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +25,7 @@ public class CategoryController {
 	
 	@GetMapping("/all")
 	public ResponseEntity<List<CategoryDTO>> getAllStates(){
-		
+		log.info("get all categories");
 		List<CategoryDTO> catDTOs = categoryService.getAllCategories();
 		
 		return ResponseEntity.ok(catDTOs);

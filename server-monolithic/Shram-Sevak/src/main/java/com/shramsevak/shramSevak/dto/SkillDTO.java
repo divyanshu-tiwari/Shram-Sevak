@@ -1,13 +1,11 @@
 package com.shramsevak.shramSevak.dto;
 
-import java.util.List;
-
-import jakarta.persistence.Column;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import jakarta.annotation.Nonnull;
+import lombok.AllArgsConstructor;
 
 @Getter
 @Setter
@@ -15,11 +13,17 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class SkillAddDto {
-	@Column(nullable=true)
-	private List<Long> skillIds;
+public class SkillDTO {
+    
 	
-	private Long workerId;
-
+	@Nonnull
+	private String skillName;
+	
+	@Nonnull
+	private Long categoryId;
+	
+    
+    
+	 
+	
 }
-
