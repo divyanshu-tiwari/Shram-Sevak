@@ -49,7 +49,7 @@ public class CustomerController {
 		return ResponseEntity.ok(custService.getCustomerDetails(id));
 	}
 
-	@GetMapping
+	@GetMapping("/all")
 	public ResponseEntity<?> getAllCustPaginated(@RequestParam(defaultValue = "0", required = false) int pageNumber,
 			@RequestParam(defaultValue = "3", required = false) int pageSize) {
 		System.out.println("in get all customers" + pageNumber + " " + pageSize);
