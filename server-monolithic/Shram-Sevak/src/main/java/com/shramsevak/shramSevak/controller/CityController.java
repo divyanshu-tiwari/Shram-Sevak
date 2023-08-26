@@ -1,0 +1,88 @@
+package com.shramsevak.shramSevak.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.shramsevak.shramSevak.dto.ApiResponse;
+import com.shramsevak.shramSevak.dto.CityDTO;
+import com.shramsevak.shramSevak.dto.CityResponseDTO;
+import com.shramsevak.shramSevak.service.CityService;
+
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
+
+@RestController
+@Slf4j
+@Validated
+@RequestMapping("/city")
+@CrossOrigin(origins = "http://localhost:3000")
+public class CityController {
+
+	@Autowired
+	private CityService cityService;
+
+	@PostMapping("/add")
+	public ResponseEntity<?> addState(@RequestBody @Valid CityDTO cityDTO) {
+		ApiResponse response = cityService.addCity(cityDTO);
+		log.info("City Controller - Add City Successfully");
+		return ResponseEntity.status(HttpStatus.CREATED).body(response);
+	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<?> getCityById(@PathVariable Long id) {
+		CityDTO cityDTO = cityService.getCityById(id);
+		log.info("City Controller - Add State By Id");
+		return ResponseEntity.ok(cityDTO);
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> deleteCityById(@PathVariable Long id) {
+		ApiResponse response = cityService.deleteCityById(id);
+		log.info("City Controller - Delete City By Id");
+		return ResponseEntity.ok(response);
+	}
+
+	@DeleteMapping("/delete-all")
+	public ResponseEntity<ApiResponse> deleteAllCitys() {
+		ApiResponse response = cityService.deleteAllCitys();
+		log.info("City Controller - Delete All City By Id");
+
+		return ResponseEntity.ok(response);
+	}
+
+	@PutMapping("/{cityId}")
+	public ResponseEntity<CityDTO> updateCity(@PathVariable Long cityId, @RequestBody @Valid CityDTO cityDTO) {
+		CityDTO updatedCityDTO = cityService.updateCity(cityId, cityDTO);
+		log.info("City Controller - Update City By Id");
+		return ResponseEntity.status(HttpStatus.CREATED).body(updatedCityDTO);
+	}
+
+	@GetMapping("/all")
+	public ResponseEntity<List<CityResponseDTO>> getAllCitys() {
+		List<CityResponseDTO> cityDTOs = cityService.getAllCitys();
+		log.info("ity Controller - Get All Citys");
+
+		return ResponseEntity.ok(cityDTOs);
+	}
+
+	@GetMapping("/state/{stateId}")
+	public ResponseEntity<List<CityResponseDTO>> getAllCitiesByStateId(@PathVariable Long stateId) {
+		List<CityResponseDTO> cityDTOs = cityService.getAllCitiesByStateId(stateId);
+		log.info("ity Controller - Get All Citys by given State Id");
+		return new ResponseEntity<>(cityDTOs, HttpStatus.OK);
+
+	}
+}

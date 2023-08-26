@@ -2,8 +2,9 @@ import React from "react";
 import CustomerImg from "../../../../../Images/customer.jpg"
 import WorkerImg from "../../../../../Images/worker.jpg"
 import { useNavigate } from 'react-router-dom'
+import Navigation from "../../../navigation/Navigation";
 
-const ChooseLogin = () => {
+const ChooseLogin = ({ showNavbar=true }) => {
   const navigate = useNavigate();
 
   const handleClickCustomer = () => {
@@ -15,7 +16,9 @@ const ChooseLogin = () => {
   };
 
   return (
+    <>{ showNavbar && <Navigation />}
     <div className="flex justify-center">
+      
       <div className="flex flex-col items-center">
         <img
           src={CustomerImg}
@@ -49,6 +52,7 @@ const ChooseLogin = () => {
         </button>
       </div>
     </div>
+    </>
   );
 };
 

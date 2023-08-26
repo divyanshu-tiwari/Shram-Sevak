@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.shramsevak.shramSevak.customException.AdminException;
+import com.shramsevak.shramSevak.customException.OrderException;
 import com.shramsevak.shramSevak.customException.ResourceNotFoundException;
 import com.shramsevak.shramSevak.dto.ApiResponse;
 
@@ -35,12 +37,29 @@ public class GlobalExceptionHandler {
 		System.out.println("in res not found " + e);
 		return new ApiResponse(e.getMessage());
 	}
-
 	
+	@ExceptionHandler(AdminException.class)
+	@ResponseStatus(value = HttpStatus.NOT_FOUND)
+	public ApiResponse handleAdminException(
+			AdminException e) {
+		System.out.println("in res not found " + e);
+		return new ApiResponse(e.getMessage());
+	}
+	
+	@ExceptionHandler(OrderException.class)
+	@ResponseStatus(value = HttpStatus.NOT_FOUND)
+	public ApiResponse handleOrderException(OrderException e) {
+		System.out.println("in res not found " + e);
+		return new ApiResponse(e.getMessage());
+	}
+		
 	@ExceptionHandler(RuntimeException.class)
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
 	public ApiResponse handleAnyException(RuntimeException e) {
 		System.out.println("in catch-all " + e);
 		return new ApiResponse(e.getMessage());
 	}
+	
+	
+	
 }
