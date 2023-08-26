@@ -8,11 +8,15 @@ import { Routes, Route } from "react-router-dom";
 import { AdminLogin } from "./admin/pages/admin.login"
 
 import ChooseLogin from './customer/components/Pages/HomePage/ChooseLogin/ChooseLogin';
+
+import ChooseSkills from './Worker/components/Login&Registration/ChooseSkills';
+
 import AdminDashboard from './admin/pages/AdminDashboard';
 import { Unauthorized } from './pages/unauthorized.page';
 import { AdminAuthGuard } from './utils/guards/admin.auth.guard';
 import { AdminLoginGuard } from './utils/guards/admin.login.guard';
 import { Role } from './utils/models/role';
+
 
 function App() {
   return (
@@ -22,6 +26,10 @@ function App() {
         <Route path="/login" element={<ChooseLogin />} />
         <Route path="/loginCustomer" element={<FormCustomer />} />
         <Route path="/loginWorker" element={<FormWorker />} />
+        <Route path="/chooseskills" element={<ChooseSkills />} />
+
+      </Routes>
+
 
         <Route path="/admin" element={
         // <AdminLoginGuard roles={[Role.ADMIN]}>
