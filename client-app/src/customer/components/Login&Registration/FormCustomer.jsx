@@ -51,7 +51,7 @@ const Form = ({showNavbar=true}) => {
   
     return age >= 18;
   }
-  // Define other validation functions for each field
+  
 
 
   const singInPageValid = () => {
@@ -159,7 +159,7 @@ return (
                                                     const response = await axios.post('http://localhost:8080/customer/register', formData);
                                                     if (response.status === 200) {
                                                         alert('Form submitted successfully!');
-                                                        console.log(response.data); // Assuming the backend sends a response
+                                                        console.log(response.data); 
                                                     } else {
                                                         alert('Failed to submit form.');
                                                     }
@@ -186,13 +186,8 @@ return (
         {/* <!-- Sign In --> */}
         <div className="form-container sign-in-container">
           <form action="#"  target="_self">
-            <h1>Sign in</h1>
-            <div className="social-container">          
-                <a href="#" className="social">
-                    <i className="fab fa-google-plus-g" />
-                </a>           
-            </div>
-            <span>or use your account</span>
+            <h1 className='p-5'>Sign In</h1>
+            
             <input 
                     type="contact" 
                     id='contact'
@@ -210,27 +205,16 @@ return (
                     value={formData.password} 
                     onChange={(event) =>setFormData({ ...formData, password: event.target.value })}            
             />
-
-            <input 
-                    type="password" 
-                    id='confpass'
-                    name="confpass" 
-                    placeholder="Confirm Password"
-                    value={formData.confirmPassword}
-                    onChange={(event) =>setFormData({ ...formData, confirmPassword: event.target.value })}
-            />
             <a href="#">Forgot your password?</a>
             <button
                     type='submit' 
-                    id ="sub" 
+                    id ="sub"
                     name="sub" 
                     onClick={async () => {
-                        if (singInPageValid()) { // Check if the current page's data is valid
                             try {
-                                const response = await axios.post('YOUR_BACKEND_API_ENDPOINT', formData);
+                                const response = await axios.post('http://localhost:8080/customer/signin', formData);
                                 if (response.status === 200) {
-                                    alert('Form submitted successfully!');
-                                    console.log(response.data); // Assuming the backend sends a response
+                                    console.log(response.data); 
                                 } else {
                                     alert('Failed to submit form.');
                                 }
@@ -239,7 +223,7 @@ return (
                                 console.error(error);
                             }
                         } 
-                    }}
+                    }
                     >Sign In</button>
           </form>
         </div>
