@@ -27,10 +27,7 @@ function App() {
         <Route path="/loginCustomer" element={<FormCustomer />} />
         <Route path="/loginWorker" element={<FormWorker />} />
         <Route path="/chooseskills" element={<ChooseSkills />} />
-
-      </Routes>
-
-
+  
         <Route path="/admin" element={
         // <AdminLoginGuard roles={[Role.ADMIN]}>
           <AdminLogin />
