@@ -10,7 +10,7 @@ import com.shramsevak.shramSevak.dto.ApiResponse;
 import com.shramsevak.shramSevak.entity.Address;
 import com.shramsevak.shramSevak.entity.Customer;
 import com.shramsevak.shramSevak.entity.Locality;
-import com.shramsevak.shramSevak.repository.AaddressRepository;
+import com.shramsevak.shramSevak.repository.AddressRepository;
 import com.shramsevak.shramSevak.repository.CustomerRepository;
 import com.shramsevak.shramSevak.repository.LocalityRepository;
 
@@ -22,7 +22,7 @@ import jakarta.validation.Valid;
 public class AddressServiceImpl implements AddressService {
 	
 	@Autowired
-	private AaddressRepository addressRepo;
+	private AddressRepository addressRepo;
 	
 	@Autowired
 	private CustomerRepository customerRepo;

@@ -12,6 +12,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LocalityDTO {
+		
+	
 	@Nonnull
 	private String locality;
 	
@@ -21,5 +23,6 @@ public class LocalityDTO {
 	private Long pincode;
 	
 	@Nonnull
-	private Long city;
+	private Long cityId;
+
 }

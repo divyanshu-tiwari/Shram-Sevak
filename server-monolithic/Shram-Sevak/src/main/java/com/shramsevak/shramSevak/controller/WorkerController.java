@@ -17,9 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.shramsevak.shramSevak.dto.SigninRequest;
-
-import com.shramsevak.shramSevak.dto.CustomerResponceDto;
-
 import com.shramsevak.shramSevak.dto.WorkerRegistrationDto;
 import com.shramsevak.shramSevak.dto.WorkerResponceDto;
 import com.shramsevak.shramSevak.service.WorkerService;
