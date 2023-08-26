@@ -1,6 +1,5 @@
 package com.shramsevak.shramSevak.dto;
 
-import com.shramsevak.shramSevak.entity.CustomerStatus;
 import com.shramsevak.shramSevak.entity.Gender;
 import com.shramsevak.shramSevak.entity.WorkerStatus;
 
