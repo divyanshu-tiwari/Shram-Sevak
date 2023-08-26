@@ -1,7 +1,9 @@
 package com.shramsevak.shramSevak.entity;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import jakarta.persistence.*;
@@ -10,6 +12,8 @@ import jakarta.persistence.*;
 @Setter
 @Entity
 @Table(name = "customer_addresses")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Address extends BaseEntity {
 
     @Column(name = "lane1")

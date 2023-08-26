@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import com.shramsevak.shramSevak.customException.ResourceNotFoundException;
 import com.shramsevak.shramSevak.customException.WorkerException;
 import com.shramsevak.shramSevak.dto.ApiResponse;
@@ -18,6 +19,15 @@ import com.shramsevak.shramSevak.entity.Worker;
 import com.shramsevak.shramSevak.entity.WorkerStatus;
 import com.shramsevak.shramSevak.entity.Category;
 import com.shramsevak.shramSevak.repository.CategoryRepository;
+
+import com.shramsevak.shramSevak.customException.WorkerException;
+import com.shramsevak.shramSevak.dto.ApiResponse;
+import com.shramsevak.shramSevak.dto.SkillAddDto;
+import com.shramsevak.shramSevak.dto.SkillDto;
+import com.shramsevak.shramSevak.entity.Skill;
+import com.shramsevak.shramSevak.entity.Worker;
+import com.shramsevak.shramSevak.entity.WorkerStatus;
+
 import com.shramsevak.shramSevak.repository.SkillRepository;
 import com.shramsevak.shramSevak.repository.WorkerRepository;
 
@@ -38,6 +48,9 @@ public class SkillServiceImpl implements SkillService {
 	
 	@Autowired
 	private ModelMapper mapper;
+	
+	@Autowired
+	private WorkerRepository workerRepo;
 	
 
 	@Override
@@ -96,6 +109,7 @@ public class SkillServiceImpl implements SkillService {
 	}
 	
 	@Override
+
 	public ApiResponse addRegSkills(SkillAddDto skillAddDto) {
 		Worker worker=workerRepo.findById(skillAddDto.getWorkerId()).orElseThrow(() -> new WorkerException("Invalid worker ID"));
 		List<Skill> skills = skillRepo.findAllById(skillAddDto.getSkillIds());
@@ -103,7 +117,6 @@ public class SkillServiceImpl implements SkillService {
 		worker.setStatus(WorkerStatus.ACTIVE);
 		return new ApiResponse(" Skill added Successfully ");
 	}
-
 
 	@Override
 	public List<SkillResponseDTO> getAllSkills() {

@@ -52,6 +52,16 @@ public class LocalityServiceImpl implements LocalityService {
 	}
 
 	@Override
+	public Long getPin(Long id) {
+		Locality locality=localityRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid Locality Id"));
+		Long pinCode=locality.getPincode();
+		return pinCode;
+	}
+	
+}
+
+
+	@Override
 	public LocalityResponceDTO getLocalityById(Long id) {
 		
 		Locality locality = localityRepo.findById(id)

@@ -1,5 +1,6 @@
 package com.shramsevak.shramSevak.dto;
 import jakarta.annotation.Nonnull;
+
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -11,6 +12,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class LocalityResponceDTO {
 	
 	@Nonnull

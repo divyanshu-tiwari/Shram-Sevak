@@ -22,7 +22,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -35,7 +34,6 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString(exclude = "password")
-@Builder
 public class Worker extends BaseEntity {
    
     @Column(name = "first_name" ,nullable = false, length = 50)
@@ -78,22 +76,7 @@ public class Worker extends BaseEntity {
     
     @OneToMany(mappedBy = "worker", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Order> acceptedOrders = new ArrayList<>();
-    
-    @ManyToMany(mappedBy = "requestedWorkers", fetch = FetchType.LAZY)
-    private Set<Order> requestedOrders = new HashSet<>();
-    // HASH CODE AND EQUALS
-    // commented as hashCode and equals provided by @Data annotation in the base class
-	/*
-	 * @Override public int hashCode() { return (this.getId() == null) ? 0
-	 * :this.getId().hashCode(); }
-	 * 
-	 * @Override public boolean equals(Object obj) { if (this == obj) return true;
-	 * if (obj == null || getClass() != obj.getClass()) return false; Worker other =
-	 * (Worker) obj; return this.getId() != null &&
-	 * this.getId().equals(other.getId()); }
-	 */
-    
-    
+  
     
     // HELPER-METHODS
     

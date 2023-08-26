@@ -51,17 +51,14 @@ public class WorkerServiceImpl implements WorkerService {
 	private ModelMapper mapper;
 	
 	@Override
-	public String register(WorkerRegistrationDto workerDto) {
+	public WorkerResponceDto register(WorkerRegistrationDto workerDto) {
 		Worker worker = mapper.map(workerDto, Worker.class);
 		Locality locality = localityRepo.findById(workerDto.getLocalityId()).orElseThrow(() -> new RuntimeException("Invalid locality ID"));
-		List<Skill> skills = skillRepo.findAllById(workerDto.getSkillIds());
-		worker.setStatus(WorkerStatus.ACTIVE);
-		workerRepo.save(worker);
 		locality.addWorker(worker);
-		skills.stream().forEach(skill -> worker.addSkill(skill));
-		
-		
-		return "Worker added successfully";
+		worker.setStatus(WorkerStatus.PENDING);
+		workerRepo.save(worker);
+		WorkerResponceDto workerResp=mapper.map(worker, WorkerResponceDto.class);
+		return workerResp;
 	}
 	
 

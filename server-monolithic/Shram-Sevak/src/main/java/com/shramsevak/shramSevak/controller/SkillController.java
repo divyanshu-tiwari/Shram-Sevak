@@ -10,15 +10,21 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
 import org.springframework.web.bind.annotation.PutMapping;
+
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 
 import com.shramsevak.shramSevak.dto.ApiResponse;
 import com.shramsevak.shramSevak.dto.SkillAddDto;
 import com.shramsevak.shramSevak.dto.SkillDTO;
 import com.shramsevak.shramSevak.dto.SkillResponseDTO;
+
+import com.shramsevak.shramSevak.dto.SkillAddDto;
+
 import com.shramsevak.shramSevak.service.SkillService;
 
 import jakarta.validation.Valid;
@@ -90,5 +96,10 @@ public class SkillController {
 
     	return ResponseEntity.ok(skillService.getAllSkillsByCategoryId(CategoryId));
  }
+	
+	@PostMapping("/addSkills")
+	public ResponseEntity<?> addRegistrastionSkills(@RequestBody SkillAddDto skillAddDto){
+		return ResponseEntity.ok(skillService.addRegSkills(skillAddDto));
+	}
 
 }

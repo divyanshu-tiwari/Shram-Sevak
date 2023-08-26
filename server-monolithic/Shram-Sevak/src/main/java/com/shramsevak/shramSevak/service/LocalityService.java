@@ -23,4 +23,7 @@ public interface LocalityService {
 
 	LocalityResponceDTO updateLocality(Long localityId, @Valid LocalityDTO localityDTO);
 
+	Long getPin(Long id);
+
+
 }

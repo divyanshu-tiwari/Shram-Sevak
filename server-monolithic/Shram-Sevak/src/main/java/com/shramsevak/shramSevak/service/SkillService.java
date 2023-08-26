@@ -4,10 +4,13 @@ import java.util.List;
 
 import com.shramsevak.shramSevak.dto.ApiResponse;
 import com.shramsevak.shramSevak.dto.SkillAddDto;
+
 import com.shramsevak.shramSevak.dto.SkillDTO;
 import com.shramsevak.shramSevak.dto.SkillResponseDTO;
 
 import jakarta.validation.Valid;
+
+import com.shramsevak.shramSevak.dto.SkillDto;
 
 public interface SkillService {
 	
@@ -26,5 +29,7 @@ public interface SkillService {
 	List<SkillResponseDTO> getAllSkills();
 	
 	List<SkillResponseDTO> getAllSkillsByCategoryId(Long categoryId);
+
+	ApiResponse addRegSkills(SkillAddDto skillAddDto);
 
 }

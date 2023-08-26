@@ -17,8 +17,10 @@ import com.shramsevak.shramSevak.customException.ResourceNotFoundException;
 import com.shramsevak.shramSevak.dto.ApiResponse;
 import com.shramsevak.shramSevak.dto.CustomerResponceDto;
 import com.shramsevak.shramSevak.dto.CustomerSignUpRequest;
+import com.shramsevak.shramSevak.dto.CustomerUpdateDto;
 import com.shramsevak.shramSevak.dto.SigninRequest;
 import com.shramsevak.shramSevak.dto.SigninResponse;
+
 import com.shramsevak.shramSevak.entity.Customer;
 import com.shramsevak.shramSevak.entity.CustomerStatus;
 import com.shramsevak.shramSevak.repository.CustomerRepository;
@@ -87,6 +89,32 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
+	public ApiResponse updateCustomer( CustomerUpdateDto customerDto) {
+		Customer customer = customerRepo.findById(customerDto.getId())
+				.orElseThrow(() -> new ResourceNotFoundException("Invalid Customer ID , Customer not found !!!!"));
+		
+		 if (customerDto.getFirstName() != null) {
+	            customer.setFirstName(customerDto.getFirstName());
+	        }
+	        if (customerDto.getLastName() != null) {
+	            customer.setLastName(customerDto.getLastName());
+	        }
+	        if (customerDto.getEmail() != null) {
+	            customer.setEmail(customerDto.getEmail());
+	        }
+	        if (customerDto.getContact() != null) {
+	            customer.setContact(customerDto.getContact());
+	        }
+	        
+	        customerRepo.save(customer);
+	        
+	        return new ApiResponse("Updated details for  Customer , " + customer.getFirstName());
+		
+		
+		
+		
+	}
+
 	public SigninResponse authenticate(@Valid SigninRequest request) {
 		Customer customer = customerRepo.findByContactAndPassword(request.getContact(), request.getPassword())
 				.orElseThrow(() -> new ResourceNotFoundException("Bad Credentials , Invalid Login!!!!!!!!!!!!!"));
@@ -94,5 +122,6 @@ public class CustomerServiceImpl implements CustomerService {
 		return mapper.map(customer, SigninResponse.class);
 	}
 		
+
 
 }
