@@ -4,6 +4,7 @@ import "./Style.css"
 function PersonalInfo({ formData, setFormData }) {
   return (
     <div className="personal-info-container">
+
       <input
         type="text"
         placeholder="First Name..."
