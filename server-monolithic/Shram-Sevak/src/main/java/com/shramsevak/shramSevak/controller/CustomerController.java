@@ -1,5 +1,6 @@
 package com.shramsevak.shramSevak.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -16,13 +17,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.shramsevak.shramSevak.dto.ApiResponse;
 import com.shramsevak.shramSevak.dto.CustomerResponceDto;
 import com.shramsevak.shramSevak.dto.CustomerSignUpRequest;
 import com.shramsevak.shramSevak.dto.CustomerUpdateDto;
 import com.shramsevak.shramSevak.dto.SigninRequest;
-import com.shramsevak.shramSevak.entity.Customer;
 import com.shramsevak.shramSevak.service.CustomerService;
 
 import jakarta.validation.Valid;
@@ -48,7 +49,7 @@ public class CustomerController {
         return new ResponseEntity<ApiResponse>(response, HttpStatus.OK);
     	
     }
-    
+	  
     @GetMapping("/getCustomer/{id}")
     public ResponseEntity<?> getCustomerDetailsById(@PathVariable Long id){
     	return ResponseEntity.ok(custService.getCustomerDetails(id));

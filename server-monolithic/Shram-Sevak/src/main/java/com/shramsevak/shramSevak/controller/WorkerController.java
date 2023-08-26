@@ -1,6 +1,11 @@
 package com.shramsevak.shramSevak.controller;
 
+import java.io.IOException;
 import java.util.List;
+import static org.springframework.http.MediaType.IMAGE_GIF_VALUE;
+import static org.springframework.http.MediaType.IMAGE_JPEG_VALUE;
+import static org.springframework.http.MediaType.IMAGE_PNG_VALUE;
+import org.springframework.http.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,14 +19,15 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.shramsevak.shramSevak.dto.SigninRequest;
 
-import com.shramsevak.shramSevak.dto.CustomerResponceDto;
-
 import com.shramsevak.shramSevak.dto.WorkerRegistrationDto;
 import com.shramsevak.shramSevak.dto.WorkerResponceDto;
+import com.shramsevak.shramSevak.service.ImageHandlingService;
 import com.shramsevak.shramSevak.service.WorkerService;
 
 import jakarta.validation.Valid;
@@ -35,6 +41,9 @@ public class WorkerController {
 
 	@Autowired
 	private WorkerService workerService;
+	
+	@Autowired
+	private ImageHandlingService imageService;
 	
 	@PostMapping("/register")
 	public ResponseEntity<?> registerWorker(@RequestBody @Valid WorkerRegistrationDto workerDto) {
@@ -81,4 +90,30 @@ public class WorkerController {
 			return new ResponseEntity<>(workerService.authenticate(request),
 					HttpStatus.OK);
 		}
+   // Upload image
+	@PostMapping(value = "/images", consumes = "multipart/form-data")
+	public ResponseEntity<?> uploadImage(@RequestParam Long workerId,@RequestParam MultipartFile image)
+			throws IOException {
+		System.out.println("in upload image " + workerId);
+		return ResponseEntity.status(HttpStatus.CREATED).body(imageService.uploadImage(workerId, image));
+	}
+	
+	
+	// download image
+	@GetMapping(value = "/images/{workerId}",
+			produces = { IMAGE_GIF_VALUE, IMAGE_JPEG_VALUE, IMAGE_PNG_VALUE })
+	public ResponseEntity<?> downloadImage(@PathVariable Long workerId) throws IOException {
+		System.out.println("in download image " + workerId);
+		return ResponseEntity.ok(imageService.serveImage(workerId));
+	}	
+	  
+//	@PostMapping(value = "/images", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,
+//			MediaType.APPLICATION_JSON_VALUE})
+//	public ResponseEntity<?> uploadEmpAndImage
+//	(@RequestPart    WorkerRegistrationDto emp, @RequestPart MultipartFile image)
+//			throws IOException {
+//		System.out.println("in upload emp details n image " + emp + " " + image);
+//		return ResponseEntity.ok().body(workerService.addNewEmployeeWithImage(emp, image));
+//	}
+//	
 }
