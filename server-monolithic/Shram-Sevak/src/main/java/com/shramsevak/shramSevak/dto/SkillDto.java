@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import jakarta.annotation.Nonnull;
 import lombok.AllArgsConstructor;
 
 @Getter
@@ -14,11 +15,13 @@ import lombok.AllArgsConstructor;
 
 public class SkillDto {
 	
+	@Nonnull
+    private Long id;
     
 
+	@Nonnull
 	private String skillName;
 	
-    private Long id;
     
     
 	 

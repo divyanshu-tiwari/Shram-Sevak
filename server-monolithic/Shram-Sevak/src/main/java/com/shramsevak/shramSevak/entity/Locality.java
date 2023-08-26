@@ -22,7 +22,7 @@ public class Locality extends BaseEntity{
 	@Column(name = "locality")
     private String locality;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "city_id")
     private City city;
 

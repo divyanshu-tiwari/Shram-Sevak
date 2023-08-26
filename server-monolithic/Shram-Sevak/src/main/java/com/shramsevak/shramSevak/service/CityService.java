@@ -9,15 +9,17 @@ import com.shramsevak.shramSevak.dto.CityResponseDTO;
 import jakarta.validation.Valid;
 
 public interface CityService {
-	ApiResponse addCity( @Valid CityDTO state);
+	
+	
+	ApiResponse addCity( @Valid CityDTO cityDTO);
 
-	CityDTO getCityById(Long id);
+	CityResponseDTO getCityById(Long id);
 
 	ApiResponse deleteCityById(Long id);
 
 	ApiResponse deleteAllCitys();
 
-	CityDTO updateCity(Long stateId, @Valid CityDTO stateDTO);
+	CityResponseDTO updateCity(Long cityId, @Valid CityDTO cityDTO);
 
 	List<CityResponseDTO> getAllCitys();
 	

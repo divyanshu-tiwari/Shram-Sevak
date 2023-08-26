@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class CityResponseDTO {
 	@Nonnull
-	private Long Id;
+	private Long id;
 	
 	@Nonnull
 	private String city;
