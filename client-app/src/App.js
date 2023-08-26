@@ -5,7 +5,7 @@ import FormWorker from './Worker/components/Login&Registration/FormWorker'
 import FormCustomer from './customer/components/Login&Registration/FormCustomer'
 import { Routes,Route} from "react-router-dom";
 import ChooseLogin from './customer/components/Pages/HomePage/ChooseLogin/ChooseLogin';
-
+import Dashboard from './Worker/Dashboard/Dashboard';
 function App() {
   return (
     <>
@@ -14,7 +14,7 @@ function App() {
         <Route path="/login" element={<ChooseLogin />} />
         <Route path="/loginCustomer" element={<FormCustomer />} />
         <Route path="/loginWorker" element={<FormWorker />} />
-        
+        <Route path="/dashboardW" element={<Dashboard/>}/>
       </Routes>
     </>
   );
