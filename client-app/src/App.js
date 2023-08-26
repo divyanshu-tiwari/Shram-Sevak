@@ -10,9 +10,9 @@ import { AdminLogin } from "./admin/pages/admin.login"
 import ChooseLogin from './customer/components/Pages/HomePage/ChooseLogin/ChooseLogin';
 import AdminDashboard from './admin/pages/AdminDashboard';
 import { Unauthorized } from './pages/unauthorized.page';
-import { AdminAuthGuard } from './guards/admin.auth.guard';
-import { AdminLoginGuard } from './guards/admin.login.guard';
-import { Role } from './models/role';
+import { AdminAuthGuard } from './utils/guards/admin.auth.guard';
+import { AdminLoginGuard } from './utils/guards/admin.login.guard';
+import { Role } from './utils/models/role';
 
 function App() {
   return (
