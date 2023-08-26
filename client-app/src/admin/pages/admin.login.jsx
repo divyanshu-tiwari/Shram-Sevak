@@ -54,22 +54,15 @@ export const AdminLogin = () => {
       return;
     }
 
-    // Dummy code to work with while no axios connected
-    let adminCredentials = { username, password }
-    const admin = new AdminUser(1, adminCredentials.username, Role.ADMIN, 12)
-    dispatch(setCurrentUser(admin))
-    if (getUserRole() === Role.ADMIN)
-      navigate("/admin-dashboard");
-
     // Code for plugging axios
-    /*
+    
     const adminCredentials = { userName: username, password: password }
     setSubmitted(true)
-    AdminService.login(adminCredentials)
+    AdminService.signin(adminCredentials)
     .then(response => {
       console.log("Successful login : " + response.data)
       // need to provide dummy token when web-service is not re
-      dispatch(setCurrentUser(response.data))
+      dispatch(setCurrentUser({...response.data, role: Role.ADMIN, token:12}))
       if (getUserRole() === Role.ADMIN)
         navigate('/admin-dashboard')
     })
@@ -78,7 +71,7 @@ export const AdminLogin = () => {
       setErrorMessage('invalid login credentials')
       setLoaded(false)
     })
-    */
+    
   }
 
 
