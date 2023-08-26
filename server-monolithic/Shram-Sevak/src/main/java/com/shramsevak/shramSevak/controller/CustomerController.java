@@ -2,7 +2,6 @@ package com.shramsevak.shramSevak.controller;
 
 import java.util.List;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +21,6 @@ import com.shramsevak.shramSevak.dto.CustomerResponceDto;
 import com.shramsevak.shramSevak.dto.CustomerSignUpRequest;
 import com.shramsevak.shramSevak.dto.CustomerUpdateDto;
 import com.shramsevak.shramSevak.dto.SigninRequest;
-import com.shramsevak.shramSevak.entity.Customer;
 import com.shramsevak.shramSevak.service.CustomerService;
 
 import jakarta.validation.Valid;
@@ -36,9 +34,6 @@ public class CustomerController {
 
 	@Autowired
 	private CustomerService custService;
-
-	@Autowired
-	private ModelMapper mapper;
 
 	@PostMapping("/register")
 	public ResponseEntity<ApiResponse> registerCustomer(@RequestBody @Valid CustomerSignUpRequest newCustomer) {

@@ -7,27 +7,17 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 import com.shramsevak.shramSevak.customException.ResourceNotFoundException;
 import com.shramsevak.shramSevak.customException.WorkerException;
 import com.shramsevak.shramSevak.dto.ApiResponse;
 import com.shramsevak.shramSevak.dto.SkillAddDto;
 import com.shramsevak.shramSevak.dto.SkillDTO;
 import com.shramsevak.shramSevak.dto.SkillResponseDTO;
-import com.shramsevak.shramSevak.entity.Skill;
-import com.shramsevak.shramSevak.entity.Worker;
-import com.shramsevak.shramSevak.entity.WorkerStatus;
 import com.shramsevak.shramSevak.entity.Category;
-import com.shramsevak.shramSevak.repository.CategoryRepository;
-
-import com.shramsevak.shramSevak.customException.WorkerException;
-import com.shramsevak.shramSevak.dto.ApiResponse;
-import com.shramsevak.shramSevak.dto.SkillAddDto;
-import com.shramsevak.shramSevak.dto.SkillDto;
 import com.shramsevak.shramSevak.entity.Skill;
 import com.shramsevak.shramSevak.entity.Worker;
 import com.shramsevak.shramSevak.entity.WorkerStatus;
-
+import com.shramsevak.shramSevak.repository.CategoryRepository;
 import com.shramsevak.shramSevak.repository.SkillRepository;
 import com.shramsevak.shramSevak.repository.WorkerRepository;
 
@@ -48,9 +38,6 @@ public class SkillServiceImpl implements SkillService {
 	
 	@Autowired
 	private ModelMapper mapper;
-	
-	@Autowired
-	private WorkerRepository workerRepo;
 	
 
 	@Override

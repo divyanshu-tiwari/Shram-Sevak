@@ -30,9 +30,9 @@ function App() {
         } />
 
       <Route path='/admin-dashboard' element={
-        <AdminAuthGuard roles={[Role.ADMIN]}>
+        // <AdminAuthGuard roles={[Role.ADMIN]}>
           <AdminDashboard />
-        </AdminAuthGuard>
+        // </AdminAuthGuard>
       } />
 
       <Route path="/login" element={<ChooseLogin />} />
