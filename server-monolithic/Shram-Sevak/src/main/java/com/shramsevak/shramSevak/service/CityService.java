@@ -19,10 +19,10 @@ public interface CityService {
 
 	ApiResponse deleteAllCitys();
 
-	CityResponseDTO updateCity(Long cityId, @Valid CityDTO cityDTO);
+	CityResponseDTO updateCity(Long id, @Valid CityDTO cityDTO);
 
 	List<CityResponseDTO> getAllCitys();
 	
-	List<CityResponseDTO>getAllCitiesByStateId(Long id);
+	List<CityResponseDTO>getAllCitiesByStateId(Long stateId);
 
 }
