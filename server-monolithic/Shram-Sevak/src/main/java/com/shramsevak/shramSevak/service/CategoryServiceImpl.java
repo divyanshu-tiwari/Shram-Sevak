@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.shramsevak.shramSevak.dto.CategoryDTO;
-import com.shramsevak.shramSevak.dto.StateDTO;
 import com.shramsevak.shramSevak.repository.CategoryRepository;
 
 import jakarta.transaction.Transactional;
@@ -28,10 +27,5 @@ public class CategoryServiceImpl implements CategoryService {
 		
 		return  categoryRepo.findAll().stream().map(state -> mapper.map(state, CategoryDTO.class)).collect(Collectors.toList());
 	}
-	
-	
-	
-	
-	
 
 }

@@ -1,8 +1,9 @@
 package com.shramsevak.shramSevak.service;
 
+import static com.shramsevak.shramSevak.util.Utils.checkStatus;
+
 import java.util.List;
 import java.util.stream.Collectors;
-import org.springframework.data.domain.Pageable;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,18 +13,11 @@ import org.springframework.stereotype.Service;
 
 import com.shramsevak.shramSevak.customException.ResourceNotFoundException;
 import com.shramsevak.shramSevak.customException.WorkerException;
-
 import com.shramsevak.shramSevak.dto.SigninRequest;
 import com.shramsevak.shramSevak.dto.SigninResponse;
 import com.shramsevak.shramSevak.dto.WorkerRegistrationDto;
-
-import com.shramsevak.shramSevak.dto.CustomerResponceDto;
-import com.shramsevak.shramSevak.dto.WorkerRegistrationDto;
 import com.shramsevak.shramSevak.dto.WorkerResponceDto;
-
-import com.shramsevak.shramSevak.entity.Customer;
 import com.shramsevak.shramSevak.entity.Locality;
-import com.shramsevak.shramSevak.entity.Skill;
 import com.shramsevak.shramSevak.entity.Worker;
 import com.shramsevak.shramSevak.entity.WorkerStatus;
 import com.shramsevak.shramSevak.repository.LocalityRepository;
@@ -32,8 +26,6 @@ import com.shramsevak.shramSevak.repository.WorkerRepository;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-
-import static com.shramsevak.shramSevak.util.Utils.checkStatus;
 @Service
 @Transactional
 public class WorkerServiceImpl implements WorkerService {
