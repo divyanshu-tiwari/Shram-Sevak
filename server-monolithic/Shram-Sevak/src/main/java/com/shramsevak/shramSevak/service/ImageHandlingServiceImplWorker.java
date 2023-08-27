@@ -56,8 +56,9 @@ public class ImageHandlingServiceImplWorker implements ImageHandlingService {
 		    String formattedDate = currentDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		    String formattedTime = currentTime.format(DateTimeFormatter.ofPattern("HH-mm"));
 			  // Generate a unique file name based on the worker's ID
-		    String fileName = "workerId_" + workerId + "_Date_" + formattedDate+"_Time_"+formattedTime+"_"+System.currentTimeMillis();
-		    
+//		    String fileName = "workerId_" + workerId + "_Date_" + formattedDate+"_Time_"+formattedTime+"_"+System.currentTimeMillis();
+		    String fileName = "workerId_" + workerId;
+
 	    String path = uploadFolder.concat(fileName);
 		System.out.println(path);
 		writeByteArrayToFile(new File(path), image.getBytes());
