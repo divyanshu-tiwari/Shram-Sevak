@@ -96,7 +96,6 @@ public class SkillServiceImpl implements SkillService {
 	}
 	
 	@Override
-
 	public ApiResponse addRegSkills(SkillAddDto skillAddDto) {
 		Worker worker=workerRepo.findById(skillAddDto.getWorkerId()).orElseThrow(() -> new WorkerException("Invalid worker ID"));
 		List<Skill> skills = skillRepo.findAllById(skillAddDto.getSkillIds());
