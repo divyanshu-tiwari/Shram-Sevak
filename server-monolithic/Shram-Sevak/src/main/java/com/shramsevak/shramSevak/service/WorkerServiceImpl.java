@@ -109,7 +109,7 @@ public class WorkerServiceImpl implements WorkerService {
 
 	@Override
 	public List<WorkerResponseDTO> getAvailableWorkersBySlotAndSkill(Long skillId, LocalDateTime startTime, LocalDateTime endTime, int pageNumber, int pageSize) {
-		Set<Worker> workersWithDesiredSkill = skillRepo.findById(skillId).orElseThrow(() -> new ResourceNotFoundException("No such skill found.")).getWorkers(); 
+		Set<Worker> workersWithDesiredSkill = skillRepo.findById(skillId).orElseThrow(() -> new ResourceNotFoundException("No such skill found.")).getWorkers().stream().filter(worker -> worker.getStatus().equals(WorkerStatus.ACTIVE)).collect(Collectors.toSet()); 
 		Set<Worker> unavailableWorkers = orderRepo.findAllByStartTimeIsAndStatus(startTime, OrderStatus.CONFIRMED).stream().map(order -> order.getWorker()).collect(Collectors.toSet());
 		List<Worker> availableWorkers = workersWithDesiredSkill.stream().filter(Predicate.not(unavailableWorkers::contains)).distinct().toList();
 		return availableWorkers.stream().map(worker -> mapper.map(worker, WorkerResponseDTO.class)).collect(Collectors.toList());
