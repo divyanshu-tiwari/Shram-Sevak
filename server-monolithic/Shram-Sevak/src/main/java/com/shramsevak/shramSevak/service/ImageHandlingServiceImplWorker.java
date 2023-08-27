@@ -28,7 +28,7 @@ import jakarta.transaction.Transactional;
 public class ImageHandlingServiceImplWorker implements ImageHandlingService {
 	
 	@Value("${file.upload.location}")
-	private String uploadFolder="/Shram-Sevak/Images/Workers";
+	private String uploadFolder;
 	
 	@Autowired
 	private WorkerRepository workerRepo;
@@ -54,7 +54,7 @@ public class ImageHandlingServiceImplWorker implements ImageHandlingService {
 		   LocalDate currentDate = LocalDate.now();
 		    LocalTime currentTime = LocalTime.now();
 		    String formattedDate = currentDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-		    String formattedTime = currentTime.format(DateTimeFormatter.ofPattern("HH:mm"));
+		    String formattedTime = currentTime.format(DateTimeFormatter.ofPattern("HH-mm"));
 			  // Generate a unique file name based on the worker's ID
 		    String fileName = "workerId_" + workerId + "_Date_" + formattedDate+"_Time_"+formattedTime+"_"+System.currentTimeMillis();
 		    
@@ -76,6 +76,7 @@ public class ImageHandlingServiceImplWorker implements ImageHandlingService {
 	if(path != null) {
 		// path ---> File --> byte[]
 //		return readFileToByteArray(new File(path));
+		workerRepo.save(worker);
 		return readFileToByteArray(new File(uploadFolder.concat(path)));
 		//OR from DB : return emp.getImage();
 	} else

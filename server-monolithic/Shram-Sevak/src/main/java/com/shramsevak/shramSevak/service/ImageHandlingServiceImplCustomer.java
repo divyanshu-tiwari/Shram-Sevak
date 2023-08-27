@@ -22,8 +22,8 @@ import jakarta.annotation.PostConstruct;
 
 public class ImageHandlingServiceImplCustomer implements ImageHandlingService {
 
-	@Value("${file.upload.location}")
-	private String uploadFolder="/Shram-Sevak/Images/Customers";
+	@Value("${file.upload2.location}")
+	private String uploadFolder;
 	
 	@Autowired
 	private CustomerRepository customerRepo;
@@ -70,7 +70,6 @@ public class ImageHandlingServiceImplCustomer implements ImageHandlingService {
 	String path =customer.getProfilePicturePath();
 	if(path != null) {
 		// path ---> File --> byte[]
-		//return readFileToByteArray(new File(path));
 		return readFileToByteArray(new File(uploadFolder.concat(path)));
 		//OR from DB : return emp.getImage();
 	} else
