@@ -4,15 +4,18 @@ import Navigation from './customer/components/navigation/Navigation';
 import FormWorker from './Worker/components/Login&Registration/FormWorker'
 import FormCustomer from './customer/components/Login&Registration/FormCustomer'
 import { Routes, Route } from "react-router-dom";
-
 import { AdminLogin } from "./admin/pages/admin.login"
-
 import ChooseLogin from './customer/components/Pages/HomePage/ChooseLogin/ChooseLogin';
 import AdminDashboard from './admin/pages/AdminDashboard';
 import { Unauthorized } from './pages/unauthorized.page';
 import { AdminAuthGuard } from './utils/guards/admin.auth.guard';
 import { AdminLoginGuard } from './utils/guards/admin.login.guard';
 import { Role } from './utils/models/role';
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+
 
 function App() {
   return (
