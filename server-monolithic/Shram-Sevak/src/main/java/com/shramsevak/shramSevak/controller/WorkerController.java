@@ -1,6 +1,8 @@
 package com.shramsevak.shramSevak.controller;
 
+
 import java.util.List;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.shramsevak.shramSevak.dto.SigninRequest;
 import com.shramsevak.shramSevak.dto.WorkerRegistrationDto;
 import com.shramsevak.shramSevak.dto.WorkerResponceDto;
@@ -32,6 +33,7 @@ public class WorkerController {
 
 	@Autowired
 	private WorkerService workerService;
+	
 	
 	@PostMapping("/register")
 	public ResponseEntity<?> registerWorker(@RequestBody @Valid WorkerRegistrationDto workerDto) {
@@ -78,4 +80,5 @@ public class WorkerController {
 			return new ResponseEntity<>(workerService.authenticate(request),
 					HttpStatus.OK);
 		}
+
 }
