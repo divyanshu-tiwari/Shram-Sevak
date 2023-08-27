@@ -29,13 +29,13 @@ const ChooseSkillAndWorkers = ({ formData, setFormData }) => {
 
   const handleCategoryChange = (event) => {
     setSelectedCategory(event.target.value);
-   
+   alert(event.target.value)
     alert(selectedCategory)
     setSkills([]);
     setSelectedSkill(null);
     if (event.target.value !== null) {
      
-      axios.get(`http://localhost:8080/skill/getCategory/${event.target.value}`)
+      axios.get(`http://localhost:8080/skill/category/${event.target.value}`)
         .then((response) => {
           setSkills(response.data);
         })

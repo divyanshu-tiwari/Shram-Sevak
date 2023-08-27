@@ -5,7 +5,7 @@ import { worker_list } from '../../Data/worker_list'
 import axios from 'axios';
 import HomeSectionCarousel from '../components/HomeSectionCarousel/HomeSectionCarousel';
 import ChooseSkillAndWorkers from './ChooseSkillAndWorkers';
-
+import store from "../../utils/store/store"
 const user = {
   name: 'Tom Cook',
   email: 'tom@example.com',
@@ -36,7 +36,7 @@ export default function Dashboard() {
   const[customer,setCustomer]=useState(null);
   const handleSubmit=()=>{
     alert("ok");
-    axios.get(`http://localhost:8080/customer/getCustomer/7`).then((response)=>{
+    axios.get(`http://localhost:8080/customer/getCustomer/${store.getState().user.value.id}`).then((response)=>{
       setCustomer(response.data)
     }).catch((error)=>{
       alert("error");
@@ -109,10 +109,10 @@ export default function Dashboard() {
           <div>
             {customer ? (
               <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 bg-white">
-                <p>Name: {customer.firstName} {customer.lastName}</p>
+                <p>Name: {store.getState().user.value.firstName}{'   '}{store.getState().user.value.lastName}</p>
                 <p>Email: {customer.email}</p>
-                <p>Contact: {customer.contact}</p>
-                <p>Gender: {customer.gender}</p>
+                <p>Contact: {store.getState().user.value.contact}</p>
+                <p>Gender: {store.getState().user.value.gender}</p>
                 <p>Status: {customer.status}</p>
                 {/* Add additional worker details here */}
               </div>

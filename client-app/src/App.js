@@ -29,12 +29,10 @@ function App() {
         <Route path="/login" element={<ChooseLogin />} />
         <Route path="/loginCustomer" element={<FormCustomer />} />
         <Route path="/loginWorker" element={<FormWorker />} />
-<<<<<<< HEAD
         <Route path="/dashboardC" element={<Dashboard/>}/>
-        <Route path="/orderBook/:id" element={<OrderBook></OrderBook>}/>
+        <Route path="/orderBook/:workerId" element={<OrderBook></OrderBook>}/>
 
-      </Routes>
-=======
+      
         <Route path="/chooseskills" element={<ChooseSkills />} />
         <Route path="/registationsuccess" element={<RegistrationSuccess />} />
         <Route path="/admin" element={
@@ -54,7 +52,6 @@ function App() {
       <Route path="/401" element={<Unauthorized />} />
     </Routes >
 
->>>>>>> 445b2ce40adc6b9cfa81f22c775b0b8a62668b70
     </>
   );
 }
