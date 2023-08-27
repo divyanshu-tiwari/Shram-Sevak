@@ -35,5 +35,10 @@ public class SkillController {
 	public ResponseEntity<?> addRegistrastionSkills(@RequestBody SkillAddDto skillAddDto){
 		return ResponseEntity.ok(skillService.addRegSkills(skillAddDto));
 	}
-
+	
+	@GetMapping("/getWorkers/{id}")
+	public ResponseEntity<?> getWorkerList(@PathVariable Long id){
+		return ResponseEntity.ok(skillService.getWorkers(id));
+	}
+	
 }
