@@ -25,5 +25,4 @@ public class Admin extends BaseEntity{
 	@Column(length = 20, nullable = false)
 	private String password;
 
-
 }

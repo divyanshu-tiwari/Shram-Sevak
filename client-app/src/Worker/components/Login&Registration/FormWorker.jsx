@@ -5,10 +5,14 @@ import PersonalInfo from "./PersonalInfo"
 import './Style.css';
 import ChooseWorkingLocation from './ChooseWorkingLocation';
 import Navigation from '../../../customer/components/navigation/Navigation';
+import ChooseSkills from './ChooseSkills';
+import { useNavigate } from 'react-router-dom';
+
 
 
 const Form = ({showNavbar=true}) => {
     const [page, setPage] = useState(0);
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
       firstName: "",
       lastName: "",
@@ -22,7 +26,7 @@ const Form = ({showNavbar=true}) => {
       localityId: "",
       pincode:""
     });
-   
+    
     const FormTitles = ["Sign Up", "Personal Info", "Choose Your Working Location"]; 
     const PageDisplay = () => {
       if (page === 0) {
@@ -122,6 +126,7 @@ const isPageValid = () => {
   }, []);
 
   
+  
 return (
     <>
     { showNavbar && <Navigation />}
@@ -161,7 +166,8 @@ return (
                                                 try {
                                                     const response = await axios.post('http://localhost:8080/worker/register', formData);
                                                     if (response.status === 201) {
-                                                        alert('Form submitted successfully!');
+                                                        console.log('Worker Registered successfully!');                                                        
+                                                        navigate('/chooseskills',{state:response.data.id})
                                                     } else {
                                                         
                                                         alert('Failed to submit form.');

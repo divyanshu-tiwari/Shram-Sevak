@@ -1,26 +1,26 @@
 package com.shramsevak.shramSevak.dto;
 
+import jakarta.annotation.Nonnull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.AllArgsConstructor;
+
+
 
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-
-public class SkillDto {
+public class SkillResponseDTO {
 	
-    
-
-	private String skillName;
-	
+	@Nonnull
     private Long id;
     
-    
-	 
-	
+
+	@Nonnull
+	private String skillName;
+
 }
