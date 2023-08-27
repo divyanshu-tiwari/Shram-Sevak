@@ -2,22 +2,23 @@ package com.shramsevak.shramSevak.service;
 
 import java.util.List;
 
-import com.shramsevak.shramSevak.dto.AdminDto;
-import com.shramsevak.shramSevak.entity.Admin;
+import com.shramsevak.shramSevak.dto.AdminDTO;
+import com.shramsevak.shramSevak.dto.AdminSigninDTO;
+import com.shramsevak.shramSevak.dto.AdminSigninResponseDTO;
+import com.shramsevak.shramSevak.dto.ApiResponse;
 
 import jakarta.validation.Valid;
 
 public interface AdminService {
 
-	String register(@Valid AdminDto adminDto);
+	AdminSigninResponseDTO register(@Valid AdminSigninDTO adminDetails);
 	
-	String signin(@Valid AdminDto adminDto);
+	AdminSigninResponseDTO signin(@Valid AdminSigninDTO adminCredentials);
 	
-	String deleteById(Long id);
+	ApiResponse deleteById(Long id);
 
-	String getAdminById(Long id);
+	AdminDTO getAdminById(Long id);
 
-	List<Admin> getListOfAllAdmin();
-
+	List<AdminDTO> getListOfAllAdmin();
 	
 }

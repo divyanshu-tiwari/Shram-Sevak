@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { makeUseVisualState } from "framer-motion";
+import { AlternateEmail } from "@mui/icons-material";
 
 const ChooseWorkingLocation = ({ formData, setFormData }) => {
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
   const [localities, setLocalities] = useState([]);
+  const [selectedPincode, setPincode] = useState();
   const [selectedState, setSelectedState] = useState();
   const [selectedCity, setSelectedCity] = useState(null);
   const [selectedLocality, setSelectedLocality] = useState(null);
@@ -17,8 +20,8 @@ const ChooseWorkingLocation = ({ formData, setFormData }) => {
       .catch((error) => {
         console.error(error);
       });
-
-      
+      setSelectedState(0)
+      setSelectedCity(0)     
 
   }, []);
 
@@ -49,8 +52,25 @@ const ChooseWorkingLocation = ({ formData, setFormData }) => {
         .catch((error) => {
           console.error(error);
         });
+       setSelectedLocality(0);
     }
   };
+
+  const getPincodeBySelectedLocality = (e) => {
+    setSelectedLocality(e.target.value)
+    if (selectedLocality !== null) {
+      axios.get(`http://localhost:8080/locality/getPin/${e.target.value}`)
+        .then((response) => {
+          setPincode(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+
+        setFormData({ ...formData, localityId: e.target.value });
+    }
+
+  }
 
   return (
     <div>
@@ -86,9 +106,7 @@ const ChooseWorkingLocation = ({ formData, setFormData }) => {
       <select
         id="locality"
         value={selectedLocality}
-        onChange={(e) => {
-          setFormData({ ...formData, localityId: e.target.value });
-        }}
+        onChange={getPincodeBySelectedLocality}
       >
         <option  value="Select Locality" selected>
             Select Locality
@@ -101,10 +119,11 @@ const ChooseWorkingLocation = ({ formData, setFormData }) => {
       </select>
       <input
         type="number"
-        placeholder="Pincode.."
+        placeholder= {selectedPincode}
         onChange={(e) => {
-          setFormData({ ...formData, pincode: e.target.value });
+          setFormData({ ...formData, pincode: selectedPincode });
         }}
+        readOnly
       />
     </div>
   );

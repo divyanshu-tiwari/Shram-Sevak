@@ -1,14 +1,9 @@
 package com.shramsevak.shramSevak.dto;
 
-import java.util.List;
-
-
 import com.shramsevak.shramSevak.entity.Gender;
-import com.shramsevak.shramSevak.entity.Skill;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
