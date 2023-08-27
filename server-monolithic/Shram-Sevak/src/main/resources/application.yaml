@@ -19,6 +19,6 @@ spring:
    
 file:
  upload:
-  location: Images/Workers
+  location: Images
 
   

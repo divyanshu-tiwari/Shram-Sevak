@@ -1,5 +1,9 @@
 package com.shramsevak.shramSevak.controller;
 
+import static org.springframework.http.MediaType.IMAGE_GIF_VALUE;
+import static org.springframework.http.MediaType.IMAGE_JPEG_VALUE;
+import static org.springframework.http.MediaType.IMAGE_PNG_VALUE;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -25,6 +29,7 @@ import com.shramsevak.shramSevak.dto.CustomerSignUpRequest;
 import com.shramsevak.shramSevak.dto.CustomerUpdateDto;
 import com.shramsevak.shramSevak.dto.SigninRequest;
 import com.shramsevak.shramSevak.service.CustomerService;
+import com.shramsevak.shramSevak.service.ImageHandlingService;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +43,7 @@ public class CustomerController {
 	private CustomerService custService;
 	
 	@Autowired
-	private ModelMapper mapper;
+	private ImageHandlingService imageService;
 	
 
     @PostMapping("/register")
@@ -93,10 +98,28 @@ public class CustomerController {
     @PostMapping("/signin")
 	public ResponseEntity<?> customerLogin(@RequestBody @Valid SigninRequest request) {
 		System.out.println("Customer login " + request);
-		
+		log.info("Customer Controller - Login  customer");
 			return new ResponseEntity<>(custService.authenticate(request),
 					HttpStatus.OK);
 		}
+    // Upload image
+ 	@PostMapping(value = "/images", consumes = "multipart/form-data")
+ 	public ResponseEntity<?> uploadImage(@RequestParam Long customerId,@RequestParam MultipartFile image)
+ 			throws IOException {
+ 		System.out.println("in upload image " + customerId);
+ 		log.info("Customer Controller - Upload image  customer");
+ 		return ResponseEntity.status(HttpStatus.CREATED).body(imageService.uploadImage(customerId, image));
+ 	}
+ 	
+ 	
+ 	// download image
+ 	@GetMapping(value = "/images/{customerId}",
+ 			produces = { IMAGE_GIF_VALUE, IMAGE_JPEG_VALUE, IMAGE_PNG_VALUE })
+ 	public ResponseEntity<?> downloadImage(@PathVariable Long customerId) throws IOException {
+ 		System.out.println("in download image " + customerId);
+ 		log.info("Customer Controller - Dounload image  customer");
+ 		return ResponseEntity.ok(imageService.serveImage(customerId));
+ 	}	
 	
 
     

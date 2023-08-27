@@ -1,8 +1,12 @@
 package com.shramsevak.shramSevak.service;
 import static org.apache.commons.io.FileUtils.readFileToByteArray;
 import static org.apache.commons.io.FileUtils.writeByteArrayToFile;
+
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,10 +25,10 @@ import jakarta.transaction.Transactional;
 
 @Service
 @Transactional
-public class ImageHandingServiceImplWorker implements ImageHandlingService {
+public class ImageHandlingServiceImplWorker implements ImageHandlingService {
 	
 	@Value("${file.upload.location}")
-	private String uploadFolder;
+	private String uploadFolder="/Shram-Sevak/Images/Workers";
 	
 	@Autowired
 	private WorkerRepository workerRepo;
@@ -44,26 +48,35 @@ public class ImageHandingServiceImplWorker implements ImageHandlingService {
 	}
 	
 	@Override
-	public ApiResponse uploadImage(Long UserId, MultipartFile image) throws IOException {
+	public ApiResponse uploadImage(Long workerId, MultipartFile image) throws IOException {
 		
-		Worker worker =  workerRepo.findById(UserId).orElseThrow(()-> new ResourceNotFoundException("Invalid User Id"));
-		String path = uploadFolder.concat(image.getOriginalFilename());
+		Worker worker =  workerRepo.findById(workerId).orElseThrow(()-> new ResourceNotFoundException("Invalid User Id"));
+		   LocalDate currentDate = LocalDate.now();
+		    LocalTime currentTime = LocalTime.now();
+		    String formattedDate = currentDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		    String formattedTime = currentTime.format(DateTimeFormatter.ofPattern("HH:mm"));
+			  // Generate a unique file name based on the worker's ID
+		    String fileName = "workerId_" + workerId + "_Date_" + formattedDate+"_Time_"+formattedTime+"_"+System.currentTimeMillis();
+		    
+	    String path = uploadFolder.concat(fileName);
 		System.out.println(path);
 		writeByteArrayToFile(new File(path), image.getBytes());
 		// set image path
-		worker.setProfilePicturePath(path);
+		worker.setProfilePicturePath(fileName);
 		// OR to store the image directly in DB as a BLOB
 		// emp.setImage(image.getBytes());
-		return new ApiResponse("Image file uploaded successfully for Worker id " + UserId);
+		workerRepo.save(worker);
+		return new ApiResponse("Image file uploaded successfully for Worker id " + workerId);
 	}
 
 	@Override
-	public byte[] serveImage(Long UserId) throws IOException {
-	Worker worker =  workerRepo.findById(UserId).orElseThrow(()-> new ResourceNotFoundException("Invalid Worker Id"));
+	public byte[] serveImage(Long workerId) throws IOException {
+	Worker worker =  workerRepo.findById(workerId).orElseThrow(()-> new ResourceNotFoundException("Invalid Worker Id"));
 	String path =worker.getProfilePicturePath();
 	if(path != null) {
 		// path ---> File --> byte[]
-		return readFileToByteArray(new File(path));
+//		return readFileToByteArray(new File(path));
+		return readFileToByteArray(new File(uploadFolder.concat(path)));
 		//OR from DB : return emp.getImage();
 	} else
 		throw new ApiException("Image not yet assigned !!!!");

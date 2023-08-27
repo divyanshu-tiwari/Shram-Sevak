@@ -86,7 +86,7 @@ public class WorkerController {
 	@PostMapping("/signin")
 	public ResponseEntity<?> workerLogin(@RequestBody @Valid SigninRequest request) {
 		System.out.println("Worker login " + request);
-		
+		log.info("Worker Controller - worker Login");
 			return new ResponseEntity<>(workerService.authenticate(request),
 					HttpStatus.OK);
 		}
@@ -95,15 +95,17 @@ public class WorkerController {
 	public ResponseEntity<?> uploadImage(@RequestParam Long workerId,@RequestParam MultipartFile image)
 			throws IOException {
 		System.out.println("in upload image " + workerId);
+		log.info("Worker Controller - Upload image Worker");
 		return ResponseEntity.status(HttpStatus.CREATED).body(imageService.uploadImage(workerId, image));
 	}
 	
 	
-	// download image
+	// DownLoad image
 	@GetMapping(value = "/images/{workerId}",
 			produces = { IMAGE_GIF_VALUE, IMAGE_JPEG_VALUE, IMAGE_PNG_VALUE })
 	public ResponseEntity<?> downloadImage(@PathVariable Long workerId) throws IOException {
 		System.out.println("in download image " + workerId);
+		log.info("Worker Controller - DownLoad image Worker");
 		return ResponseEntity.ok(imageService.serveImage(workerId));
 	}	
 	  
