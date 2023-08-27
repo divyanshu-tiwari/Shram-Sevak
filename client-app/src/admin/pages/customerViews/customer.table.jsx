@@ -7,13 +7,14 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import {Button} from "@mui/material";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import HistoryIcon from '@mui/icons-material/History';
+import HomeIcon from '@mui/icons-material/Home';
 
-export const CustomerTable = () => {
+export const CustomerTable = ({setPage, navs}) => {
 
-    let customerListRepsonse = []
-
-    const [customerList, setCustomerList] = useState(customerListRepsonse);
-    const [dataLoaded, setDataLoaded] = useState(false);
+    const [customerList, setCustomerList] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
     const [infoMessage, setInfoMessage] = useState('');
 
@@ -36,7 +37,7 @@ export const CustomerTable = () => {
                             <StyledTableCell >Contact</StyledTableCell>
                             <StyledTableCell >Gender</StyledTableCell>
                             <StyledTableCell >Status</StyledTableCell>
-                            <StyledTableCell >ACTION</StyledTableCell>
+                            <StyledTableCell align="center" >ACTION</StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -52,7 +53,15 @@ export const CustomerTable = () => {
                                 <StyledTableCell>{customer.gender}</StyledTableCell>
                                 <StyledTableCell>{customer.status}</StyledTableCell>
                                 <StyledTableCell>
-                                    PROFILE | ORDERS | ADDRESSES 
+                                    <Button startIcon={<AccountCircleIcon />} onClick={() => setPage(navs.profile)}>
+                                        PROFILE
+                                    </Button>
+                                    <Button startIcon={<HistoryIcon />} onClick={() => setPage(navs.history)}>
+                                        HISTORY
+                                    </Button>
+                                    <Button startIcon={<HomeIcon />} onClick={() => setPage(navs.addresses)}>
+                                        ADDRESSES
+                                    </Button>
                                 </StyledTableCell>
                             </StyledTableRow>
                         ))}
@@ -68,7 +77,7 @@ export const CustomerTable = () => {
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-        backgroundColor: theme.palette.common.black,
+        backgroundColor: theme.palette.primary.main,
         color: theme.palette.common.white,
     },
     [`&.${tableCellClasses.body}`]: {
