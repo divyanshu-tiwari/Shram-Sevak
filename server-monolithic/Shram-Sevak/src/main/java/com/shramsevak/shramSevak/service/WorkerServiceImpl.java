@@ -1,6 +1,7 @@
 package com.shramsevak.shramSevak.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Pageable;
 
@@ -20,7 +21,7 @@ import com.shramsevak.shramSevak.dto.WorkerRegistrationDto;
 import com.shramsevak.shramSevak.dto.CustomerResponceDto;
 import com.shramsevak.shramSevak.dto.WorkerRegistrationDto;
 import com.shramsevak.shramSevak.dto.WorkerResponceDto;
-
+import com.shramsevak.shramSevak.dto.WorkerUpdateRequestDto;
 import com.shramsevak.shramSevak.entity.Customer;
 import com.shramsevak.shramSevak.entity.Locality;
 import com.shramsevak.shramSevak.entity.Skill;
@@ -49,6 +50,8 @@ public class WorkerServiceImpl implements WorkerService {
 	
 	@Autowired
 	private ModelMapper mapper;
+	
+
 	
 	@Override
 	public WorkerResponceDto register(WorkerRegistrationDto workerDto) {
@@ -108,6 +111,36 @@ public class WorkerServiceImpl implements WorkerService {
 				.collect(Collectors.toList());
 		
 	}
+
+
+	@Override
+	public WorkerResponceDto updateWorker(WorkerUpdateRequestDto workerUpdateDto) {
+		Worker worker = workerRepo.findById(workerUpdateDto.getId())
+				.orElseThrow(() -> new RuntimeException("Worker not found with id: " + workerUpdateDto.getId()));
+		
+		if(workerUpdateDto.getFirstName() != null) {
+			worker.setFirstName(workerUpdateDto.getFirstName());
+		}
+		if(workerUpdateDto.getLastName() != null) {
+			worker.setLastName(workerUpdateDto.getLastName());
+		}
+		if(workerUpdateDto.getGender() != null) {
+			worker.setGender(workerUpdateDto.getGender());
+		}
+		if(workerUpdateDto.getContact() != null) {
+			worker.setContact(workerUpdateDto.getContact());
+		}
+		if(workerUpdateDto.getEmail() != null) 	{
+			worker.setEmail(workerUpdateDto.getEmail());
+		}
+		if(workerUpdateDto.getProfilePicturePath()!= null) {
+			worker.setProfilePicturePath(workerUpdateDto.getProfilePicturePath());
+		}
+	
+		
+		return mapper.map(worker, WorkerResponceDto.class);
+	}
+	
 	
 		
 

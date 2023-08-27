@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.shramsevak.shramSevak.dto.SigninRequest;
 import com.shramsevak.shramSevak.dto.WorkerRegistrationDto;
 import com.shramsevak.shramSevak.dto.WorkerResponceDto;
+import com.shramsevak.shramSevak.dto.WorkerUpdateRequestDto;
 import com.shramsevak.shramSevak.service.WorkerService;
 
 import jakarta.validation.Valid;
@@ -78,4 +80,12 @@ public class WorkerController {
 			return new ResponseEntity<>(workerService.authenticate(request),
 					HttpStatus.OK);
 		}
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<?> updateWorker(@RequestBody @Valid WorkerUpdateRequestDto worker)
+	{
+		log.info("worker controller - update worker information");
+		
+		return new ResponseEntity<>(workerService.updateWorker(worker), HttpStatus.OK);
+	}
 }

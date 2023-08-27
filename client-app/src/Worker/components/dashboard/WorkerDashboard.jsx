@@ -3,28 +3,23 @@ import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { ShowChart } from '@mui/icons-material'
 import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import WorkerProfile from './WorkerProfile'
+import SignOut from '../Login&Registration/SignOut'
 
 
-const user = {
-  name: 'Tom Cook',
-  email: 'tom@example.com',
-  imageUrl:
-    'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-}
+
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', current: true },
-  { name: 'Customers', href: '/customers', current: false },
-  { name: 'Workers', href: '/workers', current: false },
-  { name: 'Orders', href: '/orders', current: false },
-  { name: 'Categories', href: '/categories', current: false },
-  { name: 'Skills', href: '/skills', current: false },
-  { name: 'Addresses', href: '/addresses', current: false },
+  { name: 'Active Requests', href: '/customers', current: false },
+  { name: 'Completed Requests', href: '/workers', current: false },
+  { name: 'Edit Skills', href: '/skills', current: false },
+  { name: 'Localities', href: '/addresses', current: false },
 ]
 
 const userNavigation = [
-  { name: 'Your Profile', href: '/admin-profile' },
+  { name: 'Your Profile', href: '#' },
   { name: 'Settings', href: '#' },
   { name: 'Sign out', href: '/signout' },
 ]
@@ -36,23 +31,17 @@ function classNames(...classes) {
 export default function WorkerDashboard() {
 
   // alert(navigation)
-
-  const [currentPage, setCurrentPage] = useState('/dashboard')
+  const [currentPage, setCurrentPage] = useState('/')
   const currentUser = useSelector((state) => state.user)
     // For navigation
     const navigate = useNavigate()
-
-  useEffect(() => {
-    if (currentUser?.value.id){
-      navigate("/worker-dashboard")
-      console.log(currentUser.value.id)
+    const userName = currentUser.value.firstName+" "+currentUser.value.lastName
+    const user = {
+      name: userName,
+      email: 'tom@example.com',
+      imageUrl:
+        'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
     }
-    else{
-      navigate("/login")
-
-    }
-  }, [])
-
 
   return (
     <>
@@ -117,20 +106,20 @@ export default function WorkerDashboard() {
                           leaveTo="transform opacity-0 scale-95"
                         >
                           <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                            {userNavigation.map((item) => (
-                              <Menu.Item key={item.name}>
-                                {({ active }) => (
-                                  <a
-                                    href={item.href}
-                                    className={classNames(
-                                      active ? 'bg-gray-100' : '',
-                                      'block px-4 py-2 text-sm text-gray-700'
+                          {userNavigation.map((item) => (
+                            <Menu.Item key={item.name}>
+                             {({ active }) => (
+                              <Link
+                                  to={item.href}
+                                  className={classNames(
+                                  active ? 'bg-gray-100' : '',
+                                          'block px-4 py-2 text-sm text-gray-700'
+                              )}
+                                >
+                                {item.name}
+                            </Link>
                                     )}
-                                  >
-                                    {item.name}
-                                  </a>
-                                )}
-                              </Menu.Item>
+                        </Menu.Item>
                             ))}
                           </Menu.Items>
                         </Transition>
@@ -159,6 +148,7 @@ export default function WorkerDashboard() {
                       key={item.name}
                       as="a"
                       href={item.href}
+                      onClick={setCurrentPage(item.href)}
                       className={classNames(
                         item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                         'block rounded-md px-3 py-2 text-base font-medium'
@@ -199,8 +189,17 @@ export default function WorkerDashboard() {
           </div>
         </header>
         <main>
-          <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-               
+          <div name="master_div" className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+          {currentPage === '/' && (
+            <SignOut/>
+           )}
+    {currentPage === '/worker-profile' && (
+      <WorkerProfile />
+    )}
+
+
+
+
           </div>
         </main>
       </div>
