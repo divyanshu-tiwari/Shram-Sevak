@@ -1,7 +1,9 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { ShowChart } from '@mui/icons-material'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 
 const user = {
@@ -31,11 +33,26 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function AdminDashboard() {
+export default function WorkerDashboard() {
 
   // alert(navigation)
 
   const [currentPage, setCurrentPage] = useState('/dashboard')
+  const currentUser = useSelector((state) => state.user)
+    // For navigation
+    const navigate = useNavigate()
+
+  useEffect(() => {
+    if (currentUser?.value.id){
+      navigate("/worker-dashboard")
+      console.log(currentUser.value.id)
+    }
+    else{
+      navigate("/login")
+
+    }
+  }, [])
+
 
   return (
     <>

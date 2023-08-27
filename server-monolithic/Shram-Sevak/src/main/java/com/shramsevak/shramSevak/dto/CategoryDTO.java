@@ -1,9 +1,5 @@
 package com.shramsevak.shramSevak.dto;
 
-import java.util.List;
-
-import com.shramsevak.shramSevak.entity.Skill;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

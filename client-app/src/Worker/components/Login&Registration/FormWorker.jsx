@@ -6,28 +6,24 @@ import './Style.css';
 import ChooseWorkingLocation from './ChooseWorkingLocation';
 import Navigation from '../../../customer/components/navigation/Navigation';
 import { AlignVerticalBottomSharp } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
+import { Role } from '../../../utils/models/role';
+import { setCurrentUser } from '../../../utils/store/user/userSlice';
+import { useDispatch } from 'react-redux';
+import { getUserRole } from '../../../utils/service/base.service';
+
 
 
 const Form = ({showNavbar=true}) => {
-    const [page, setPage] = useState(0);
-
-    const [errorMessages, setErrorMessages] = useState({
-      firstName: "",
-      lastName: "",
-      gender:"",
-      contact: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-      dateOfBirth:"",
-      profilePicturePath: "path/to/profile/picture.jpg",
-      localityId: "",
-      pincode:""
-    });
+    const [page, setPage] = useState(0)
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const [errorMessage, setErrorMessage] = useState("")
     const [formData, setFormData] = useState({
+      id:"",
       firstName: "",
       lastName: "",
-      gender:"",
+      gender:"MALE",
       contact: "",
       email: "",
       password: "",
@@ -37,7 +33,26 @@ const Form = ({showNavbar=true}) => {
       localityId: "",
       pincode:""
     });
-   
+
+    //Handle Worker Sing-In
+    function handleLogin(event) {
+      event.preventDefault()
+      axios.post('http://localhost:8080/worker/signin', formData)
+      .then(response => {
+        console.log("Successful login : " + response.data)
+        // need to provide dummy token when web-service is not returning it.
+        dispatch(setCurrentUser({...response.data, role: Role.WORKER, token:15}))
+          if (getUserRole() === Role.WORKER)
+              navigate('/worker-dashboard')
+          })
+      .catch(error => {
+        console.log(error)
+        setErrorMessage('invalid login credentials')
+        alert(errorMessage)
+       })
+    }
+    
+    //Setting Pages Flow for Sign In and Sign-Up
     const FormTitles = ["Sign Up", "Personal Info", "Choose Your Working Location"]; 
     const PageDisplay = () => {
       if (page === 0) {
@@ -173,6 +188,8 @@ const Form = ({showNavbar=true}) => {
     };
   }, []);
 
+
+  
   
 return (
     <>
@@ -206,14 +223,16 @@ return (
                             <button
                             id='next'
                                 type={page === FormTitles.length - 1 ? "submit" : "button"}
-                                    onClick={async () => {
+                                    onClick={async (event) => {
+                                        event.preventDefault()
                                         console.log(JSON.stringify(formData))
                                         if (isPageValid()) { // Check if the current page's data is valid
                                             if (page === FormTitles.length - 1) {
                                                 try {
                                                     const response = await axios.post('http://localhost:8080/worker/register', formData);
                                                     if (response.status === 201) {
-                                                        console.log("Form submitted successfully!")
+                                                        console.log('Worker Registered successfully!');                                                        
+                                                        navigate('/chooseskills',{state:response.data.id})
                                                     } else {
                                                         console.error("Failed to submit form.")
                                                     }
@@ -239,7 +258,7 @@ return (
 
         {/* <!-- Sign In --> */}
         <div className="form-container sign-in-container">
-          <form action="#"  target="_self">
+          <form action="#"  target="_self" onSubmit={(event) => handleLogin(event)}>
             <h1 className='p-5'>Sign in</h1>
             <input 
             type="contact" 
@@ -258,26 +277,11 @@ return (
                     onChange={(event) =>setFormData({ ...formData, password: event.target.value })}            
             />
 
-            <a href="#">Forgot your password?</a>
+            {/* <a href="#">Forgot your password?</a> */}
             <button 
-                    
                     type='submit' 
                     id ="sub" 
                     name="sub" 
-                    onClick={async () => {
-                          try {
-                              const response = await axios.post('http://localhost:8080/worker/signin', formData);
-                                if (response.status === 200){
-                                    console.log('Login Success')
-                                } else {
-                                    console.error('Failed to submit form.')
-                                }
-                                } catch (error) {
-                                console.warn("'User name or password is invalid.'")
-                                console.error(error);
-                          }
-                        } 
-                    }
                     >Sign In</button>
           </form>
         </div>
