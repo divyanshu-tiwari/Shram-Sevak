@@ -16,6 +16,7 @@ import { Unauthorized } from './pages/unauthorized.page';
 import { AdminAuthGuard } from './utils/guards/admin.auth.guard';
 import { AdminLoginGuard } from './utils/guards/admin.login.guard';
 import { Role } from './utils/models/role';
+import RegistrationSuccess from './Worker/components/Login&Registration/RegistrationSuccess';
 
 
 function App() {
@@ -27,7 +28,7 @@ function App() {
         <Route path="/loginCustomer" element={<FormCustomer />} />
         <Route path="/loginWorker" element={<FormWorker />} />
         <Route path="/chooseskills" element={<ChooseSkills />} />
-  
+        <Route path="/registationsuccess" element={<RegistrationSuccess />} />
         <Route path="/admin" element={
         // <AdminLoginGuard roles={[Role.ADMIN]}>
           <AdminLogin />
