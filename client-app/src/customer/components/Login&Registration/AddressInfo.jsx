@@ -1,7 +1,7 @@
 import React from "react";
 import "./Style.css"
 
-function AddressInfo({ formData, setFormData }) {
+function AddressInfo({ formData, setFormData,errorMessages }) {
   return (
     <div className="other-info-container">
       <input
@@ -36,6 +36,7 @@ function AddressInfo({ formData, setFormData }) {
           setFormData({ ...formData, Pincode: e.target.value });
         }}
       />
+           {errorMessages.Pincode && <p className="error-message">{errorMessages.Pincode}</p>}
   
     </div>
   );

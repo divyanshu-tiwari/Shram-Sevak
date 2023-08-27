@@ -5,10 +5,25 @@ import PersonalInfo from "./PersonalInfo"
 import './Style.css';
 import ChooseWorkingLocation from './ChooseWorkingLocation';
 import Navigation from '../../../customer/components/navigation/Navigation';
+import { AlignVerticalBottomSharp } from '@mui/icons-material';
 
 
 const Form = ({showNavbar=true}) => {
     const [page, setPage] = useState(0);
+
+    const [errorMessages, setErrorMessages] = useState({
+      firstName: "",
+      lastName: "",
+      gender:"",
+      contact: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      dateOfBirth:"",
+      profilePicturePath: "path/to/profile/picture.jpg",
+      localityId: "",
+      pincode:""
+    });
     const [formData, setFormData] = useState({
       firstName: "",
       lastName: "",
@@ -26,11 +41,11 @@ const Form = ({showNavbar=true}) => {
     const FormTitles = ["Sign Up", "Personal Info", "Choose Your Working Location"]; 
     const PageDisplay = () => {
       if (page === 0) {
-        return <SignUpInfo formData={formData} setFormData={setFormData} />;
+        return <SignUpInfo formData={formData} setFormData={setFormData} errorMessages={errorMessages} />;
       } else if (page === 1) {
-        return <PersonalInfo formData={formData} setFormData={setFormData} />;
+        return <PersonalInfo formData={formData} setFormData={setFormData} errorMessages={errorMessages} />;
       }else if(page===2) {
-        return <ChooseWorkingLocation formData={formData} setFormData={setFormData} />;
+        return <ChooseWorkingLocation formData={formData} setFormData={setFormData} errorMessages={errorMessages} />;
       }
        
     };
@@ -70,29 +85,66 @@ const Form = ({showNavbar=true}) => {
 
 
  // Validation function for the current page
-const isPageValid = () => {
+ const isPageValid = () => {
   if (page === 0) {
-        if (!isPhoneValid()) {
-          alert("Enter Correct Mobile No. (It Should be 10 Digits)");
-        } else if (!isPasswordValid()) {
-          alert("Incorrect Password (Password Should be at least 4 Digits)");
+    if (!isPhoneValid()) {
+      setErrorMessages((prevMessages) => ({
+        ...prevMessages,
+        contact: 'Invalid Fhon Number',
+      }));
+    } else  if (!isPasswordValid()) {
+          setErrorMessages((prevMessages) => ({
+            ...prevMessages,
+            password: 'Incorrect Password (at least 4 Digits)',
+          }));
+
         } else {
+          
+          setErrorMessages((prevMessages) => ({
+            ...prevMessages,
+            password: '', // Clear error message if valid
+          }));    
+          setErrorMessages((prevMessages) => ({
+            ...prevMessages,
+            contact: '', // Clear error message if valid
+          }));    
           return true;
         }
       } else if (page === 1) {
         if (!isFirstNameValid()) {
-          alert("Enter First Name");
+          setErrorMessages((prevMessages) => ({
+            ...prevMessages,
+            firstName: 'Enter First Name',
+          }));
+      
         } else if (!isLastNameValid()) {
-          alert("Enter Last Name");
+          setErrorMessages((prevMessages) => ({
+            ...prevMessages,
+            lastName: 'Enter Last Name',
+          }));
         } else if (!isDOBValid()) {
-            alert("Minimum Age Should be 18");
-          } else {
-          return true;
-        }
-      } else if (page === 2)
-      {
+          setErrorMessages((prevMessages) => ({
+            ...prevMessages,
+            dateOfBirth: 'Minimum Age Should be 18',
+             }));
+       
+        } else {
+            setErrorMessages((prevMessages) => ({
+            ...prevMessages,
+            firstName: '', // Clear error message if valid
+          }));           
+           setErrorMessages((prevMessages) => ({
+            ...prevMessages,
+            lastName: '', // Clear error message if valid
+          }));  
+
+          setErrorMessages((prevMessages) => ({
+            ...prevMessages,
+            dateOfBirth: '', // Clear error message if valid
+          }));  
         return true;
-      }
+        }
+      } 
       
       return false;
 };
@@ -161,23 +213,19 @@ return (
                                                 try {
                                                     const response = await axios.post('http://localhost:8080/worker/register', formData);
                                                     if (response.status === 201) {
-                                                        alert('Form submitted successfully!');
+                                                        console.log("Form submitted successfully!")
                                                     } else {
-                                                        
-                                                        alert('Failed to submit form.');
+                                                        console.error("Failed to submit form.")
                                                     }
                                                     } catch (error) {
-                                                    
-                                                    alert('An error occurred while submitting the form.');
-                                                    
-                                                    alert(error);
+                                                      console.error('An error occurred while submitting the form.');
                                                     console.error(error);
                                                     }
                                                 } else {
                                                     setPage((currPage) => currPage + 1);
                                                 }
                                             } else {
-                                            alert('Please fill in all required fields and ensure that the data is valid.');
+                                              console.log('Please fill in all required fields and ensure that the data is valid.');
                                             }
                                         }}
                                 >
@@ -219,13 +267,13 @@ return (
                     onClick={async () => {
                           try {
                               const response = await axios.post('http://localhost:8080/worker/signin', formData);
-                                if (response.status === 200) {
-                                    alert('Login Success');
+                                if (response.status === 200){
+                                    console.log('Login Success')
                                 } else {
-                                    alert('Failed to submit form.');
+                                    console.error('Failed to submit form.')
                                 }
                                 } catch (error) {
-                                alert('User name or password is invalid.');
+                                console.warn("'User name or password is invalid.'")
                                 console.error(error);
                           }
                         } 
