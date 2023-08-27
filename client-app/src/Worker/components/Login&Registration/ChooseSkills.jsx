@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const ChooseSkills = () => {
 <<<<<<< HEAD
@@ -71,7 +72,9 @@ const ChooseSkills = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [skills, setSkills] = useState([]);
   const [selectedSkills, setSelectedSkills] = useState([]);
-
+  const location = useLocation();
+  const navigate = useNavigate();
+  const workerID = location.state;
   useEffect(() => {
     fetchCategories();
   }, []);
@@ -89,8 +92,10 @@ const ChooseSkills = () => {
 
   const fetchSkills = async (categoryId) => {
     try {
-      const response = await axios.get(`http://localhost:8080/skill/getCategory/${categoryId}`);
+      console.log("Category ID is"+categoryId)
+      const response = await axios.get(`http://localhost:8080/skill/category/${categoryId}`);
       setSkills(response.data);
+      console.log(response.status)
     } catch (error) {
       console.error(error);
     }
@@ -118,7 +123,7 @@ const ChooseSkills = () => {
     <div className="bg-slate-200">
        
     <h1 className="p-5 text-red-500 font-serif text-center block text-5xl font-semibold">Choose Your Skills</h1>
-    <form action="#" className="max-w-fit mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
+    <form action="#"  target="_self" className="max-w-fit mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
       <div className="grid grid-cols-2 gap-6">
         <div>
         
@@ -174,10 +179,29 @@ const ChooseSkills = () => {
       </div>
       <button 
       className='mx-3 my-10' 
-      type='submit' 
+      type='button'
       onClick= { async () => {
-        const skillSet = selectedSkills.map(skill=> skill.id)
         
+        const skillSet = selectedSkills.map(skill=> skill.id)
+        const reqData = {
+          skillIds : skillSet,
+          workerId : workerID
+          }
+        try {
+          const response = await axios.post('http://localhost:8080/skill/addSkills', reqData)
+          if (response.status === 200) {
+            try {
+              navigate('/registationsuccess');
+            } catch (error) {
+              console.error('Navigation error:', error);
+            }
+          } else {
+            alert(response.data);
+          }
+        } catch (error) {
+        alert('An error occurred while submitting the form.');
+        console.error(error);
+        }
       }
       }>
         SUBMIT
