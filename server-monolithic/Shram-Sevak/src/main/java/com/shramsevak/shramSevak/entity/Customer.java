@@ -47,7 +47,7 @@ public class Customer extends BaseEntity {
 	private Gender gender;
 
 	@Column(nullable = true)
-    @ColumnDefault("'images/customers/customerDefaultImage.jpg'")
+    @ColumnDefault("'images/customers/customerDefaultImage.png'")
 	private String profilePicturePath;
 
 	@Enumerated(EnumType.STRING)
