@@ -17,7 +17,7 @@ import { AdminAuthGuard } from './utils/guards/admin.auth.guard';
 import { AdminLoginGuard } from './utils/guards/admin.login.guard';
 import { Role } from './utils/models/role';
 import RegistrationSuccess from './Worker/components/Login&Registration/RegistrationSuccess';
-
+import Cart from './customer/components/Cart/Cart';
 
 function App() {
   return (
@@ -44,6 +44,7 @@ function App() {
       <Route path="/login" element={<ChooseLogin />} />
 
       <Route path="/401" element={<Unauthorized />} />
+      <Route path='/payment' element={<Cart></Cart>}/>
     </Routes >
 
     </>
