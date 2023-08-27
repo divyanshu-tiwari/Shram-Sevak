@@ -43,7 +43,8 @@ function PersonalInfo({ formData, setFormData }) {
               setFormData({ ...formData, gender: e.target.value });
             }}
           >
-            <option value="MALE" selected>Male</option>
+            
+            <option value="MALE" >Male</option>
             <option value="FEMALE">Female</option>
             <option value="OTHER">Other</option>
           </select>
