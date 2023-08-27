@@ -19,4 +19,5 @@ public class WorkerResponceDto {
 	private String contact;
 	private Gender gender;
 	private WorkerStatus status;
+	private String profilePicturePath;
 }
