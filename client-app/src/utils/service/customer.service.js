@@ -12,6 +12,10 @@ class CustomerService {
     register(customerData){
         return axios.post(BASE_URL + '/register', adminData)
     }
+
+    getAll(){
+        return axios.get(BASE_URL + '/all')
+    }
 }
 
 export default new CustomerService();
