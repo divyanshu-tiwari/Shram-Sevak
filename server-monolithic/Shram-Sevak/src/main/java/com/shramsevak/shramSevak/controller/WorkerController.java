@@ -7,10 +7,9 @@ import static org.springframework.http.MediaType.IMAGE_GIF_VALUE;
 import static org.springframework.http.MediaType.IMAGE_JPEG_VALUE;
 import static org.springframework.http.MediaType.IMAGE_PNG_VALUE;
 import org.springframework.http.MediaType;
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.shramsevak.shramSevak.dto.SigninRequest;
 import com.shramsevak.shramSevak.dto.WorkerRegistrationDto;
 import com.shramsevak.shramSevak.dto.WorkerResponceDto;
+import com.shramsevak.shramSevak.dto.WorkerUpdateRequestDto;
 import com.shramsevak.shramSevak.service.ImageHandlingService;
 import com.shramsevak.shramSevak.dto.SigninRequest;
 import com.shramsevak.shramSevak.dto.WorkerRegistrationDto;
@@ -90,6 +90,14 @@ public class WorkerController {
 			return new ResponseEntity<>(workerService.authenticate(request),
 					HttpStatus.OK);
 		}
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<?> updateWorker(@RequestBody @Valid WorkerUpdateRequestDto worker)
+	{
+		log.info("worker controller - update worker information");
+		
+		return new ResponseEntity<>(workerService.updateWorker(worker), HttpStatus.OK);
+	}
    // Upload image
 	@PostMapping(value = "/images", consumes = "multipart/form-data")
 	public ResponseEntity<?> uploadImage(@RequestParam Long workerId,@RequestParam MultipartFile image)
