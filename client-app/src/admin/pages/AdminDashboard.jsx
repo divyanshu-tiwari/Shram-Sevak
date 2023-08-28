@@ -3,6 +3,9 @@ import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { CustomerBoard } from './admin.customer.board'
 import store from '../../utils/store/store'
+import { current } from '@reduxjs/toolkit'
+import { AdminProfile } from './admin.profile'
+import { AdminSignout } from './admin.signout'
 
 
 const user = {
@@ -24,7 +27,6 @@ const navigation = [
 
 const userNavigation = [
   { name: 'Your Profile', href: '/admin-profile' },
-  { name: 'Settings', href: '#' },
   { name: 'Sign out', href: '/signout' },
 ]
 
@@ -108,8 +110,11 @@ export default function AdminDashboard() {
                             {userNavigation.map((item) => (
                               <Menu.Item key={item.name}>
                                 {({ active }) => (
-                                  <a
-                                    href={item.href}
+                                  <a             
+                                    onClick={() => {
+                                      // navigation.find((navItem) => navItem.current === true).current = false;
+                                      setCurrentPage({name: item.name, href: item.href})
+                                    }}
                                     className={classNames(
                                       active ? 'bg-gray-100' : '',
                                       'block px-4 py-2 text-sm text-gray-700'
@@ -188,7 +193,9 @@ export default function AdminDashboard() {
         </header>
         <main>
           <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-                {currentPage.href == '/customers' && <CustomerBoard /> }
+                {currentPage.href === '/customers' && <CustomerBoard /> }
+                {currentPage.href === '/admin-profile' && <AdminProfile />}
+                {currentPage.href === '/signout' && <AdminSignout />}
           </div>
         </main>
       </div>
