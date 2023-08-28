@@ -81,6 +81,7 @@ public class OrderServiceImpl implements OrderService{
 		Worker worker = workerRepo.findById(orderDetails.getWorkerId()).orElseThrow(() -> new WorkerException("No such worker found."));
 		Order order = mapper.map(orderDetails, Order.class);
 		order.setStatus(OrderStatus.CREATED);
+		
 		customer.addOrder(order);
 		worker.addOrder(order);
 		orderRepo.save(order);

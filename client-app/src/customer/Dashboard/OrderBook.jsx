@@ -47,14 +47,11 @@ const OrderBookComponent = ({ myOrder, onOrderChange, changePage }) => {
       })
       .then((response) => {
         console.log(response.data);
-        onOrderChange({
-          title: '',
-          description: '',
-          startTime: '',
-          endTime: '',
-          customerId: myOrder.customerId,
-          workerId: workerId,
-        });
+        onOrderChange(response.data
+         
+        );
+        alert(JSON.stringify(myOrder.id));
+
       })
       .catch((error) => {
         console.error(error);

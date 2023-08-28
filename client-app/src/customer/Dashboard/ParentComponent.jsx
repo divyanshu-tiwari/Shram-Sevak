@@ -5,14 +5,20 @@ import store from '../../utils/store/store';
 import { useParams } from 'react-router-dom';
 const ParentComponent = () => {
   const { workerId } = useParams();
+  const {startTime} =useParams();
+  const {endTime} = useParams();
   const [order, setOrder] = useState({
+    id:'',
     title: '',
     description: '',
-    startTime: '',
-    endTime: '',
+    startTime: startTime,
+    endTime: endTime,
     customerId: store.getState().user.value.id,
     workerId: workerId,
+    price:500,
   });
+
+  
 
   const [orderBookingPage, setOrderBookingPage] = useState(true)
 

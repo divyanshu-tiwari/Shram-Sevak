@@ -81,10 +81,11 @@ const Cart = ({Order, onOrderChange, changePage}) => {
           <div class="mt-6 h-full rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3">
           <div class="mb-2 flex justify-between">
     <p class="text-gray-700">Title</p>
-    <p class="text-gray-700">hi</p>
+  <p class="text-gray-700">${Order.title}</p>
   </div>
   <div class="mb-2 flex justify-between">
-    <p class="text-gray-700">Description</p>
+ 
+    <p class="text-gray-700">${Order.title}</p>
     <p class="text-gray-700"></p>
 
   </div>
