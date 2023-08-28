@@ -4,7 +4,6 @@ import static com.shramsevak.shramSevak.util.Utils.checkStatus;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -20,12 +19,9 @@ import com.shramsevak.shramSevak.customException.WorkerException;
 import com.shramsevak.shramSevak.dto.SigninRequest;
 import com.shramsevak.shramSevak.dto.SigninResponse;
 import com.shramsevak.shramSevak.dto.WorkerRegistrationDto;
-import com.shramsevak.shramSevak.dto.CustomerResponceDto;
-import com.shramsevak.shramSevak.dto.WorkerRegistrationDto;
-import com.shramsevak.shramSevak.dto.WorkerResponceDto;
-import com.shramsevak.shramSevak.dto.WorkerUpdateRequestDto;
-import com.shramsevak.shramSevak.entity.Customer;
 import com.shramsevak.shramSevak.dto.WorkerResponseDTO;
+import com.shramsevak.shramSevak.dto.WorkerUpdateRequestDto;
+import com.shramsevak.shramSevak.dto.WorkerUpdateResponceDto;
 import com.shramsevak.shramSevak.entity.Locality;
 import com.shramsevak.shramSevak.entity.OrderStatus;
 import com.shramsevak.shramSevak.entity.Worker;
@@ -115,7 +111,7 @@ public class WorkerServiceImpl implements WorkerService {
 
 
 	@Override
-	public WorkerResponceDto updateWorker(WorkerUpdateRequestDto workerUpdateDto) {
+	public WorkerUpdateResponceDto updateWorker(WorkerUpdateRequestDto workerUpdateDto) {
 		Worker worker = workerRepo.findById(workerUpdateDto.getId())
 				.orElseThrow(() -> new RuntimeException("Worker not found with id: " + workerUpdateDto.getId()));
 		
@@ -138,7 +134,7 @@ public class WorkerServiceImpl implements WorkerService {
 			worker.setProfilePicturePath(workerUpdateDto.getProfilePicturePath());
 		}
 		
-		return mapper.map(worker, WorkerResponceDto.class);
+		return mapper.map(worker, WorkerUpdateResponceDto.class);
 	}
 	
 
