@@ -1,9 +1,10 @@
 import React from "react";
 import "./Style.css"
 
-function PersonalInfo({ formData, setFormData }) {
+function PersonalInfo({ formData, setFormData,errorMessages }) {
   return (
     <div className="personal-info-container">
+
       <input
         type="text"
         placeholder="First Name..."
@@ -12,6 +13,8 @@ function PersonalInfo({ formData, setFormData }) {
           setFormData({ ...formData, firstName: e.target.value });
         }}
       />
+      {errorMessages.firstName && <p className="error-message">{errorMessages.firstName}</p>}
+
       <input
         type="text"
         placeholder="Last Name..."
@@ -28,13 +31,24 @@ function PersonalInfo({ formData, setFormData }) {
           setFormData({ ...formData, email: e.target.value });
         }}
       />
+        <input
+        type="date"
+        placeholder="Date of Birth..."
+        value={formData.dateOfBirth}
+        onChange={(e) => {
+          setFormData({ ...formData, dateOfBirth: e.target.value });
+        }}
+      />
+       {errorMessages.dateOfBirth && <p className="error-message">{errorMessages.dateOfBirth}</p>}
+
       <select
             value={formData.gender}
             onChange={(e) => {
               setFormData({ ...formData, gender: e.target.value });
             }}
           >
-            <option value="MALE">Male</option>
+            
+            <option value="MALE" >Male</option>
             <option value="FEMALE">Female</option>
             <option value="OTHER">Other</option>
           </select>
