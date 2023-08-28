@@ -78,7 +78,6 @@ public class WorkerServiceImpl implements WorkerService {
 		Worker worker=workerRepo.findById(id).orElseThrow(() -> new WorkerException("Invalid worker ID"));
 		checkStatus(worker);
 		worker.setStatus(WorkerStatus.INACTIVE);
-		
 		return worker.getFirstName()+" "+worker.getLastName()+"s  details deleted!";
 	}
 
