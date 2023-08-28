@@ -5,14 +5,25 @@ import PersonalInfo from "./PersonalInfo"
 import './Style.css';
 import ChooseWorkingLocation from './ChooseWorkingLocation';
 import Navigation from '../../../customer/components/navigation/Navigation';
+import { AlignVerticalBottomSharp } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
+import { Role } from '../../../utils/models/role';
+import { setCurrentUser } from '../../../utils/store/user/userSlice';
+import { useDispatch } from 'react-redux';
+import { getUserRole } from '../../../utils/service/base.service';
+
 
 
 const Form = ({showNavbar=true}) => {
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(0)
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const [errorMessage, setErrorMessage] = useState("")
     const [formData, setFormData] = useState({
+      id:"",
       firstName: "",
       lastName: "",
-      gender:"",
+      gender:"MALE",
       contact: "",
       email: "",
       password: "",
@@ -22,15 +33,34 @@ const Form = ({showNavbar=true}) => {
       localityId: "",
       pincode:""
     });
-   
+
+    //Handle Worker Sing-In
+    function handleLogin(event) {
+      event.preventDefault()
+      axios.post('http://localhost:8080/worker/signin', formData)
+      .then(response => {
+        console.log("Successful login : " + response.data)
+        // need to provide dummy token when web-service is not returning it.
+        dispatch(setCurrentUser({...response.data, role: Role.WORKER, token:15}))
+          if (getUserRole() === Role.WORKER)
+              navigate('/worker-dashboard')
+          })
+      .catch(error => {
+        console.log(error)
+        setErrorMessage('invalid login credentials')
+        alert(errorMessage)
+       })
+    }
+    
+    //Setting Pages Flow for Sign In and Sign-Up
     const FormTitles = ["Sign Up", "Personal Info", "Choose Your Working Location"]; 
     const PageDisplay = () => {
       if (page === 0) {
-        return <SignUpInfo formData={formData} setFormData={setFormData} />;
+        return <SignUpInfo formData={formData} setFormData={setFormData} errorMessages={errorMessage} />;
       } else if (page === 1) {
-        return <PersonalInfo formData={formData} setFormData={setFormData} />;
+        return <PersonalInfo formData={formData} setFormData={setFormData} errorMessages={errorMessage} />;
       }else if(page===2) {
-        return <ChooseWorkingLocation formData={formData} setFormData={setFormData} />;
+        return <ChooseWorkingLocation formData={formData} setFormData={setFormData} errorMessages={errorMessage} />;
       }
        
     };
@@ -70,29 +100,66 @@ const Form = ({showNavbar=true}) => {
 
 
  // Validation function for the current page
-const isPageValid = () => {
+ const isPageValid = () => {
   if (page === 0) {
-        if (!isPhoneValid()) {
-          alert("Enter Correct Mobile No. (It Should be 10 Digits)");
-        } else if (!isPasswordValid()) {
-          alert("Incorrect Password (Password Should be at least 4 Digits)");
+    if (!isPhoneValid()) {
+      setErrorMessage((prevMessages) => ({
+        ...prevMessages,
+        contact: 'Invalid Fhon Number',
+      }));
+    } else  if (!isPasswordValid()) {
+          setErrorMessage((prevMessages) => ({
+            ...prevMessages,
+            password: 'Incorrect Password (at least 4 Digits)',
+          }));
+
         } else {
+          
+          setErrorMessage((prevMessages) => ({
+            ...prevMessages,
+            password: '', // Clear error message if valid
+          }));    
+          setErrorMessage((prevMessages) => ({
+            ...prevMessages,
+            contact: '', // Clear error message if valid
+          }));    
           return true;
         }
       } else if (page === 1) {
         if (!isFirstNameValid()) {
-          alert("Enter First Name");
+          setErrorMessage((prevMessages) => ({
+            ...prevMessages,
+            firstName: 'Enter First Name',
+          }));
+      
         } else if (!isLastNameValid()) {
-          alert("Enter Last Name");
+          setErrorMessage((prevMessages) => ({
+            ...prevMessages,
+            lastName: 'Enter Last Name',
+          }));
         } else if (!isDOBValid()) {
-            alert("Minimum Age Should be 18");
-          } else {
-          return true;
-        }
-      } else if (page === 2)
-      {
+          setErrorMessage((prevMessages) => ({
+            ...prevMessages,
+            dateOfBirth: 'Minimum Age Should be 18',
+             }));
+       
+        } else {
+            setErrorMessage((prevMessages) => ({
+            ...prevMessages,
+            firstName: '', // Clear error message if valid
+          }));           
+           setErrorMessage((prevMessages) => ({
+            ...prevMessages,
+            lastName: '', // Clear error message if valid
+          }));  
+
+          setErrorMessage((prevMessages) => ({
+            ...prevMessages,
+            dateOfBirth: '', // Clear error message if valid
+          }));  
         return true;
-      }
+        }
+      } 
       
       return false;
 };
@@ -121,6 +188,8 @@ const isPageValid = () => {
     };
   }, []);
 
+
+  
   
 return (
     <>
@@ -154,30 +223,28 @@ return (
                             <button
                             id='next'
                                 type={page === FormTitles.length - 1 ? "submit" : "button"}
-                                    onClick={async () => {
+                                    onClick={async (event) => {
+                                        event.preventDefault()
                                         console.log(JSON.stringify(formData))
                                         if (isPageValid()) { // Check if the current page's data is valid
                                             if (page === FormTitles.length - 1) {
                                                 try {
                                                     const response = await axios.post('http://localhost:8080/worker/register', formData);
                                                     if (response.status === 201) {
-                                                        alert('Form submitted successfully!');
+                                                        console.log('Worker Registered successfully!');                                                        
+                                                        navigate('/chooseskills',{state:response.data.id})
                                                     } else {
-                                                        
-                                                        alert('Failed to submit form.');
+                                                        console.error("Failed to submit form.")
                                                     }
                                                     } catch (error) {
-                                                    
-                                                    alert('An error occurred while submitting the form.');
-                                                    
-                                                    alert(error);
+                                                      console.error('An error occurred while submitting the form.');
                                                     console.error(error);
                                                     }
                                                 } else {
                                                     setPage((currPage) => currPage + 1);
                                                 }
                                             } else {
-                                            alert('Please fill in all required fields and ensure that the data is valid.');
+                                              console.log('Please fill in all required fields and ensure that the data is valid.');
                                             }
                                         }}
                                 >
@@ -191,7 +258,7 @@ return (
 
         {/* <!-- Sign In --> */}
         <div className="form-container sign-in-container">
-          <form action="#"  target="_self">
+          <form action="#"  target="_self" onSubmit={(event) => handleLogin(event)}>
             <h1 className='p-5'>Sign in</h1>
             <input 
             type="contact" 
@@ -210,26 +277,11 @@ return (
                     onChange={(event) =>setFormData({ ...formData, password: event.target.value })}            
             />
 
-            <a href="#">Forgot your password?</a>
+            {/* <a href="#">Forgot your password?</a> */}
             <button 
-                    
                     type='submit' 
                     id ="sub" 
                     name="sub" 
-                    onClick={async () => {
-                          try {
-                              const response = await axios.post('http://localhost:8080/worker/signin', formData);
-                                if (response.status === 200) {
-                                    alert('Login Success');
-                                } else {
-                                    alert('Failed to submit form.');
-                                }
-                                } catch (error) {
-                                alert('User name or password is invalid.');
-                                console.error(error);
-                          }
-                        } 
-                    }
                     >Sign In</button>
           </form>
         </div>

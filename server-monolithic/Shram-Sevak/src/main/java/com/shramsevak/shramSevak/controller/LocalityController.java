@@ -6,16 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 import com.shramsevak.shramSevak.dto.ApiResponse;
-import com.shramsevak.shramSevak.dto.CityResponseDTO;
 import com.shramsevak.shramSevak.dto.LocalityDTO;
 import com.shramsevak.shramSevak.dto.LocalityResponceDTO;
 import com.shramsevak.shramSevak.service.LocalityService;
@@ -42,6 +34,42 @@ public class LocalityController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}
 	
+	@GetMapping("/{id}")
+	public ResponseEntity<?> getLocalityById(@PathVariable Long id){
+		LocalityResponceDTO localityDTO = localityService.getLocalityById(id);
+		log.info("Locality Controller - Add Locality By Id");
+		return ResponseEntity.ok(localityDTO);
+	}
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?>deleteLocalityById(@PathVariable Long id){
+		ApiResponse response = localityService.deleteLocalityById(id);
+		log.info("Locality Controller - Delete Locality By Id");
+		return ResponseEntity.ok(response);
+	}
+	
+	@DeleteMapping("/delete-all")
+	public ResponseEntity<?>deleteAllLocalities(){
+		ApiResponse response = localityService.deleteAllLocalities();
+		log.info("Locality Controller - Delete All Localities");
+		return ResponseEntity.ok(response);
+	}
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<?> updateLocalityById(@PathVariable Long id ,@RequestBody @Valid LocalityDTO localityDTO){
+		LocalityResponceDTO updateLocalityDTO =localityService.updateLocality(id, localityDTO);
+		log.info("Locality Controller - Update Locality By Id");
+		return ResponseEntity.status(HttpStatus.CREATED).body(updateLocalityDTO);
+	}
+	
+	@GetMapping("/all")
+	public ResponseEntity<List<LocalityResponceDTO>> getAllLocalities(){
+		List<LocalityResponceDTO> localityList = localityService.getAllLocalies();
+		log.info("Locality Controller - Get All Localities");
+
+		return ResponseEntity.ok(localityList);
+	}
+	
 	@GetMapping("/city/{cityId}")
 	public ResponseEntity<List<LocalityResponceDTO>> getAllLocalitiesByCityId(@PathVariable Long cityId) {
 		List<LocalityResponceDTO> localityDTOs = localityService.getAllLocalitiesByCityId(cityId);
@@ -49,13 +77,11 @@ public class LocalityController {
 		return new ResponseEntity<>(localityDTOs, HttpStatus.OK);
 
 	}
+
 	
 	@GetMapping("/getPin/{id}")
 	public ResponseEntity<?> getPinbyLocalityId(@PathVariable Long id) {
 	return new ResponseEntity<>(localityService.getPin(id), HttpStatus.OK);
 	}
-	
-	
-	
-	
+
 }

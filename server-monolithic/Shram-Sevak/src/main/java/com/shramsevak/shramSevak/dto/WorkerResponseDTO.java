@@ -1,6 +1,5 @@
 package com.shramsevak.shramSevak.dto;
 
-import com.shramsevak.shramSevak.entity.CustomerStatus;
 import com.shramsevak.shramSevak.entity.Gender;
 import com.shramsevak.shramSevak.entity.WorkerStatus;
 
@@ -12,7 +11,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class WorkerResponceDto {
+public class WorkerResponseDTO {
 	private Long id;
 	private String firstName;
 	private String lastName;
@@ -20,4 +19,5 @@ public class WorkerResponceDto {
 	private String contact;
 	private Gender gender;
 	private WorkerStatus status;
+	private String profilePicturePath;
 }

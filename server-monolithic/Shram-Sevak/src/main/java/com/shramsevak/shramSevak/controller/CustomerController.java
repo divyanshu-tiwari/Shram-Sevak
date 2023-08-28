@@ -7,7 +7,6 @@ import static org.springframework.http.MediaType.IMAGE_PNG_VALUE;
 import java.io.IOException;
 import java.util.List;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,14 +32,16 @@ import com.shramsevak.shramSevak.service.ImageHandlingService;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @Slf4j
 @RequestMapping("/customer")
 @CrossOrigin(origins = "http://localhost:3000")
 public class CustomerController {
-	
+
 	@Autowired
 	private CustomerService custService;
+
 	
 	@Autowired
 	private ImageHandlingService imageService;
@@ -60,48 +61,59 @@ public class CustomerController {
     	return ResponseEntity.ok(custService.getCustomerDetails(id));
     }
     
-    @GetMapping
-	public ResponseEntity<?> getAllCustPaginated(
-			@RequestParam(defaultValue = "0", required = false) int pageNumber,
-		    @RequestParam(defaultValue = "3", required = false) int pageSize)
-{
-		System.out.println("in get all customers" +pageNumber+" "+pageSize);
-		List<CustomerResponceDto> list = custService.
-				getAllCustomers(pageNumber,pageSize);
+
+	@PostMapping("/register")
+	public ResponseEntity<ApiResponse> registerCustomer(@RequestBody @Valid CustomerSignUpRequest newCustomer) {
+
+		System.out.println(newCustomer);
+		ApiResponse response = custService.registerCustomer(newCustomer);
+		return new ResponseEntity<ApiResponse>(response, HttpStatus.OK);
+
+	}
+
+	@GetMapping("/getCustomer/{id}")
+	public ResponseEntity<?> getCustomerDetailsById(@PathVariable Long id) {
+		return ResponseEntity.ok(custService.getCustomerDetails(id));
+	}
+
+	@GetMapping
+	public ResponseEntity<?> getAllCustPaginated(@RequestParam(defaultValue = "0", required = false) int pageNumber,
+			@RequestParam(defaultValue = "3", required = false) int pageSize) {
+		System.out.println("in get all customers" + pageNumber + " " + pageSize);
+		List<CustomerResponceDto> list = custService.getAllCustomers(pageNumber, pageSize); 
 		if (list.isEmpty())
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-		
+
 		return ResponseEntity.ok(list);
 	}
 
-
-    @DeleteMapping("/deletePermanent/{Id}")
+	@DeleteMapping("/deletePermanent/{Id}")
 	public ResponseEntity<?> deleteCustomerPermanently(@PathVariable Long Id) {
 		log.info("Customer Controller - delete customer");
 		return new ResponseEntity<>(custService.deleteByIdPermanently(Id), HttpStatus.OK);
 	}
-    
-    @PutMapping("/delete/{Id}")
+
+	@PutMapping("/delete/{Id}")
 	public ResponseEntity<?> deleteCustomer(@PathVariable Long Id) {
 		log.info("Customer Controller - delete customer temparary");
 		return new ResponseEntity<>(custService.deleteById(Id), HttpStatus.OK);
 
 	}
-    
 
-    @PutMapping("/update")
-    public ResponseEntity<?> updateCustomerDetails(@RequestBody CustomerUpdateDto customerDto){
-    	log.info("Customer Controller - updating  customer");
-    	return new ResponseEntity<>(custService.updateCustomer(customerDto), HttpStatus.OK);
-    }
+	@PutMapping("/update")
+	public ResponseEntity<?> updateCustomerDetails(@RequestBody CustomerUpdateDto customerDto) {
+		log.info("Customer Controller - updating  customer");
+		return new ResponseEntity<>(custService.updateCustomer(customerDto), HttpStatus.OK);
+	}
 
-    @PostMapping("/signin")
+	@PostMapping("/signin")
 	public ResponseEntity<?> customerLogin(@RequestBody @Valid SigninRequest request) {
 		System.out.println("Customer login " + request);
 		log.info("Customer Controller - Login  customer");
 			return new ResponseEntity<>(custService.authenticate(request),
 					HttpStatus.OK);
 		}
+    
     // Upload image
  	@PostMapping(value = "/images", consumes = "multipart/form-data")
  	public ResponseEntity<?> uploadImage(@RequestParam Long customerId,@RequestParam MultipartFile image)
@@ -120,10 +132,5 @@ public class CustomerController {
  		log.info("Customer Controller - Dounload image  customer");
  		return ResponseEntity.ok(imageService.serveImage(customerId));
  	}	
-	
 
-    
-    
-    
-    
 }

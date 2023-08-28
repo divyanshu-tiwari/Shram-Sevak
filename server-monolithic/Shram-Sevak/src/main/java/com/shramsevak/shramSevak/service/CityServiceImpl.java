@@ -42,9 +42,9 @@ public class CityServiceImpl implements CityService {
 	}
 
 	@Override
-	public CityDTO getCityById(Long id) {
-		City city = cityRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid City"));
-		return mapper.map(city, CityDTO.class);
+	public CityResponseDTO getCityById(Long id) {
+		City city = cityRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid City ID"));
+		return mapper.map(city, CityResponseDTO.class);
 	}
 
 	@Override
@@ -61,20 +61,24 @@ public class CityServiceImpl implements CityService {
 	}
 
 	@Override
-	public CityDTO updateCity(Long cityId, CityDTO cityDTO) {
+	public CityResponseDTO updateCity(Long cityId, CityDTO cityDTO) {
 		City city = cityRepo.findById(cityId)
 				.orElseThrow(() -> new ResourceNotFoundException("Invalid City ID , City Not Found"));
 		State state = stateRepo.findById(cityDTO.getStateId())
-				.orElseThrow(() -> new ResourceNotFoundException("Invalid State Id"));
+				.orElseThrow(() -> new ResourceNotFoundException("Invalid State ID"));
 
 		mapper.map(cityDTO, city);
 		state.addCity(city);
-		return mapper.map(city, CityDTO.class);
+		return mapper.map(city, CityResponseDTO.class);
 	}
 
 	@Override
 	public List<CityResponseDTO> getAllCitys() {
-		return cityRepo.findAll().stream().map(city -> mapper.map(city, CityResponseDTO.class)).collect(Collectors.toList());
+		return cityRepo
+				.findAll()
+				.stream()
+				.map(city -> mapper.map(city, CityResponseDTO.class))
+				.collect(Collectors.toList());
 	}
 
 	@Override

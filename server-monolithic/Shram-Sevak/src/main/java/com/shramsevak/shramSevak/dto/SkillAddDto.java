@@ -20,4 +20,6 @@ public class SkillAddDto {
 	private List<Long> skillIds;
 	
 	private Long workerId;
+
 }
+

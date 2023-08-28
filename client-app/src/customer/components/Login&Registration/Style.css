@@ -4,7 +4,15 @@
 * {
 	box-sizing: border-box;
 }
+.error-message{
+	color:#FF4B2B !important;
+	padding: 0;
+	margin: 0;
+}
 
+error{
+	color: #ff3b15;
+}
 
 
 h1 {
@@ -47,6 +55,7 @@ button {
 	cursor: pointer;
 	text-transform: uppercase;
 	transition: transform 80ms ease-in;
+
 	
 	
 }
@@ -89,6 +98,8 @@ input {
 	padding: 12px 15px;
 	margin: 8px 0;
 	width: 100%;
+	border: 1px solid #b9b9b9;
+	border-radius: 5px;
 }
 
 .container {

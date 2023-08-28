@@ -1,25 +1,23 @@
 package com.shramsevak.shramSevak.entity;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 @Entity
 @Table(name = "orders")
 public class Order extends BaseEntity  {
@@ -39,6 +37,11 @@ public class Order extends BaseEntity  {
 	@Column(nullable = false)
 	private LocalDateTime endTime;
 	
+	@Column(nullable = false)
+	private Long price;
+	
+	@Embedded
+	private Transaction transaction;
 	
 	// RELATIONS
 	
@@ -49,11 +52,5 @@ public class Order extends BaseEntity  {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "worker_id", nullable = true)
 	private Worker worker;
-	
-	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	@JoinTable(name = "worker_orders",
-			joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "worker_id"))
-	private Set<Worker> requestedWorkers = new HashSet<>();
 	
 }
