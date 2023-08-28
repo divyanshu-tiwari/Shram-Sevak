@@ -58,58 +58,73 @@ const ChooseSkillAndWorkers = ({ formData, setFormData }) => {
   }, [selectedSkill]);
 
   return (
-    <div>
-      <h1>Choose Skill and Workers</h1>
-      <select
-        id="category"
-        onChange={handleCategoryChange}
-        value={selectedCategory}
-      >
-        <option value="Select Category" selected>
-          Select Category
+    <div className="max-w-md mx-auto p-8 bg-white border rounded">
+  <h1 className="text-2xl font-bold mb-4">Choose Skill and Workers</h1>
+  
+  <div className="mb-4">
+    <label htmlFor="category" className="block mb-2">
+      Category:
+    </label>
+    <select
+      id="category"
+      onChange={handleCategoryChange}
+      value={selectedCategory}
+      className="w-full p-2 border rounded"
+    >
+      <option value="Select Category" selected>
+        Select Category
+      </option>
+      {categories.map((category) => (
+        <option key={category.id} value={category.id}>
+          {category.categoryName}
         </option>
-        {categories.map((category) => (
-          <option key={category.id} value={category.id}>
-            {category.categoryName}
-          </option>
-        ))}
-      </select>
-      <select
-        id="skill"
-        onChange={(e) => setSelectedSkill(e.target.value)}
-        value={selectedSkill}
-      >
-        <option value="Select Skill" selected>
-          Select Skill
+      ))}
+    </select>
+  </div>
+  
+  <div className="mb-4">
+    <label htmlFor="skill" className="block mb-2">
+      Skill:
+    </label>
+    <select
+      id="skill"
+      onChange={(e) => setSelectedSkill(e.target.value)}
+      value={selectedSkill}
+      className="w-full p-2 border rounded"
+    >
+      <option value="Select Skill" selected>
+        Select Skill
+      </option>
+      {skills.map((skill) => (
+        <option key={skill.id} value={skill.id}>
+          {skill.skillName}
         </option>
-        {skills.map((skill) => (
-          <option key={skill.id} value={skill.id}>
-            {skill.skillName}
-          </option>
-        ))}
-      </select>
-      <h2>List of Workers:</h2>
-      <div >
-      <ul className="space-y-4">
-        {workers.map((worker) => (
-          <li key={worker.id}>
-            <label className="flex items-center space-x-2">
-              <input
-                type="radio"
-                name="worker"
-                value={worker.id}
-                checked={selectedWorker === worker.id}
-                onChange={() => handleWorkerSelection(worker.id)}
-              />
-              <span>
-                {worker.firstName} {worker.lastName}
-              </span>
-            </label>
-          </li>
-        ))}
-      </ul>
-      </div>
-    </div>
+      ))}
+    </select>
+  </div>
+  
+  <h2 className="text-lg font-bold mb-4">List of Workers:</h2>
+  
+  <div className="overflow-y-auto max-h-64">
+    <ul className="space-y-4">
+      {workers.map((worker) => (
+        <li key={worker.id} className="flex items-center">
+          <input
+            type="radio"
+            name="worker"
+            value={worker.id}
+            checked={selectedWorker === worker.id}
+            onChange={() => handleWorkerSelection(worker.id)}
+            className="mr-2"
+          />
+          <span>
+            {worker.firstName} {worker.lastName}
+          </span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</div>
   );
 };
 

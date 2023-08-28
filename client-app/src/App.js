@@ -20,6 +20,7 @@ import { AdminLoginGuard } from './utils/guards/admin.login.guard';
 import { Role } from './utils/models/role';
 import RegistrationSuccess from './Worker/components/Login&Registration/RegistrationSuccess';
 import Cart from './customer/components/Cart/Cart';
+import ParentComponent from './customer/Dashboard/ParentComponent';
 
 function App() {
   return (
@@ -30,7 +31,7 @@ function App() {
         <Route path="/loginCustomer" element={<FormCustomer />} />
         <Route path="/loginWorker" element={<FormWorker />} />
         <Route path="/dashboardC" element={<Dashboard/>}/>
-        <Route path="/orderBook/:workerId" element={<OrderBook></OrderBook>}/>
+        <Route path="/orderBook/:workerId" element={<ParentComponent></ParentComponent>}/>
 
       
         <Route path="/chooseskills" element={<ChooseSkills />} />
