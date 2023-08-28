@@ -16,8 +16,8 @@ const user = {
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', current: true },
-  { name: 'Scheduled Orders', href: '/active-orders', current: false },
-  { name: 'All Orders', href: '/orders', current: false },
+  { name: 'View All Orders', href: '/active-orders', current: false },
+  { name: 'Scheduled Orders', href: '/orders', current: false },
   { name: 'Skills', href: '/choose-skills', current: false },
   { name: 'Locality', href: '/addresses', current: false },
 ]
