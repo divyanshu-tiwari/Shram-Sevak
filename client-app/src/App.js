@@ -26,6 +26,7 @@ import { WorkerAuthGuard } from './utils/guards/worker.auth.guard';
 
 import Cart from './customer/components/Cart/Cart';
 import ParentComponent from './customer/Dashboard/ParentComponent';
+import OrderDetails from './customer/Dashboard/OrderDetails';
 
 
 function App() {
@@ -39,7 +40,7 @@ function App() {
         <Route path="/loginWorker" element={<FormWorker />} />
         <Route path="/dashboardC" element={<Dashboard/>}/>
         <Route path="/orderBook/:workerId/:startTime/:endTime" element={<ParentComponent></ParentComponent>}/>
-
+        <Route path="/customer/orderdetails" element={<OrderDetails></OrderDetails>}/>
       
         <Route path="/chooseskills" element={<ChooseSkills />} />
         <Route path="/registationsuccess" element={<RegistrationSuccess />} />

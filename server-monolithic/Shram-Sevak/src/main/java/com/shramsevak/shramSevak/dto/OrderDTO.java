@@ -11,7 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class OrderDTO {
-	private Long id ;
+	private long id ;
 	@NotEmpty
 	private String title;
 	@NotEmpty

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import OrderBookComponent from './OrderBook';
-import Cart from '../components/Cart/Cart';
+import Cart from '../Dashboard/Cart';
 import store from '../../utils/store/store';
 import { useParams } from 'react-router-dom';
 const ParentComponent = () => {
@@ -28,6 +28,7 @@ const ParentComponent = () => {
       {orderBookingPage && <OrderBookComponent myOrder={order} onOrderChange={setOrder} changePage={setOrderBookingPage} />}
       {!orderBookingPage && <Cart Order={order} onOrderChange={setOrder} changePage={setOrderBookingPage} />}
     </div>
+
   );
 };
 
