@@ -30,7 +30,8 @@ public class OrderController {
 	private OrderService orderService;
 	
 	@GetMapping("/all")
-	public ResponseEntity<?> getAll(@RequestParam int pageNumber,@RequestParam int pageSize){
+	public ResponseEntity<?> getAll(@RequestParam(defaultValue = "0", required = false) int pageNumber,
+			@RequestParam(defaultValue = "5", required = false) int pageSize){
 		return new ResponseEntity<>(orderService.getAll(pageNumber, pageSize), HttpStatus.OK);
 	}
 	

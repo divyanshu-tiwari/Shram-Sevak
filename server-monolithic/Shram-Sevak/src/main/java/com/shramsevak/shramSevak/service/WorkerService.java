@@ -7,6 +7,8 @@ import java.util.List;
 import com.shramsevak.shramSevak.dto.SigninRequest;
 import com.shramsevak.shramSevak.dto.SigninResponse;
 import com.shramsevak.shramSevak.dto.WorkerRegistrationDto;
+import com.shramsevak.shramSevak.dto.WorkerUpdateRequestDto;
+import com.shramsevak.shramSevak.dto.WorkerUpdateResponceDto;
 import com.shramsevak.shramSevak.dto.WorkerResponseDTO;
 
 import jakarta.validation.Valid;
@@ -14,6 +16,8 @@ import jakarta.validation.Valid;
 public interface WorkerService {
 
 	WorkerResponseDTO register(WorkerRegistrationDto workerDto);
+	
+	WorkerUpdateResponceDto updateWorker(WorkerUpdateRequestDto worker);
 	
 	String deleteByIdPermanently(Long id);
 
