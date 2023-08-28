@@ -38,7 +38,7 @@ function App() {
         <Route path="/loginCustomer" element={<FormCustomer />} />
         <Route path="/loginWorker" element={<FormWorker />} />
         <Route path="/dashboardC" element={<Dashboard/>}/>
-        <Route path="/orderBook/:workerId" element={<ParentComponent></ParentComponent>}/>
+        <Route path="/orderBook/:workerId/:startTime/:endTime" element={<ParentComponent></ParentComponent>}/>
 
       
         <Route path="/chooseskills" element={<ChooseSkills />} />

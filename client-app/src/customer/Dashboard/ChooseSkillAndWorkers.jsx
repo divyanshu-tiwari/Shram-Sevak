@@ -36,7 +36,7 @@ const ChooseSkillAndWorkers = ({ formData, setFormData }) => {
   const handleWorkerSelection = (workerId) => {
     alert(workerId);
     setSelectedWorker(workerId);
-    navigate(`/orderBook/${workerId}`)
+    navigate(`/orderBook/${workerId}/${startTime}/${endTime}`)
   };
   const fetchAvailableWorkers = (selectedSkill, newStartTime, newEndTime) => {
     const apiUrl = `http://localhost:8080/worker/available/skill/${selectedSkill}/start/${encodeURIComponent(newStartTime)}/end/${encodeURIComponent(newEndTime)}`;

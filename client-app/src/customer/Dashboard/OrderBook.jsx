@@ -52,8 +52,8 @@ const OrderBookComponent = ({ myOrder, onOrderChange, changePage }) => {
           description: '',
           startTime: '',
           endTime: '',
-          customerId: null,
-          workerId: null,
+          customerId: myOrder.customerId,
+          workerId: workerId,
         });
       })
       .catch((error) => {
