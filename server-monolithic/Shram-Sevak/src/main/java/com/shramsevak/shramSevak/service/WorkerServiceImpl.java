@@ -20,6 +20,8 @@ import com.shramsevak.shramSevak.dto.SigninRequest;
 import com.shramsevak.shramSevak.dto.SigninResponse;
 import com.shramsevak.shramSevak.dto.WorkerRegistrationDto;
 import com.shramsevak.shramSevak.dto.WorkerResponseDTO;
+import com.shramsevak.shramSevak.dto.WorkerUpdateRequestDto;
+import com.shramsevak.shramSevak.dto.WorkerUpdateResponceDto;
 import com.shramsevak.shramSevak.entity.Locality;
 import com.shramsevak.shramSevak.entity.OrderStatus;
 import com.shramsevak.shramSevak.entity.Worker;
@@ -47,6 +49,8 @@ public class WorkerServiceImpl implements WorkerService {
 	@Autowired
 	private ModelMapper mapper;
 	
+
+	
 	@Override
 	public WorkerResponseDTO register(WorkerRegistrationDto workerDto) {
 		Worker worker = mapper.map(workerDto, Worker.class);
@@ -72,7 +76,6 @@ public class WorkerServiceImpl implements WorkerService {
 		Worker worker=workerRepo.findById(id).orElseThrow(() -> new WorkerException("Invalid worker ID"));
 		checkStatus(worker);
 		worker.setStatus(WorkerStatus.INACTIVE);
-		
 		return worker.getFirstName()+" "+worker.getLastName()+"s  details deleted!";
 	}
 
@@ -108,12 +111,40 @@ public class WorkerServiceImpl implements WorkerService {
 
 
 	@Override
+	public WorkerUpdateResponceDto updateWorker(WorkerUpdateRequestDto workerUpdateDto) {
+		Worker worker = workerRepo.findById(workerUpdateDto.getId())
+				.orElseThrow(() -> new RuntimeException("Worker not found with id: " + workerUpdateDto.getId()));
+		
+		if(workerUpdateDto.getFirstName() != null) {
+			worker.setFirstName(workerUpdateDto.getFirstName());
+		}
+		if(workerUpdateDto.getLastName() != null) {
+			worker.setLastName(workerUpdateDto.getLastName());
+		}
+		if(workerUpdateDto.getGender() != null) {
+			worker.setGender(workerUpdateDto.getGender());
+		}
+		if(workerUpdateDto.getContact() != null) {
+			worker.setContact(workerUpdateDto.getContact());
+		}
+		if(workerUpdateDto.getEmail() != null) 	{
+			worker.setEmail(workerUpdateDto.getEmail());
+		}
+		if(workerUpdateDto.getProfilePicturePath()!= null) {
+			worker.setProfilePicturePath(workerUpdateDto.getProfilePicturePath());
+		}
+		
+		return mapper.map(worker, WorkerUpdateResponceDto.class);
+	}
+	
+
 	public List<WorkerResponseDTO> getAvailableWorkersBySlotAndSkill(Long skillId, LocalDateTime startTime, LocalDateTime endTime, int pageNumber, int pageSize) {
 		Set<Worker> workersWithDesiredSkill = skillRepo.findById(skillId).orElseThrow(() -> new ResourceNotFoundException("No such skill found.")).getWorkers().stream().filter(worker -> worker.getStatus().equals(WorkerStatus.ACTIVE)).collect(Collectors.toSet()); 
 		Set<Worker> unavailableWorkers = orderRepo.findAllByStartTimeIsAndStatus(startTime, OrderStatus.CONFIRMED).stream().map(order -> order.getWorker()).collect(Collectors.toSet());
 		List<Worker> availableWorkers = workersWithDesiredSkill.stream().filter(Predicate.not(unavailableWorkers::contains)).distinct().toList();
 		return availableWorkers.stream().map(worker -> mapper.map(worker, WorkerResponseDTO.class)).collect(Collectors.toList());
 	}
+
 
 
 

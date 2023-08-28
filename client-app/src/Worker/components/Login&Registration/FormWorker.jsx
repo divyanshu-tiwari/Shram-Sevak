@@ -42,7 +42,7 @@ const Form = ({showNavbar=true}) => {
         console.log("Successful login : " + response.data)
         // need to provide dummy token when web-service is not returning it.
         dispatch(setCurrentUser({...response.data, role: Role.WORKER, token:15}))
-          if (getUserRole() === Role.WORKER)
+         if (getUserRole() === Role.WORKER)
               navigate('/worker-dashboard')
           })
       .catch(error => {
