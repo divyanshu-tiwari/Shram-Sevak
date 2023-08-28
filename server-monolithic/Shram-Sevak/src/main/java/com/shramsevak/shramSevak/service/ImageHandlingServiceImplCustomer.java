@@ -46,20 +46,13 @@ public class ImageHandlingServiceImplCustomer implements ImageHandlingService {
 	public ApiResponse uploadImage(Long customerId, MultipartFile image) throws IOException {
 		
 		Customer customer =  customerRepo.findById(customerId).orElseThrow(()-> new ResourceNotFoundException("Invalid Customer Id"));
-	    LocalDate currentDate = LocalDate.now();
-	    LocalTime currentTime = LocalTime.now();
-	    String formattedDate = currentDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-	    String formattedTime = currentTime.format(DateTimeFormatter.ofPattern("HH:mm"));
 		  // Generate a unique file name based on the worker's ID
-//	    String fileName = "customerId_" + customerId + "_Date_" + formattedDate+"_Time_"+formattedTime+"_"+System.currentTimeMillis();
 	    String fileName = "customerId_" + customerId ;
 	    String path = uploadFolder.concat(fileName);
 		System.out.println(path);
 		writeByteArrayToFile(new File(path), image.getBytes());
 		// set image path
 		customer.setProfilePicturePath(fileName);
-		// OR to store the image directly in DB as a BLOB
-		// emp.setImage(image.getBytes());
 		customerRepo.save(customer);
 		return new ApiResponse("Image file uploaded successfully for Customer id " + customerId);
 	}
@@ -71,7 +64,6 @@ public class ImageHandlingServiceImplCustomer implements ImageHandlingService {
 	if(path != null) {
 		// path ---> File --> byte[]
 		return readFileToByteArray(new File(uploadFolder.concat(path)));
-		//OR from DB : return emp.getImage();
 	} else
 		throw new ApiException("Image not yet assigned !!!!");
 	}
