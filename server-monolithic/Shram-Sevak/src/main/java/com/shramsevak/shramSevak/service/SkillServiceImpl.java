@@ -98,13 +98,12 @@ public class SkillServiceImpl implements SkillService {
 	}
 	
 	@Override
-
 	public ApiResponse addRegSkills(SkillAddDto skillAddDto) {
 		Worker worker=workerRepo.findById(skillAddDto.getWorkerId()).orElseThrow(() -> new WorkerException("Invalid worker ID"));
 		List<Skill> skills = skillRepo.findAllById(skillAddDto.getSkillIds());
 		skills.stream().forEach(skill -> worker.addSkill(skill));
 		worker.setStatus(WorkerStatus.ACTIVE);
-		return new ApiResponse(" Skill added Successfully ");
+		return new ApiResponse(" Skill added Successfully ");							
 	}
 
 

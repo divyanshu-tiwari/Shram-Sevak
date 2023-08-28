@@ -5,14 +5,33 @@ import PersonalInfo from "./PersonalInfo"
 import AddressInfo from "./AddressInfo"
 import './Style.css';
 import Navigation from '../navigation/Navigation';
+
+import { Password } from '@mui/icons-material';
+
 import CustomerService from "../../../utils/service/customer.service"
 import { Role } from '../../../utils/models/role';
 import { setCurrentUser } from "../../../utils/store/user/userSlice";
 import { useDispatch } from "react-redux";
 
+
 const Form = ({showNavbar=true}) => {
     const [page, setPage] = useState(0);
-    const [formData, setFormData] = useState({
+    const [errorMessages, setErrorMessages] = useState({
+      contact: "",
+      password: "",
+      confirmPassword: "",
+      firstName: "",
+      lastName: "",
+      dateOfBirth:"",
+      gender: "",
+      Lane_1:"",
+      Lane_2:"",
+      Lane_3:"",
+      Pincode:"",
+    });
+
+    
+    const [formData , setFormData] = useState({
       contact: "",
       password: "",
       confirmPassword: "",
@@ -30,20 +49,21 @@ const Form = ({showNavbar=true}) => {
     const FormTitles = ["Sign Up", "Personal Info", "Address Info"];
     const PageDisplay = () => {
       if (page === 0) {
-        return <SignUpInfo formData={formData} setFormData={setFormData} />;
+        return <SignUpInfo formData={formData} setFormData={setFormData} errorMessages={errorMessages}/>;
       } else if (page === 1) {
-        return <PersonalInfo formData={formData} setFormData={setFormData} />;
+        return <PersonalInfo formData={formData} setFormData={setFormData} errorMessages={errorMessages} />;
       } else {
-        return <AddressInfo formData={formData} setFormData={setFormData} />;
+        return <AddressInfo formData={formData} setFormData={setFormData} errorMessages={errorMessages}/>;
       }
     };
     
   // Validation functions for each field
   const isPhoneValid = () => formData.contact !== "" && formData.contact !==undefined && formData.contact.length===10;
   const isPasswordValid = () => formData.password !== "" && formData.password === formData.confirmPassword  
-                                                         && formData.password.length >= 4 && formData.password !==undefined;
+                                && formData.password.length >= 4 && formData.password !==undefined;
   const isFirstNameValid = () => formData.firstName !== "";
   const isLastNameValid = () => formData.lastName !== "";
+  const isPincodeValid = () => formData.Pincode !== "" && formData.Pincode === 6;
   const isDOBValid =()=>{
     const currentDate = new Date();
     const enteredDOB = new Date(formData.dateOfBirth);
@@ -60,10 +80,17 @@ const Form = ({showNavbar=true}) => {
   const singInPageValid = () => {
     if (page === 0) {
         if(!isPhoneValid()){
-            alert("Enter Currect Moble No.( It Should be 10 Digit )")
-        }
-        else if(!isPasswordValid()){
-            alert("Incorrect Currect Password ( Password Should be min 4 Digit )")
+
+          setErrorMessages((prevMessages) => ({
+            ...prevMessages,
+            contact: 'Enter a valid Phone No. (It should be 10 digits)',
+          }));
+        }else
+        if(!isPasswordValid()){
+          setErrorMessages((prevMessages) => ({
+            ...prevMessages,
+            password: 'Incorrect Password (Password Should be at least 4 Digits)',
+          }));
         }else {
             return true;
         }
@@ -75,22 +102,62 @@ const Form = ({showNavbar=true}) => {
  // Validation function for the current page
  const isPageValid = () => {
   if (page === 0) {
-        if (!isPhoneValid()) {
-          alert("Enter Correct Mobile No. (It Should be 10 Digits)");
-        } else if (!isPasswordValid()) {
-          alert("Incorrect Password (Password Should be at least 4 Digits)");
+    if (!isPhoneValid()) {
+      setErrorMessages((prevMessages) => ({
+        ...prevMessages,
+        contact: 'Invalid Fhon Number',
+      }));
+    } else  if (!isPasswordValid()) {
+          setErrorMessages((prevMessages) => ({
+            ...prevMessages,
+            password: 'Incorrect Password (at least 4 Digits)',
+          }));
+
         } else {
+          
+          setErrorMessages((prevMessages) => ({
+            ...prevMessages,
+            password: '', // Clear error message if valid
+          }));    
+          setErrorMessages((prevMessages) => ({
+            ...prevMessages,
+            contact: '', // Clear error message if valid
+          }));    
           return true;
         }
       } else if (page === 1) {
         if (!isFirstNameValid()) {
-          alert("Enter First Name");
+          setErrorMessages((prevMessages) => ({
+            ...prevMessages,
+            firstName: 'Enter First Name',
+          }));
+      
         } else if (!isLastNameValid()) {
-          alert("Enter Last Name");
+          setErrorMessages((prevMessages) => ({
+            ...prevMessages,
+            lastName: 'Enter Last Name',
+          }));
         } else if (!isDOBValid()) {
-            alert("Minimum Age Should be 18");
-          } else {
-          return true;
+          setErrorMessages((prevMessages) => ({
+            ...prevMessages,
+            dateOfBirth: 'Minimum Age Should be 18',
+             }));
+       
+        } else {
+          setErrorMessages((prevMessages) => ({
+            ...prevMessages,
+            firstName: '', // Clear error message if valid
+          }));           
+           setErrorMessages((prevMessages) => ({
+            ...prevMessages,
+            lastName: '', // Clear error message if valid
+          }));  
+
+          setErrorMessages((prevMessages) => ({
+            ...prevMessages,
+            dateOfBirth: '', // Clear error message if valid
+          }));  
+        return true;
         }
       } 
       
@@ -120,15 +187,17 @@ const Form = ({showNavbar=true}) => {
     };
   }, []);
 
+
   
 const dispatch = useDispatch()
 
+
 return (
     <>
-    { showNavbar && <Navigation />}
-    <div className="flex justify-center items-center p-10">
-    <div className="container " id="container">
-        <div className="form-container sign-up-container">
+      { showNavbar && <Navigation />}
+      <div className="flex justify-center items-center p-10">
+      <div className="container " id="container">
+          <div className="form-container sign-up-container">
             <form action="#"  target="_self" >
           
           
@@ -153,37 +222,37 @@ return (
                                 Back
                             </button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <button
-                            id='next'
+                                id='next'
                                 type={page === FormTitles.length - 1 ? "submit" : "button"}
-                                    onClick={async () => {
-                                        if (isPageValid()) { // Check if the current page's data is valid
-                                            if (page === FormTitles.length - 1) {
-                                                try {
-                                                    console.log(formData.gender + "Is selected Gender");
-                                                    const response = await axios.post('http://localhost:8080/customer/register', formData);
-                                                    if (response.status === 200) {
-                                                        alert('Form submitted successfully!');
-                                                        console.log(response.data); 
-                                                    } else {
-                                                        alert('Failed to submit form.');
-                                                    }
-                                                    } catch (error) {
-                                                    alert('An error occurred while submitting the form.');
-                                                    alert(formData.gender);
+                                onClick={async () => {
+                                  if (isPageValid()) { // Check if the current page's data is valid
+                                    if (page === FormTitles.length - 1) {
+                                        try {
+                                              console.log(formData.gender + "Is selected Gender");
+                                              const response = await axios.post('http://localhost:8080/customer/register', formData);
+                                              if (response.status === 200) {
+                                                    console.log(response.data); 
+                                                    console.log("Sign in successful"); 
+                                                  } else {
+                                                    console.log('Failed to sign in.');
+                                                  }
+                                                } catch (error) {
+
                                                     console.error(error);
-                                                    
                                                     }
                                                 } else {
                                                     setPage((currPage) => currPage + 1);
                                                 }
                                             } else {
-                                            alert('Please fill in all required fields and ensure that the data is valid.');
+                            
+                                              console.log('Invalid DATA');
                                             }
                                         }}
                                 >
                                 {page === FormTitles.length - 1 ? "Submit" : "Next"}
                             </button>
-                    </div>                
+
+                    </div>             
             </form>
         </div>
 
@@ -198,8 +267,8 @@ return (
                     name="contact" 
                     placeholder="Phon No."
                     value={formData.contact} 
-                    onChange={(event) =>setFormData({ ...formData, contact: event.target.value })}  
-                    
+                    onChange={(event) =>
+                      setFormData({ ...formData, contact: event.target.value })}
                     />
             <input 
                     type="password" 
@@ -207,12 +276,14 @@ return (
                     name="pass" 
                     placeholder="Password" 
                     value={formData.password} 
-                    onChange={(event) =>setFormData({ ...formData, password: event.target.value })}            
+                    onChange={(event) =>
+                    setFormData({ ...formData, password: event.target.value })}       
             />
             <a href="#">Forgot your password?</a>
             <button
                     type='submit' 
                     id ="sub"
+
                     name="sub" 
                      onClick = {() => {
                        CustomerService.signin({contact:formData.contact,password:formData.password})
@@ -238,6 +309,7 @@ return (
                   //       } 
                   //   }
                     >Sign In</button>
+                   
           </form>
         </div>
          
