@@ -56,7 +56,7 @@ public class Worker extends BaseEntity {
     private String password;
     
     @Column(nullable = true)
-    @ColumnDefault("'images/workers/workerDefaultImage.jpg'")
+    @ColumnDefault("'images/workers/workerDefaultImage.png'")
     private String profilePicturePath;
 
     @Column(name = "status" ,nullable = false)

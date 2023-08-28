@@ -19,4 +19,10 @@ spring:
    
 file:
  upload:
-  location: images/ 
+  location: Images/Workers/
+  
+  file:
+ upload2:
+  location: Images/Customers/
+
+  

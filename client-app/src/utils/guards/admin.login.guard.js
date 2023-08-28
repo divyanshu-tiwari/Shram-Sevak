@@ -7,7 +7,7 @@ export const AdminLoginGuard = ({ children, roles }) => {
 
     function proceed() {
         // alert(JSON.stringify(currentUser.value))
-        if ((currentUser.value != {}) && currentUser.value.role === Role.ADMIN) {
+        if ((currentUser.value !== {}) && currentUser.value.role === Role.ADMIN) {
             return (<Navigate to={{ pathname: '/admin-dashboard' }} />)
         }
         /*

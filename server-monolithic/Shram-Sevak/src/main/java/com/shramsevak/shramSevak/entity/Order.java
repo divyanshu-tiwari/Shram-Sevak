@@ -37,6 +37,9 @@ public class Order extends BaseEntity  {
 	@Column(nullable = false)
 	private LocalDateTime endTime;
 	
+	@Column(nullable = false)
+	private Long price;
+	
 	@Embedded
 	private Transaction transaction;
 	
