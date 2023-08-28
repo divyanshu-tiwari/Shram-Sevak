@@ -5,6 +5,7 @@ import store from '../../../utils/store/store'
 import WorkerProfile from './WorkerProfile'
 import SignOut from '../Login&Registration/SignOut'
 import WorkerDelete from './WorkerDelete'
+import ViewAllOrders from './ViewAllOrders'
 
 
 const user = {
@@ -16,7 +17,7 @@ const user = {
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', current: true },
-  { name: 'View All Orders', href: '/active-orders', current: false },
+  { name: 'View All Orders', href: '/view-all-orders', current: false },
   { name: 'Scheduled Orders', href: '/orders', current: false },
   { name: 'Skills', href: '/choose-skills', current: false },
   { name: 'Locality', href: '/addresses', current: false },
@@ -193,6 +194,8 @@ export default function AdminDashboard() {
                 {currentPage.href === '/worker-profile' && <WorkerProfile /> }
                 {currentPage.href === '/signout' && <SignOut/>}
                 {currentPage.href === '/delete' && <WorkerDelete />}
+                {currentPage.href === '/view-all-orders' && <ViewAllOrders />}
+
           </div>
         </main>
       </div>
