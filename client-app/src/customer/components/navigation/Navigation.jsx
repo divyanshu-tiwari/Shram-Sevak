@@ -44,7 +44,7 @@ const Navigation = () => {
             </Link>
           </li>
           <li>
-            <Link className="hover:text-gray-200" to="/contact">
+            <Link className="hover:text-gray-200" to="/payment">
               Contact Us
             </Link>
           </li>

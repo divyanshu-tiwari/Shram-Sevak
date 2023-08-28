@@ -1,6 +1,7 @@
 package com.shramsevak.shramSevak.service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -13,6 +14,7 @@ import com.shramsevak.shramSevak.dto.ApiResponse;
 import com.shramsevak.shramSevak.dto.SkillAddDto;
 import com.shramsevak.shramSevak.dto.SkillDTO;
 import com.shramsevak.shramSevak.dto.SkillResponseDTO;
+import com.shramsevak.shramSevak.dto.WorkerResponceDto;
 import com.shramsevak.shramSevak.entity.Category;
 import com.shramsevak.shramSevak.entity.Skill;
 import com.shramsevak.shramSevak.entity.Worker;
@@ -104,6 +106,15 @@ public class SkillServiceImpl implements SkillService {
 		return new ApiResponse(" Skill added Successfully ");							
 	}
 
+
+
+	@Override
+	public List<WorkerResponceDto> getWorkers(Long id) {
+		Skill skill=skillRepo.findById(id).orElseThrow(() -> new WorkerException("Invalid skill ID"));
+		Set<Worker> workers=skill.getWorkers();
+		
+		return workers.stream().map(worker->mapper.map(worker,WorkerResponceDto.class)).collect(Collectors.toList());
+	}
 	@Override
 	public List<SkillResponseDTO> getAllSkills() {
 		return skillRepo

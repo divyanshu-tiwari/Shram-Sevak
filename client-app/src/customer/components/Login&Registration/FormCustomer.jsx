@@ -5,7 +5,13 @@ import PersonalInfo from "./PersonalInfo"
 import AddressInfo from "./AddressInfo"
 import './Style.css';
 import Navigation from '../navigation/Navigation';
+
 import { Password } from '@mui/icons-material';
+
+import CustomerService from "../../../utils/service/customer.service"
+import { Role } from '../../../utils/models/role';
+import { setCurrentUser } from "../../../utils/store/user/userSlice";
+import { useDispatch } from "react-redux";
 
 
 const Form = ({showNavbar=true}) => {
@@ -182,6 +188,10 @@ const Form = ({showNavbar=true}) => {
   }, []);
 
 
+  
+const dispatch = useDispatch()
+
+
 return (
     <>
       { showNavbar && <Navigation />}
@@ -273,22 +283,31 @@ return (
             <button
                     type='submit' 
                     id ="sub"
-                    name="sub"  
-                    onClick={async () => {
-                            try {
-                                const response = await axios.post('http://localhost:8080/customer/signin', formData);
-                                if (response.status === 200) {
-                                    console.log(response.data); 
-                                } else {
 
-                                    console.log("Failed to submit form.");
-                                }
-                                } catch (error) {
-                                console.log("An error occurred while submitting the form.");
-                                console.error(error);
-                         }
-                        } 
-                    }
+                    name="sub" 
+                     onClick = {() => {
+                       CustomerService.signin({contact:formData.contact,password:formData.password})
+                       .then(response => {
+                          console.log("Successful login : " + response.data)
+                          // need to provide dummy token when web-service is not re
+                        dispatch(setCurrentUser({...response.data, role: Role.CUSTOMER, token:12}))
+                        })
+                      }
+                     }
+                  //  onClick={async () => {
+                  //           try {
+                  //               const response = await axios.post("localhost:8080/customer/sigin")
+                  //               if (response.status === 200) {
+                  //                   console.log(response.data); 
+                  //               } else {
+                  //                   alert('Failed to submit form.');
+                  //               }
+                  //               } catch (error) {
+                  //               alert('An error occurred while submitting the form.');
+                  //               console.error(error);
+                  //           }
+                  //       } 
+                  //   }
                     >Sign In</button>
                    
           </form>
