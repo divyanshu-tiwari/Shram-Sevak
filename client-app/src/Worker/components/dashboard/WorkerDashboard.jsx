@@ -1,26 +1,29 @@
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useState } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import { AlternateEmail, ShowChart } from '@mui/icons-material'
-import { useSelector } from 'react-redux'
-import { Link, useNavigate } from 'react-router-dom'
+import store from '../../../utils/store/store'
 import WorkerProfile from './WorkerProfile'
 import SignOut from '../Login&Registration/SignOut'
+import WorkerDelete from './WorkerDelete'
 
 
-
+const user = {
+  name: store.getState().user.value.userName,
+  email: 'tom@example.com',
+  imageUrl:
+    'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+}
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', current: true },
-  { name: 'Active Requests', href: '/customers', current: false },
-  { name: 'Completed Requests', href: '/workers', current: false },
-  { name: 'Edit Skills', href: '/skills', current: false },
-  { name: 'Localities', href: '/signout', current: false },
+  { name: 'View All Orders', href: '/active-orders', current: false },
+  { name: 'Scheduled Orders', href: '/orders', current: false },
+  { name: 'Skills', href: '/choose-skills', current: false },
+  { name: 'Locality', href: '/addresses', current: false },
 ]
 
 const userNavigation = [
   { name: 'Your Profile', href: '/worker-profile' },
-  { name: 'Settings', href: '#' },
   { name: 'Sign out', href: '/signout' },
 ]
 
@@ -28,22 +31,12 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function WorkerDashboard() {
+export default function AdminDashboard() {
 
   // alert(navigation)
-  const [currentPage, setCurrentPage] = useState('/worker-dashboard')
-  const currentUser = useSelector((state) => state.user)
-    // For navigation
-    const navigate = useNavigate()
-    const userName = currentUser.value.firstName+" "+currentUser.value.lastName
-    const user = {
-      name: userName,
-      email: 'tom@example.com',
-      imageUrl:
-        'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    }
 
-    
+  const [currentPage, setCurrentPage] = useState({name:'Dashboard', href:'/dashboard', current:true})
+
   return (
     <>
       <div className="min-h-full">
@@ -66,7 +59,11 @@ export default function WorkerDashboard() {
                         {navigation.map((item) => (
                           <a
                             key={item.name}
-                            onClick = {() => setCurrentPage(item.href)}
+                            onClick = {() => {
+                              navigation.find((navItem) => navItem.current === true).current = false;
+                              navigation.find((navItem) => navItem === item).current = true;
+                              setCurrentPage({name: item.name, href: item.href})
+                            }}
                             className={classNames(
                               item.current
                                 ? 'bg-gray-900 text-white'
@@ -107,25 +104,23 @@ export default function WorkerDashboard() {
                           leaveTo="transform opacity-0 scale-95"
                         >
                           <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                          {userNavigation.map((item) => (
-                            <Menu.Item key={item.name}>
-                             {({ active }) => (
-                            <a
-                                href={item.href}
-                                onClick={(e) => {
-                                //e.preventDefault(); 
-                                setCurrentPage(item.href)
-                                
-                                }}
-                                className={classNames(
-                                active ? 'bg-gray-100' : '',
-                                'block px-4 py-2 text-sm text-gray-700'
-                                )}
-                            >
-                            {item.name}
-                            </a>
+                            {userNavigation.map((item) => (
+                              <Menu.Item key={item.name}>
+                                {({ active }) => (
+                                  <a             
+                                    onClick={() => {
+                                      // navigation.find((navItem) => navItem.current === true).current = false;
+                                      setCurrentPage({name: item.name, href: item.href})
+                                    }}
+                                    className={classNames(
+                                      active ? 'bg-gray-100' : '',
+                                      'block px-4 py-2 text-sm text-gray-700'
                                     )}
-                        </Menu.Item>
+                                  >
+                                    {item.name}
+                                  </a>
+                                )}
+                              </Menu.Item>
                             ))}
                           </Menu.Items>
                         </Transition>
@@ -154,7 +149,6 @@ export default function WorkerDashboard() {
                       key={item.name}
                       as="a"
                       href={item.href}
-                      onClick={setCurrentPage(item.href)}
                       className={classNames(
                         item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                         'block rounded-md px-3 py-2 text-base font-medium'
@@ -191,16 +185,14 @@ export default function WorkerDashboard() {
 
         <header className="bg-white shadow">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h1>
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900">{currentPage.name}</h1>
           </div>
         </header>
         <main>
-          <div name="master_div" className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-          {currentPage === '/worker-profile' && <WorkerProfile/> }
-
-
-
-
+          <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+                {currentPage.href === '/worker-profile' && <WorkerProfile /> }
+                {currentPage.href === '/signout' && <SignOut/>}
+                {currentPage.href === '/delete' && <WorkerDelete />}
           </div>
         </main>
       </div>

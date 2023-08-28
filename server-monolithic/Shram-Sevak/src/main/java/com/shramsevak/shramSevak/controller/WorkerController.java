@@ -87,4 +87,9 @@ public class WorkerController {
 		log.info("worker controller - update worker information");
 		return new ResponseEntity<>(workerService.updateWorker(worker), HttpStatus.OK);
 	}
+	
+	@GetMapping("/active/{workerId}")
+	public ResponseEntity<?> getAllConfirmedByWorkerId(@PathVariable Long workerId){
+		return new ResponseEntity<>(workerService.getAllConfirmedByWorkerId(workerId), HttpStatus.OK);
+	}
 }

@@ -68,6 +68,8 @@ public class OrderServiceImpl implements OrderService{
 			throw new OrderException("No orders found for the worker");
 		return orders;
 	}
+	
+	
 
 	@Override
 	public List<OrderResponseDTO> getAllByCustomerId(Long customerId) {
@@ -130,5 +132,7 @@ public class OrderServiceImpl implements OrderService{
 			order.setStatus(OrderStatus.CONFIRMED);
 		return new ApiResponse("Transaction updated successfully. " + "ORDER_ID : " + order.getId() + " TRANSACTION_STATUS : " + order.getTransaction().getTransactionStatus().name());
 	}
+
+	
 	
 }
