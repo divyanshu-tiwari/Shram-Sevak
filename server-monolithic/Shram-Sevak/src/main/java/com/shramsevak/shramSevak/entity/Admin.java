@@ -23,7 +23,7 @@ import lombok.ToString;
 @ToString(exclude = "password")
 @Entity
 @Table(name = "admins")
-public class Admin extends BaseEntity{
+public class Admin extends BaseEntity implements ShramSevakUser{
 	
 	@Column(length = 10, nullable = false)
 	private String userName;
@@ -36,4 +36,18 @@ public class Admin extends BaseEntity{
 	joinColumns = @JoinColumn(name = "user_id"), 
 	inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
+
+	// FOR SECURITY CONFIGURATION
+	@Override
+	public ShramSevakUser getUser() {
+		return this;
+	}
+
+	@Override
+	public String getUsername() {
+		return userName;
+	}
+	
+	
+	
 }

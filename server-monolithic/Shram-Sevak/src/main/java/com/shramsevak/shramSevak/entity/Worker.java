@@ -34,7 +34,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString(exclude = "password")
-public class Worker extends BaseEntity {
+public class Worker extends BaseEntity implements ShramSevakUser {
    
     @Column(name = "first_name" ,nullable = false, length = 50)
     private String firstName;
@@ -107,7 +107,16 @@ public class Worker extends BaseEntity {
     	acceptedOrders.remove(order);
     	order.setWorker(null);
     }
-    
-   
+
+	// FOR SECURITY CONFIGURATION
+	@Override
+	public ShramSevakUser getUser() {
+		return this;
+	}
+
+	@Override
+	public String getUsername() {
+		return getContact();
+	}
 
 }

@@ -1,4 +1,4 @@
-package com.app.jwtUtils;
+package com.shramsevak.shramSevak.jwtUtils;
 
 import java.security.Key;
 import java.util.Collection;

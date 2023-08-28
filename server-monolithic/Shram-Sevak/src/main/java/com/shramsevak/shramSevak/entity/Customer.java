@@ -30,7 +30,7 @@ import lombok.ToString;
 @Entity
 @Table(name = "customers")
 @ToString(exclude="password")
-public class Customer extends BaseEntity {
+public class Customer extends BaseEntity implements ShramSevakUser{
 
 	@Column(length = 50, nullable = false)
 	private String firstName;
@@ -98,4 +98,18 @@ public class Customer extends BaseEntity {
 		addresses.remove(address);
 		address.setCustomer(this);
 	}
+	
+	// FOR SECURITY CONFIGURATION
+	@Override
+	public ShramSevakUser getUser() {
+		return this;
+	}
+
+	@Override
+	public String getUsername() {
+		return getContact();
+	}
+	
+	
+	
 }
