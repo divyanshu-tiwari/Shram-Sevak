@@ -16,9 +16,11 @@ import com.shramsevak.shramSevak.customException.WorkerException;
 import com.shramsevak.shramSevak.dto.ApiResponse;
 import com.shramsevak.shramSevak.dto.CreateOrderDTO;
 import com.shramsevak.shramSevak.dto.OrderDTO;
+import com.shramsevak.shramSevak.dto.TransactionUpdateRequestDTO;
 import com.shramsevak.shramSevak.entity.Customer;
 import com.shramsevak.shramSevak.entity.Order;
 import com.shramsevak.shramSevak.entity.OrderStatus;
+import com.shramsevak.shramSevak.entity.Transaction;
 import com.shramsevak.shramSevak.entity.Worker;
 import com.shramsevak.shramSevak.repository.CustomerRepository;
 import com.shramsevak.shramSevak.repository.OrderRepository;
@@ -74,7 +76,7 @@ public class OrderServiceImpl implements OrderService{
 	}
 	
 	@Override
-	public ApiResponse createOrder(CreateOrderDTO orderDetails) {
+	public OrderDTO createOrder(CreateOrderDTO orderDetails) {
 		Customer customer = customerRepo.findById(orderDetails.getCustomerId()).orElseThrow(() -> new CustomerException("No such customer found."));
 		Worker worker = workerRepo.findById(orderDetails.getWorkerId()).orElseThrow(() -> new WorkerException("No such worker found."));
 		Order order = mapper.map(orderDetails, Order.class);
@@ -82,7 +84,7 @@ public class OrderServiceImpl implements OrderService{
 		customer.addOrder(order);
 		worker.addOrder(order);
 		orderRepo.save(order);
-		return new ApiResponse("Order placed successfully. ORDER_ID : " + order.getId());
+		return mapper.map(order, OrderDTO.class);
 	}
 
 	@Override
@@ -112,6 +114,15 @@ public class OrderServiceImpl implements OrderService{
 			throw new OrderException("INVALID OPERATION : can not suspend an already suspended order");
 		order.setStatus(OrderStatus.SUSPENDED);
 		return new ApiResponse("Order suspended. ORDER_ID : " + order.getId());
+	}
+
+	@Override
+	public ApiResponse updateTransaction(TransactionUpdateRequestDTO updateRequest) {
+		Order order = orderRepo.findById(updateRequest.getOrderId()).orElseThrow(() -> new OrderException("INVALID_ORDER_ID : No such order found."));
+		Transaction transaction = mapper.map(updateRequest, Transaction.class);
+		transaction.setTransactionTimestamp(LocalDateTime.now());
+		order.setTransaction(transaction);
+		return new ApiResponse("Transaction updated successfully. " + "ORDER_ID : " + order.getId() + " TRANSACTION_STATUS : " + order.getTransaction().getTransactionStatus().name());
 	}
 	
 }
