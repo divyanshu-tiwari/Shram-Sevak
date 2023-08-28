@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.shramsevak.shramSevak.dto.CreateOrderDTO;
-import com.shramsevak.shramSevak.dto.TransactionUpdateRequestDTO;
 import com.shramsevak.shramSevak.service.OrderService;
 
 import jakarta.validation.Valid;
@@ -70,8 +69,4 @@ public class OrderController {
 		return new ResponseEntity<>(orderService.suspendOrder(orderId), HttpStatus.ACCEPTED);
 	}
 	
-	@PatchMapping("/update-transaction")
-	public ResponseEntity<?> updateTransaction(@RequestBody TransactionUpdateRequestDTO updateRequest){
-		return new ResponseEntity<>(orderService.updateTransaction(updateRequest), HttpStatus.OK);
-	}
 }

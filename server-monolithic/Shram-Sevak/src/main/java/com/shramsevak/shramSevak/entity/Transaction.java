@@ -16,7 +16,7 @@ import lombok.Setter;
 public class Transaction  {
 
 	@Column(name = "transaction_id")
-	private String transactionId;
+	private Long transactionId;
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "transaction_status")

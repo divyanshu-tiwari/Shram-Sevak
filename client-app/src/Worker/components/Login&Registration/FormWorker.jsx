@@ -56,11 +56,11 @@ const Form = ({showNavbar=true}) => {
     const FormTitles = ["Sign Up", "Personal Info", "Choose Your Working Location"]; 
     const PageDisplay = () => {
       if (page === 0) {
-        return <SignUpInfo formData={formData} setFormData={setFormData} errorMessages={errorMessage} />;
+        return <SignUpInfo formData={formData} setFormData={setFormData} errorMessages={errorMessages} />;
       } else if (page === 1) {
-        return <PersonalInfo formData={formData} setFormData={setFormData} errorMessages={errorMessage} />;
+        return <PersonalInfo formData={formData} setFormData={setFormData} errorMessages={errorMessages} />;
       }else if(page===2) {
-        return <ChooseWorkingLocation formData={formData} setFormData={setFormData} errorMessages={errorMessage} />;
+        return <ChooseWorkingLocation formData={formData} setFormData={setFormData} errorMessages={errorMessages} />;
       }
        
     };
@@ -103,23 +103,23 @@ const Form = ({showNavbar=true}) => {
  const isPageValid = () => {
   if (page === 0) {
     if (!isPhoneValid()) {
-      setErrorMessage((prevMessages) => ({
+      setErrorMessages((prevMessages) => ({
         ...prevMessages,
         contact: 'Invalid Fhon Number',
       }));
     } else  if (!isPasswordValid()) {
-          setErrorMessage((prevMessages) => ({
+          setErrorMessages((prevMessages) => ({
             ...prevMessages,
             password: 'Incorrect Password (at least 4 Digits)',
           }));
 
         } else {
           
-          setErrorMessage((prevMessages) => ({
+          setErrorMessages((prevMessages) => ({
             ...prevMessages,
             password: '', // Clear error message if valid
           }));    
-          setErrorMessage((prevMessages) => ({
+          setErrorMessages((prevMessages) => ({
             ...prevMessages,
             contact: '', // Clear error message if valid
           }));    
@@ -127,33 +127,33 @@ const Form = ({showNavbar=true}) => {
         }
       } else if (page === 1) {
         if (!isFirstNameValid()) {
-          setErrorMessage((prevMessages) => ({
+          setErrorMessages((prevMessages) => ({
             ...prevMessages,
             firstName: 'Enter First Name',
           }));
       
         } else if (!isLastNameValid()) {
-          setErrorMessage((prevMessages) => ({
+          setErrorMessages((prevMessages) => ({
             ...prevMessages,
             lastName: 'Enter Last Name',
           }));
         } else if (!isDOBValid()) {
-          setErrorMessage((prevMessages) => ({
+          setErrorMessages((prevMessages) => ({
             ...prevMessages,
             dateOfBirth: 'Minimum Age Should be 18',
              }));
        
         } else {
-            setErrorMessage((prevMessages) => ({
+            setErrorMessages((prevMessages) => ({
             ...prevMessages,
             firstName: '', // Clear error message if valid
           }));           
-           setErrorMessage((prevMessages) => ({
+           setErrorMessages((prevMessages) => ({
             ...prevMessages,
             lastName: '', // Clear error message if valid
           }));  
 
-          setErrorMessage((prevMessages) => ({
+          setErrorMessages((prevMessages) => ({
             ...prevMessages,
             dateOfBirth: '', // Clear error message if valid
           }));  
