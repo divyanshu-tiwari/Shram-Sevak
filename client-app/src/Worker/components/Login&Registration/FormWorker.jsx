@@ -231,7 +231,8 @@ return (
                                                 try {
                                                     const response = await axios.post('http://localhost:8080/worker/register', formData);
                                                     if (response.status === 201) {
-                                                        console.log('Worker Registered successfully!');                                                        
+                                                        console.log('Worker Registered successfully!');   
+                                                        alert("Worker Registered successfully!")                                                     
                                                         navigate('/chooseskills',{state:response.data.id})
                                                     } else {
                                                         console.error("Failed to submit form.")

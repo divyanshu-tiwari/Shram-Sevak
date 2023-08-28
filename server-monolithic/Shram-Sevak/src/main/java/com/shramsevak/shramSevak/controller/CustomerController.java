@@ -45,22 +45,7 @@ public class CustomerController {
 	
 	@Autowired
 	private ImageHandlingService imageService;
-	
-
-    @PostMapping("/register")
-    public ResponseEntity<ApiResponse> registerCustomer(@RequestBody @Valid CustomerSignUpRequest newCustomer) {
-    	
-    		System.out.println(newCustomer);
-        ApiResponse response = custService.registerCustomer(newCustomer);
-        return new ResponseEntity<ApiResponse>(response, HttpStatus.OK);
-    	
-    }
 	  
-    @GetMapping("/getCustomer/{id}")
-    public ResponseEntity<?> getCustomerDetailsById(@PathVariable Long id){
-    	return ResponseEntity.ok(custService.getCustomerDetails(id));
-    }
-    
 
 	@PostMapping("/register")
 	public ResponseEntity<ApiResponse> registerCustomer(@RequestBody @Valid CustomerSignUpRequest newCustomer) {
