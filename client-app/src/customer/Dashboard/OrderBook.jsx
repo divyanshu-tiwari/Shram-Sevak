@@ -3,12 +3,12 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { SecurityUpdateGood } from '@mui/icons-material';
 
-const timeSlotOptions = [
-  { label: '9-11', start: '09', end: '11' },
-  { label: '11-1', start: '11', end: '13' },
-  { label: '1-3', start: '13', end: '15' },
-  { label: '3-5', start: '15', end: '17' },
-];
+// const timeSlotOptions = [
+//   { label: '9-11', start: '09', end: '11' },
+//   { label: '11-1', start: '11', end: '13' },
+//   { label: '1-3', start: '13', end: '15' },
+//   { label: '3-5', start: '15', end: '17' },
+// ];
 
 const OrderBookComponent = ({ myOrder, onOrderChange, changePage }) => {
   const { workerId } = useParams();
@@ -20,20 +20,20 @@ const OrderBookComponent = ({ myOrder, onOrderChange, changePage }) => {
     });
   };
 
-  const handleTimeSlotChange = (selectedSlot) => {
-    const selectedTimeSlot = timeSlotOptions.find((slot) => slot.label === selectedSlot);
-    if (selectedTimeSlot) {
-      const currentTime = new Date().toISOString().slice(0, 10);
-      const startTime = `${currentTime}T${selectedTimeSlot.start}:00`;
-      const endTime = `${currentTime}T${selectedTimeSlot.end}:00`;
+  // const handleTimeSlotChange = (selectedSlot) => {
+  //   const selectedTimeSlot = timeSlotOptions.find((slot) => slot.label === selectedSlot);
+  //   if (selectedTimeSlot) {
+  //     const currentTime = new Date().toISOString().slice(0, 10);
+  //     const startTime = `${currentTime}T${selectedTimeSlot.start}:00`;
+  //     const endTime = `${currentTime}T${selectedTimeSlot.end}:00`;
 
-      onOrderChange({
-        ...myOrder,
-        startTime,
-        endTime,
-      });
-    }
-  };
+  //     onOrderChange({
+  //       ...myOrder,
+  //       startTime,
+  //       endTime,
+  //     });
+  //   }
+  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -74,7 +74,7 @@ const OrderBookComponent = ({ myOrder, onOrderChange, changePage }) => {
     <span className="mr-2">Description:</span>
     <input type="text" name="description" value={myOrder.description} onChange={handleChange} className="border border-gray-300 rounded-md p-2" />
   </label>
-  <label className="mb-4">
+  {/* <label className="mb-4">
     <span className="mr-2">Time Slot:</span>
     <select name="timeSlot" value={myOrder.timeSlot} onChange={(e) => handleTimeSlotChange(e.target.value)} className="border border-gray-300 rounded-md p-2">
       <option value="">Select Time Slot</option>
@@ -84,7 +84,7 @@ const OrderBookComponent = ({ myOrder, onOrderChange, changePage }) => {
         </option>
       ))}
     </select>
-  </label>
+  </label> */}
   <label className="mb-4">
     <span className="mr-2">Customer ID:</span>
     <input type="number" name="customerId" value={myOrder.customerId} readOnly className="border border-gray-300 rounded-md p-2" />

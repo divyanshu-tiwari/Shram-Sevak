@@ -14,7 +14,7 @@ import com.shramsevak.shramSevak.dto.ApiResponse;
 import com.shramsevak.shramSevak.dto.SkillAddDto;
 import com.shramsevak.shramSevak.dto.SkillDTO;
 import com.shramsevak.shramSevak.dto.SkillResponseDTO;
-import com.shramsevak.shramSevak.dto.WorkerResponceDto;
+import com.shramsevak.shramSevak.dto.WorkerResponseDTO;
 import com.shramsevak.shramSevak.entity.Category;
 import com.shramsevak.shramSevak.entity.Skill;
 import com.shramsevak.shramSevak.entity.Worker;
@@ -109,11 +109,11 @@ public class SkillServiceImpl implements SkillService {
 
 
 	@Override
-	public List<WorkerResponceDto> getWorkers(Long id) {
+	public List<WorkerResponseDTO> getWorkers(Long id) {
 		Skill skill=skillRepo.findById(id).orElseThrow(() -> new WorkerException("Invalid skill ID"));
 		Set<Worker> workers=skill.getWorkers();
 		
-		return workers.stream().map(worker->mapper.map(worker,WorkerResponceDto.class)).collect(Collectors.toList());
+		return workers.stream().map(worker->mapper.map(worker,WorkerResponseDTO.class)).collect(Collectors.toList());
 	}
 	@Override
 	public List<SkillResponseDTO> getAllSkills() {
