@@ -5,7 +5,8 @@ import { worker_list } from '../../Data/worker_list'
 import axios from 'axios';
 import HomeSectionCarousel from '../components/HomeSectionCarousel/HomeSectionCarousel';
 import ChooseSkillAndWorkers from './ChooseSkillAndWorkers';
-import store from "../../utils/store/store"
+import store from "../../utils/store/store";
+import { useNavigate } from "react-router-dom";
 const user = {
   name: 'Tom Cook',
   email: 'tom@example.com',
@@ -16,7 +17,7 @@ const user = {
 const navigation = [
   { name: 'Dashboard', href: '#', current: true },
   { name: 'Home', href: '/', current: false },
-  { name: 'Projects', href: '/customer/orderdetails', current: false },
+  { name: 'Your Orders', href: '/customer/orderdetails', current: false },
   { name: 'Calendar', href: '#', current: false },
   { name: 'Profile Info', href: '#', current: false },
 ];
@@ -27,12 +28,13 @@ const userNavigation = [
   { name: 'Sign out', href: '#' },
 ];
 
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
 export default function Dashboard() {
-
+  const navigate = useNavigate();
   const[customer,setCustomer]=useState(null);
   const handleSubmit=()=>{
     alert("ok");
@@ -80,7 +82,12 @@ export default function Dashboard() {
         {/* "Sign Out" button */}
         <div className="hidden md:block">
           <a
-            href="/" // Replace with your sign-out endpoint or logic
+            href="#" // Replace with your sign-out endpoint or logic
+            onClick={()=>{
+              navigate("/SignOut");
+
+
+            }}
             className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
           >
             Sign Out

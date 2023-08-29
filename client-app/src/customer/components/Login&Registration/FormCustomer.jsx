@@ -12,10 +12,12 @@ import CustomerService from "../../../utils/service/customer.service"
 import { Role } from '../../../utils/models/role';
 import { setCurrentUser } from "../../../utils/store/user/userSlice";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 
 const Form = ({showNavbar=true}) => {
     const [page, setPage] = useState(0);
+    const navigate = useNavigate();
     const [errorMessages, setErrorMessages] = useState({
       contact: "",
       password: "",
@@ -291,6 +293,7 @@ return (
                           console.log("Successful login : " + response.data)
                           // need to provide dummy token when web-service is not re
                         dispatch(setCurrentUser({...response.data, role: Role.CUSTOMER, token:12}))
+                        navigate("/dashboardC");
                         })
                       }
                      }
