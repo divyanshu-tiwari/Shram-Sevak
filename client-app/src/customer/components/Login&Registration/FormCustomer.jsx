@@ -227,7 +227,7 @@ return (
                                 id='next'
                                 type={page === FormTitles.length - 1 ? "submit" : "button"}
                                 onClick={async () => {
-                                  if (isPageValid()) { // Check if the current page's data is valid
+                                  // if (isPageValid()) { // Check if the current page's data is valid
                                     if (page === FormTitles.length - 1) {
                                         try {
                                               console.log(formData.gender + "Is selected Gender");
@@ -235,6 +235,7 @@ return (
                                               if (response.status === 200) {
                                                     console.log(response.data); 
                                                     console.log("Sign in successful"); 
+                                                    navigate('/CustomerRegistrationSuccess')
                                                   } else {
                                                     console.log('Failed to sign in.');
                                                   }
@@ -245,10 +246,10 @@ return (
                                                 } else {
                                                     setPage((currPage) => currPage + 1);
                                                 }
-                                            } else {
+                                            // } else {
                             
-                                              console.log('Invalid DATA');
-                                            }
+                                            //   console.log('Invalid DATA');
+                                            // }
                                         }}
                                 >
                                 {page === FormTitles.length - 1 ? "Submit" : "Next"}

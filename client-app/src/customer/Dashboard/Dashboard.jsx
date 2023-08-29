@@ -18,7 +18,7 @@ const navigation = [
   { name: 'Dashboard', href: '#', current: true },
   { name: 'Home', href: '/', current: false },
   { name: 'Your Orders', href: '/customer/orderdetails', current: false },
-  { name: 'Calendar', href: '#', current: false },
+ 
   { name: 'Profile Info', href: '#', current: false },
 ];
 

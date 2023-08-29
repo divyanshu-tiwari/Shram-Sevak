@@ -29,6 +29,7 @@ import WorkerDelete from './Worker/components/dashboard/WorkerDelete';
 import Cart from './customer/components/Cart/Cart';
 import ParentComponent from './customer/Dashboard/ParentComponent';
 import OrderDetails from './customer/Dashboard/OrderDetails';
+import CustomerRegistrationSuccess from './customer/components/Login&Registration/CustomerRegistrationSuccess';
 
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<ChooseLogin />} />
         <Route path="/loginCustomer" element={<FormCustomer />} />
+        <Route path="//CustomerRegistrationSuccess" element={<CustomerRegistrationSuccess></CustomerRegistrationSuccess>} />
         <Route path="/loginWorker" element={<FormWorker />} />
         <Route path="/dashboardC" element={<Dashboard/>}/>
         <Route path="/orderBook/:workerId/:startTime/:endTime" element={<ParentComponent></ParentComponent>}/>
