@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import logo from '../../../Images/Logo3.png'
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,10 +10,10 @@ const Navigation = () => {
   };
 
   return (
-    <nav className="bg-gradient-to-r from-gray-300 via-[#bce1ff] to-gray-300">
-      <div className="px-5 xl:px-12 py-6 flex w-full items-center">
+    <nav className="bg-gradient-to-r from-black via-[#bce1ff] to-gray-300">
+      <div className="px-5 xl:px-12 py-0 flex w-full items-center">
         <Link className="text-3xl font-bold font-heading" to="/">
-          <img src="src\Images\Logo3.png" alt="logo" />
+          <img src={logo} alt="logo" width={150} height={40}/>
         </Link>
         {/* Mobile menu */}
         <div className="xl:hidden flex items-center" onClick={toggleMenu}>
@@ -34,7 +35,7 @@ const Navigation = () => {
             </Link>
           </li>
           <li>
-            <Link className="hover:text-gray-200" to="/about">
+            <Link className="hover:text-gray-200" to="/About">
               About Us
             </Link>
           </li>
@@ -44,7 +45,7 @@ const Navigation = () => {
             </Link>
           </li>
           <li>
-            <Link className="hover:text-gray-200" to="/payment">
+            <Link className="hover:text-gray-200" to="/Contact">
               Contact Us
             </Link>
           </li>
@@ -68,7 +69,7 @@ const Navigation = () => {
           </a>
           <a className="flex items-center hover:text-gray-200" href="#">
             <svg
-              xmlns="http://www.w3.org/2000/svg"
+              xmlns='http://www.w3.org/2000/svg'
               className="h-6 w-6"
               fill="none"
               viewBox="0 0 24 24"
