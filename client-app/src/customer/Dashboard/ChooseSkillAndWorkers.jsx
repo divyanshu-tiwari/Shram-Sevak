@@ -34,7 +34,7 @@ const ChooseSkillAndWorkers = ({ formData, setFormData }) => {
   }, []);
 
   const handleWorkerSelection = (workerId) => {
-    alert(workerId);
+   
     setSelectedWorker(workerId);
     navigate(`/orderBook/${workerId}/${startTime}/${endTime}`)
   };
@@ -60,7 +60,7 @@ const ChooseSkillAndWorkers = ({ formData, setFormData }) => {
       const newEndTime = `${currentTime}T${selectedTimeSlot.end}:00`;
       setStartTime(newStartTime);
       setEndTime(newEndTime);
-      alert(`Start Time: ${newStartTime}\nEnd Time: ${newEndTime}`);
+    
 
       if (selectedSkill && newStartTime && newEndTime) {
         fetchAvailableWorkers(selectedSkill, newStartTime, newEndTime);
@@ -71,8 +71,7 @@ const ChooseSkillAndWorkers = ({ formData, setFormData }) => {
 
   const handleCategoryChange = (event) => {
     setSelectedCategory(event.target.value);
-   alert(event.target.value)
-    alert(selectedCategory)
+   
     setSkills([]);
     setSelectedSkill(null);
     if (event.target.value !== null) {

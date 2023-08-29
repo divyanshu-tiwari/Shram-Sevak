@@ -52,7 +52,7 @@ const Cart = ({Order, onOrderChange, changePage}) => {
         description: "Congratulations",
         handler: function (response) {
           alert("Payment successful");
-          alert(JSON.stringify(response.razorpay_payment_id))
+         
           axios.patch(`http://localhost:8080/order/update-transaction`, { orderId:Order.id,transactionId: response.razorpay_payment_id, transactionStatus: "SUCCESS"})
           // Redirect or navigate to a success page
           navigate("/dashboardC");

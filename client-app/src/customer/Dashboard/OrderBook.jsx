@@ -37,8 +37,7 @@ const OrderBookComponent = ({ myOrder, onOrderChange, changePage }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert(JSON.stringify(myOrder));
-
+   
     axios
       .post('http://localhost:8080/order/create', myOrder, {
         headers: {
@@ -50,7 +49,7 @@ const OrderBookComponent = ({ myOrder, onOrderChange, changePage }) => {
         onOrderChange(response.data
          
         );
-        alert(JSON.stringify(myOrder.id));
+       
 
       })
       .catch((error) => {

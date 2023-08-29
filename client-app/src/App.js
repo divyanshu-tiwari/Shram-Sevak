@@ -27,14 +27,15 @@ import WorkerDelete from './Worker/components/dashboard/WorkerDelete';
 import ViewAllOrders from './Worker/components/dashboard/ViewAllOrders';
 
 
-import Cart from './customer/components/Cart/Cart';
+
 import ParentComponent from './customer/Dashboard/ParentComponent';
 import OrderDetails from './customer/Dashboard/OrderDetails';
 import CustomerRegistrationSuccess from './customer/components/Login&Registration/CustomerRegistrationSuccess';
 import ActiveOrders from './Worker/components/dashboard/ActiveOrders';
 import ChangeSkills from './Worker/components/dashboard/ChangeSkills';
 import ChangeWorkingLocation from './Worker/components/dashboard/ChangeWorkingLocation';
-
+import Contact from './customer/components/navigation/Contact';
+import About from './customer/components/navigation/About';
 
 function App() {
   return (
@@ -53,12 +54,11 @@ function App() {
         <Route path="/registationsuccess" element={<RegistrationSuccess />} />
         <Route path="/signout" element={<SignOut/>}/>
         <Route path="/delete-worker" element={<WorkerDelete/>}/>
-        
+        <Route path="/contact" element={<Contact/>}/>
         <Route path='/worker-dashboard' element={
         <WorkerAuthGuard roles={[Role.WORKER]}>
           <WorkerDashboard />
         </WorkerAuthGuard> } />
-        
         <Route path='/worker-profile' element={<WorkerProfile/>}/>
         <Route path="/view-all-orders" element={<ViewAllOrders/>}/>
         <Route path="/active-orders" element={<ActiveOrders/>}/>
@@ -82,7 +82,7 @@ function App() {
 
       <Route path="/401" element={<Unauthorized />} />
 
-      <Route path='/payment' element={<Cart></Cart>}/>
+      <Route path='/About' element={<About></About>}/>
 
     </Routes >
 
