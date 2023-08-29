@@ -51,7 +51,7 @@ public class CityServiceImpl implements CityService {
 	public ApiResponse deleteCityById(Long id) {
 		City city = cityRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid City ID"));
 		cityRepo.delete(city);
-		return new ApiResponse("City " + city.getCity() + " Deteleted Successfully...");
+		return new ApiResponse("City " + city.getCity() + " Deleted Successfully...");
 	}
 
 	@Override
