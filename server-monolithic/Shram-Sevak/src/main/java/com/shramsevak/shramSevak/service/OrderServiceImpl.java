@@ -104,7 +104,7 @@ public class OrderServiceImpl implements OrderService{
 	@Override
 	public ApiResponse cancelOrder(Long orderId) {
 		Order order = orderRepo.findById(orderId).orElseThrow(() -> new OrderException("No such order found."));
-		if(!order.getStatus().equals(OrderStatus.CREATED))
+		if(!(order.getStatus().equals(OrderStatus.CREATED) || order.getStatus().equals(OrderStatus.CONFIRMED)))
 			throw new OrderException("INVALID OPERATION : can not cancel the order in " + order.getStatus() + " state.");
 		order.setStatus(OrderStatus.CANCELLED);
 		if(LocalDateTime.now().minusHours(1).isBefore(order.getStartTime()))

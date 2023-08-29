@@ -1,10 +1,10 @@
 package com.shramsevak.shramSevak.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -86,5 +86,13 @@ public class WorkerController {
 	{
 		log.info("worker controller - update worker information");
 		return new ResponseEntity<>(workerService.updateWorker(worker), HttpStatus.OK);
+	}
+	
+
+	@GetMapping("/available/skill/{skillId}/start/{startTime}/end/{endTime}")
+	public ResponseEntity<?> getAvailableWorkers(@PathVariable Long skillId, @PathVariable LocalDateTime startTime, @PathVariable LocalDateTime endTime, 
+			@RequestParam(defaultValue = "0", required = false) int pageNumber,
+			@RequestParam(defaultValue = "3", required = false) int pageSize){
+		return new ResponseEntity<>(workerService.getAvailableWorkersBySlotAndSkill(skillId, startTime, endTime, pageNumber, pageSize), HttpStatus.OK);
 	}
 }
