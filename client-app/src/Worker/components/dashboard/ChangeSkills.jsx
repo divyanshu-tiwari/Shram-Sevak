@@ -61,7 +61,7 @@ const ChangeSkills = () => {
   return (
     <div className="bg-slate-200">
        
-    <h1 className="p-5 text-red-500 font-serif text-center block text-5xl font-semibold">Choose Your Skills</h1>
+    <h1 className="p-5 text-red-500 font-serif text-center block text-5xl font-semibold">Change Your Skills</h1>
     <form action="#"  target="_self" className="max-w-fit mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
       <div className="grid grid-cols-2 gap-6">
         <div>
@@ -130,6 +130,7 @@ const ChangeSkills = () => {
           const response = await axios.patch('http://localhost:8080/worker/skills', reqData)
           if (response.status === 200) {
             console.log("skills added successfully")
+            alert("Skills updated successfully")
           } else {
             alert(response.data);
           }
