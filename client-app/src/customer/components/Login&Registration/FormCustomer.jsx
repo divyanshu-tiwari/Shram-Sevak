@@ -5,11 +5,19 @@ import PersonalInfo from "./PersonalInfo"
 import AddressInfo from "./AddressInfo"
 import './Style.css';
 import Navigation from '../navigation/Navigation';
+
 import { Password } from '@mui/icons-material';
+
+import CustomerService from "../../../utils/service/customer.service"
+import { Role } from '../../../utils/models/role';
+import { setCurrentUser } from "../../../utils/store/user/userSlice";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 
 const Form = ({showNavbar=true}) => {
     const [page, setPage] = useState(0);
+    const navigate = useNavigate();
     const [errorMessages, setErrorMessages] = useState({
       contact: "",
       password: "",
@@ -182,6 +190,10 @@ const Form = ({showNavbar=true}) => {
   }, []);
 
 
+  
+const dispatch = useDispatch()
+
+
 return (
     <>
       { showNavbar && <Navigation />}
@@ -215,6 +227,10 @@ return (
                                 id='next'
                                 type={page === FormTitles.length - 1 ? "submit" : "button"}
                                 onClick={async () => {
+
+                                  // if (isPageValid()) { // Check if the current page's data is valid
+
+
                                     if (page === FormTitles.length - 1) {
                                         try {
                                               console.log(formData.gender + "Is selected Gender");
@@ -222,6 +238,7 @@ return (
                                               if (response.status === 200) {
                                                     console.log(response.data); 
                                                     console.log("Sign in successful"); 
+                                                    navigate('/CustomerRegistrationSuccess')
                                                   } else {
                                                     console.log('Failed to sign in.');
                                                   }
@@ -232,8 +249,16 @@ return (
                                                 } else {
                                                     setPage((currPage) => currPage + 1);
                                                 }
-                                            } 
+
+                                            // } else {
+                            
+                                            //   console.log('Invalid DATA');
+                                            // }
+                                        }}
+
+                                            
                                         }
+
                                 >
                                 {page === FormTitles.length - 1 ? "Submit" : "Next"}
                             </button>
@@ -269,22 +294,32 @@ return (
             <button
                     type='submit' 
                     id ="sub"
-                    name="sub"  
-                    onClick={async () => {
-                            try {
-                                const response = await axios.post('http://localhost:8080/customer/signin', formData);
-                                if (response.status === 200) {
-                                    console.log(response.data); 
-                                } else {
 
-                                    console.log("Failed to submit form.");
-                                }
-                                } catch (error) {
-                                console.log("An error occurred while submitting the form.");
-                                console.error(error);
-                         }
-                        } 
-                    }
+                    name="sub" 
+                     onClick = {() => {
+                       CustomerService.signin({contact:formData.contact,password:formData.password})
+                       .then(response => {
+                          console.log("Successful login : " + response.data)
+                          // need to provide dummy token when web-service is not re
+                        dispatch(setCurrentUser({...response.data, role: Role.CUSTOMER, token:12}))
+                        navigate("/dashboardC");
+                        })
+                      }
+                     }
+                  //  onClick={async () => {
+                  //           try {
+                  //               const response = await axios.post("localhost:8080/customer/sigin")
+                  //               if (response.status === 200) {
+                  //                   console.log(response.data); 
+                  //               } else {
+                  //                   alert('Failed to submit form.');
+                  //               }
+                  //               } catch (error) {
+                  //               alert('An error occurred while submitting the form.');
+                  //               console.error(error);
+                  //           }
+                  //       } 
+                  //   }
                     >Sign In</button>
                    
           </form>
