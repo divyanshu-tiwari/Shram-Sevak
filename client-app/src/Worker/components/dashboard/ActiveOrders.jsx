@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 
-function ViewAllOrders() {
+function ActiveOrders() {
   const [orders, setOrders] = useState([]);
   const currentUser = useSelector((state) => state.user);
 
@@ -13,7 +13,8 @@ function ViewAllOrders() {
 
   const fetchOrders = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/order/worker/${currentUser.value.id}`);
+     const workerId = parseInt(currentUser.value.id,10)
+      const response = await axios.get(`http://localhost:8080/worker/active/${workerId}`);
       setOrders(response.data);
     } catch (error) {
       console.error('Error fetching orders:', error);
@@ -38,6 +39,7 @@ function ViewAllOrders() {
 
   return (
     <div className="p-6">
+        <h1 className='p-4 text-center font-mono text-4xl'>Active Orders</h1>
       <table className="w-full border-collapse">
         <thead>
           <tr className="bg-gray-100">
@@ -77,4 +79,4 @@ function ViewAllOrders() {
   );
 }
 
-export default ViewAllOrders;
+export default ActiveOrders;

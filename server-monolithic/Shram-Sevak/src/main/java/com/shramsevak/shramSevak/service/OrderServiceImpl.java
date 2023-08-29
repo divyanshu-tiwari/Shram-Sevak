@@ -97,7 +97,7 @@ public class OrderServiceImpl implements OrderService{
 	@Override
 	public ApiResponse fulfillOrder(Long orderId) {
 		Order order = orderRepo.findById(orderId).orElseThrow(() -> new OrderException("No such order found."));
-		if(order.getStartTime().isBefore(LocalDateTime.now()))
+		if(order.getStartTime().isAfter(LocalDateTime.now()))
 			throw new OrderException("INVALID OPERATION : can not fulfill an order before its scheduled time");
 		order.setStatus(OrderStatus.FULFILLED);
 		return new ApiResponse("Order fulfilled. ORDER_ID : " + order.getId());

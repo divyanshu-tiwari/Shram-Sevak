@@ -16,15 +16,20 @@ import org.springframework.stereotype.Service;
 
 import com.shramsevak.shramSevak.customException.ResourceNotFoundException;
 import com.shramsevak.shramSevak.customException.WorkerException;
+import com.shramsevak.shramSevak.dto.ApiResponse;
 import com.shramsevak.shramSevak.dto.OrderDTO;
+import com.shramsevak.shramSevak.dto.OrderResponseDTO;
 import com.shramsevak.shramSevak.dto.SigninRequest;
 import com.shramsevak.shramSevak.dto.SigninResponse;
+import com.shramsevak.shramSevak.dto.WorkerLocalityRequestDTO;
 import com.shramsevak.shramSevak.dto.WorkerRegistrationDto;
 import com.shramsevak.shramSevak.dto.WorkerResponseDTO;
+import com.shramsevak.shramSevak.dto.WorkerSkillsDTO;
 import com.shramsevak.shramSevak.dto.WorkerUpdateRequestDto;
 import com.shramsevak.shramSevak.dto.WorkerUpdateResponceDto;
 import com.shramsevak.shramSevak.entity.Locality;
 import com.shramsevak.shramSevak.entity.OrderStatus;
+import com.shramsevak.shramSevak.entity.Skill;
 import com.shramsevak.shramSevak.entity.Worker;
 import com.shramsevak.shramSevak.entity.WorkerStatus;
 import com.shramsevak.shramSevak.repository.LocalityRepository;
@@ -147,15 +152,43 @@ public class WorkerServiceImpl implements WorkerService {
 
 
 	@Override
-	public List<OrderDTO> getAllConfirmedByWorkerId(Long workerId) {
+	public List<OrderResponseDTO> getAllConfirmedByWorkerId(Long workerId) {
 		
 		Worker worker = workerRepo.findById(workerId).orElseThrow(()->new WorkerException("Worker Not Found..."));
 		
-		List<OrderDTO> orders = worker.getAcceptedOrders().stream().filter(order-> order.getStatus().equals(OrderStatus.CONFIRMED))
-		.map(order -> {return mapper.map(order, OrderDTO.class);})
+		List<OrderResponseDTO> orders = worker.getAcceptedOrders().stream().filter(order-> order.getStatus().equals(OrderStatus.CONFIRMED))
+		.map(order -> {return mapper.map(order, OrderResponseDTO.class);})
 		.collect(Collectors.toList());
 		
 		return orders;
+	}
+
+
+	@Override
+	public ApiResponse updateSkillsByWorkerId(WorkerSkillsDTO workerSkills) {
+		Worker worker = workerRepo.findById(workerSkills.getId())
+				.orElseThrow(()->new WorkerException("Worker Not Found..."));
+		
+	  List<Skill> skills = workerSkills.getSkills().stream()
+	  .map(id->skillRepo.findById(id).orElseThrow(()->new WorkerException("Matching Skill Not Found for id: "+id)))
+	  .collect(Collectors.toList());
+	  
+	  skills.forEach(skill->worker.addSkill(skill));
+		
+		return new ApiResponse("Skills Updated Successfully");
+	}
+
+
+	@Override
+	public ApiResponse updateLocalityByWorkerIdAndLocalityId(WorkerLocalityRequestDTO workerLocality) {
+		
+		Worker worker = workerRepo.findById(workerLocality.getWorkerId())
+				.orElseThrow(()->new WorkerException("Matching Worker Not Found"));
+		Locality locality = localityRepo.findById(workerLocality.getLocalityId())
+				.orElseThrow(()->new WorkerException("Matching Locality Not Found"));
+		locality.addWorker(worker);
+		
+		return new ApiResponse("Locality added to worker successfully");
 	}
 
 
