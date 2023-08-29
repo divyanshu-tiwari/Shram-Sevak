@@ -40,7 +40,7 @@ const Form = ({showNavbar=true}) => {
       firstName: "",
       lastName: "",
       dateOfBirth:"",
-      gender: "",
+      gender: "MALE",
       Lane_1:"",
       Lane_2:"",
       Lane_3:"",
@@ -227,7 +227,10 @@ return (
                                 id='next'
                                 type={page === FormTitles.length - 1 ? "submit" : "button"}
                                 onClick={async () => {
+
                                   // if (isPageValid()) { // Check if the current page's data is valid
+
+
                                     if (page === FormTitles.length - 1) {
                                         try {
                                               console.log(formData.gender + "Is selected Gender");
@@ -246,11 +249,16 @@ return (
                                                 } else {
                                                     setPage((currPage) => currPage + 1);
                                                 }
+
                                             // } else {
                             
                                             //   console.log('Invalid DATA');
                                             // }
                                         }}
+
+                                            
+                                        }
+
                                 >
                                 {page === FormTitles.length - 1 ? "Submit" : "Next"}
                             </button>

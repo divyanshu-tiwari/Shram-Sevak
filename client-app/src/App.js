@@ -50,10 +50,12 @@ function App() {
         <Route path="/registationsuccess" element={<RegistrationSuccess />} />
         <Route path="/signout" element={<SignOut/>}/>
         <Route path="/delete-worker" element={<WorkerDelete/>}/>
+        
         <Route path='/worker-dashboard' element={
         <WorkerAuthGuard roles={[Role.WORKER]}>
           <WorkerDashboard />
         </WorkerAuthGuard> } />
+        
         <Route path='/worker-profile' element={<WorkerProfile/>}/>
         <Route path="/view-all-orders" element={<ViewAllOrders/>}/>
         
