@@ -257,7 +257,7 @@ return (
                                         }}
 
                                             
-                                        }
+                                        
 
                                 >
                                 {page === FormTitles.length - 1 ? "Submit" : "Next"}
