@@ -87,12 +87,15 @@ public class WorkerController {
 		log.info("worker controller - update worker information");
 		return new ResponseEntity<>(workerService.updateWorker(worker), HttpStatus.OK);
 	}
-	
 
 	@GetMapping("/available/skill/{skillId}/start/{startTime}/end/{endTime}")
 	public ResponseEntity<?> getAvailableWorkers(@PathVariable Long skillId, @PathVariable LocalDateTime startTime, @PathVariable LocalDateTime endTime, 
 			@RequestParam(defaultValue = "0", required = false) int pageNumber,
 			@RequestParam(defaultValue = "3", required = false) int pageSize){
-		return new ResponseEntity<>(workerService.getAvailableWorkersBySlotAndSkill(skillId, startTime, endTime, pageNumber, pageSize), HttpStatus.OK);
+		return new ResponseEntity<>(workerService.getAvailableWorkersBySlotAndSkill(skillId, startTime, endTime, pageNumber, pageSize), HttpStatus.OK);}
+  
+	@GetMapping("/active/{workerId}")
+	public ResponseEntity<?> getAllConfirmedByWorkerId(@PathVariable Long workerId){
+		return new ResponseEntity<>(workerService.getAllConfirmedByWorkerId(workerId), HttpStatus.OK);
 	}
 }

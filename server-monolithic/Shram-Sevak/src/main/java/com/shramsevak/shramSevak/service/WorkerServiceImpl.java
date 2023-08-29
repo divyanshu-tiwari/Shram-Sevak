@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import com.shramsevak.shramSevak.customException.ResourceNotFoundException;
 import com.shramsevak.shramSevak.customException.WorkerException;
+import com.shramsevak.shramSevak.dto.OrderDTO;
 import com.shramsevak.shramSevak.dto.SigninRequest;
 import com.shramsevak.shramSevak.dto.SigninResponse;
 import com.shramsevak.shramSevak.dto.WorkerRegistrationDto;
@@ -45,7 +46,6 @@ public class WorkerServiceImpl implements WorkerService {
 	private SkillRepository skillRepo;
 	@Autowired
 	private OrderRepository orderRepo;
-	
 	@Autowired
 	private ModelMapper mapper;
 	
@@ -143,6 +143,19 @@ public class WorkerServiceImpl implements WorkerService {
 		Set<Worker> unavailableWorkers = orderRepo.findAllByStartTimeIsAndStatus(startTime, OrderStatus.CONFIRMED).stream().map(order -> order.getWorker()).collect(Collectors.toSet());
 		List<Worker> availableWorkers = workersWithDesiredSkill.stream().filter(Predicate.not(unavailableWorkers::contains)).distinct().toList();
 		return availableWorkers.stream().map(worker -> mapper.map(worker, WorkerResponseDTO.class)).collect(Collectors.toList());
+	}
+
+
+	@Override
+	public List<OrderDTO> getAllConfirmedByWorkerId(Long workerId) {
+		
+		Worker worker = workerRepo.findById(workerId).orElseThrow(()->new WorkerException("Worker Not Found..."));
+		
+		List<OrderDTO> orders = worker.getAcceptedOrders().stream().filter(order-> order.getStatus().equals(OrderStatus.CONFIRMED))
+		.map(order -> {return mapper.map(order, OrderDTO.class);})
+		.collect(Collectors.toList());
+		
+		return orders;
 	}
 
 

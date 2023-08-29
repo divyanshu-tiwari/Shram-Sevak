@@ -24,6 +24,7 @@ import SignOut from './Worker/components/Login&Registration/SignOut';
 import { WorkerAuthGuard } from './utils/guards/worker.auth.guard';
 import WorkerProfile from './Worker/components/dashboard/WorkerProfile';
 import WorkerDelete from './Worker/components/dashboard/WorkerDelete';
+import ViewAllOrders from './Worker/components/dashboard/ViewAllOrders';
 
 
 import Cart from './customer/components/Cart/Cart';
@@ -35,7 +36,6 @@ import CustomerRegistrationSuccess from './customer/components/Login&Registratio
 function App() {
   return (
     <>
-      
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<ChooseLogin />} />
@@ -55,6 +55,7 @@ function App() {
           <WorkerDashboard />
         </WorkerAuthGuard> } />
         <Route path='/worker-profile' element={<WorkerProfile/>}/>
+        <Route path="/view-all-orders" element={<ViewAllOrders/>}/>
         
         <Route path="/admin" element={
         // <AdminLoginGuard roles={[Role.ADMIN]}>
