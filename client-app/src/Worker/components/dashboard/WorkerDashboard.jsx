@@ -1,22 +1,23 @@
 import { Fragment, useState } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import store from '../../../utils/store/store'
 import WorkerProfile from './WorkerProfile'
 import SignOut from '../Login&Registration/SignOut'
 import WorkerDelete from './WorkerDelete'
 import ViewAllOrders from './ViewAllOrders'
 import { useSelector } from 'react-redux'
+import ActiveOrders from './ActiveOrders'
+import ChangeSkills from './ChangeSkills'
+import ChangeWorkingLocation from './ChangeWorkingLocation'
 
 
 
 
 const navigation = [
-  { name: 'Dashboard', href: '/dashboard', current: true },
+  { name: 'Dashboard', href: '/active-orders', current: true },
   { name: 'View All Orders', href: '/view-all-orders', current: false },
-  { name: 'Scheduled Orders', href: '/orders', current: false },
-  { name: 'Skills', href: '/choose-skills', current: false },
-  { name: 'Locality', href: '/addresses', current: false },
+  { name: 'Skills', href: '/change-worker-skills', current: false },
+  { name: 'Locality', href: '/change-working-location', current: false },
 ]
 
 const userNavigation = [
@@ -32,7 +33,7 @@ export default function AdminDashboard() {
 
   // alert(navigation)
 
-  const [currentPage, setCurrentPage] = useState({name:'Dashboard', href:'/dashboard', current:true})
+  const [currentPage, setCurrentPage] = useState({name:'Dashboard', href:'/active-orders', current:true})
   const currentUser = useSelector((state) => state.user);
   const user = {
     name: currentUser.value.name,
@@ -197,6 +198,9 @@ export default function AdminDashboard() {
                 {currentPage.href === '/signout' && <SignOut/>}
                 {currentPage.href === '/delete' && <WorkerDelete />}
                 {currentPage.href === '/view-all-orders' && <ViewAllOrders />}
+                {currentPage.href === '/active-orders' && <ActiveOrders />}
+                {currentPage.href === '/change-worker-skills' && <ChangeSkills />}
+                {currentPage.href === '/change-working-location' && <ChangeWorkingLocation/>}
 
           </div>
         </main>

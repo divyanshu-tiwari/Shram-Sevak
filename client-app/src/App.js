@@ -31,6 +31,9 @@ import Cart from './customer/components/Cart/Cart';
 import ParentComponent from './customer/Dashboard/ParentComponent';
 import OrderDetails from './customer/Dashboard/OrderDetails';
 import CustomerRegistrationSuccess from './customer/components/Login&Registration/CustomerRegistrationSuccess';
+import ActiveOrders from './Worker/components/dashboard/ActiveOrders';
+import ChangeSkills from './Worker/components/dashboard/ChangeSkills';
+import ChangeWorkingLocation from './Worker/components/dashboard/ChangeWorkingLocation';
 
 
 function App() {
@@ -58,7 +61,11 @@ function App() {
         
         <Route path='/worker-profile' element={<WorkerProfile/>}/>
         <Route path="/view-all-orders" element={<ViewAllOrders/>}/>
-        
+        <Route path="/active-orders" element={<ActiveOrders/>}/>
+        <Route path="/change-worker-skills" element={<ChangeSkills/>}/>
+        <Route path="/change-working-location" element={<ChangeWorkingLocation/>}/>
+
+
         <Route path="/admin" element={
         // <AdminLoginGuard roles={[Role.ADMIN]}>
           <AdminLogin />

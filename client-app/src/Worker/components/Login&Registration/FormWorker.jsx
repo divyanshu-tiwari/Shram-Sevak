@@ -226,7 +226,7 @@ return (
                                     onClick={async (event) => {
                                         event.preventDefault()
                                         console.log(JSON.stringify(formData))
-                                        if (isPageValid()) { // Check if the current page's data is valid
+                                        // if (isPageValid()) { // Check if the current page's data is valid
                                             if (page === FormTitles.length - 1) {
                                                 try {
                                                     const response = await axios.post('http://localhost:8080/worker/register', formData);
@@ -243,9 +243,9 @@ return (
                                                 } else {
                                                     setPage((currPage) => currPage + 1);
                                                 }
-                                            } else {
-                                              console.log('Please fill in all required fields and ensure that the data is valid.');
-                                            }
+                                            // } else {
+                                            //   console.log('Please fill in all required fields and ensure that the data is valid.');
+                                            // }
                                         }}
                                 >
                                 {page === FormTitles.length - 1 ? "Submit" : "Next"}

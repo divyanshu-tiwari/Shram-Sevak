@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -18,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.shramsevak.shramSevak.dto.SigninRequest;
+import com.shramsevak.shramSevak.dto.WorkerLocalityRequestDTO;
 import com.shramsevak.shramSevak.dto.WorkerRegistrationDto;
 import com.shramsevak.shramSevak.dto.WorkerResponseDTO;
+import com.shramsevak.shramSevak.dto.WorkerSkillsDTO;
 import com.shramsevak.shramSevak.dto.WorkerUpdateRequestDto;
 import com.shramsevak.shramSevak.service.WorkerService;
 
@@ -97,5 +100,16 @@ public class WorkerController {
 	@GetMapping("/active/{workerId}")
 	public ResponseEntity<?> getAllConfirmedByWorkerId(@PathVariable Long workerId){
 		return new ResponseEntity<>(workerService.getAllConfirmedByWorkerId(workerId), HttpStatus.OK);
+	}
+	
+	@PatchMapping("/skills")
+	public ResponseEntity<?> updateSkillsByWorkerId(@RequestBody @Valid WorkerSkillsDTO workerSkills){
+		return new ResponseEntity<>(workerService.updateSkillsByWorkerId(workerSkills), HttpStatus.OK);
+	}
+	
+	@PatchMapping("/locality")
+	public ResponseEntity<?> updateLocalityByWorkerIdAndLocalityId(@RequestBody @Valid WorkerLocalityRequestDTO workerLocality){
+		
+		return new ResponseEntity<>(workerService.updateLocalityByWorkerIdAndLocalityId(workerLocality),HttpStatus.OK);
 	}
 }
