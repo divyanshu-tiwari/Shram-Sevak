@@ -48,7 +48,7 @@ public class CityController {
 		return ResponseEntity.ok(cityDTO);
 	}
 
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<?> deleteCityById(@PathVariable Long id) {
 		ApiResponse response = cityService.deleteCityById(id);
 		log.info("City Controller - Delete City By Id");
@@ -63,18 +63,18 @@ public class CityController {
 		return ResponseEntity.ok(response);
 	}
 
-	@PutMapping("/{id}")
-	public ResponseEntity<?> updateCity(@PathVariable Long id, @RequestBody @Valid CityDTO cityDTO) {
-		CityResponseDTO updatedCityDTO = cityService.updateCity(id, cityDTO);
+	@PutMapping("/update")
+	public ResponseEntity<?> updateCity(@RequestBody @Valid CityDTO cityDTO) {
+		CityResponseDTO updatedCityDTO = cityService.updateCity(cityDTO.getId(), cityDTO);
 		log.info("City Controller - Update City By Id");
 		return ResponseEntity.status(HttpStatus.CREATED).body(updatedCityDTO);
 	}
 
 	@GetMapping("/all")
-	public ResponseEntity<List<CityResponseDTO>> getAllCitys() {
+	public ResponseEntity<?> getAllCitys() {
 		List<CityResponseDTO> cityDTOs = cityService.getAllCitys();
 		log.info("Ciry Controller - Get All Citys");
-
+		
 		return ResponseEntity.ok(cityDTOs);
 	}
 

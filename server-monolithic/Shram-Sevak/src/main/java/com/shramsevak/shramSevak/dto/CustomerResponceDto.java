@@ -19,5 +19,6 @@ public class CustomerResponceDto {
 	private String contact;
 	private Gender gender;
 	private CustomerStatus status;
+	private String profilePicturePath;
 	
 }

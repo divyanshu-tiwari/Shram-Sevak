@@ -26,31 +26,24 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/address")
 @CrossOrigin(origins = "http://localhost:3000")
 public class AddressController {
-	
+
 	@Autowired
 	private AddressService addressService;
 
 	@PostMapping("/add")
 	public ResponseEntity<?> addState(@RequestBody @Valid AddressDto addressDtO) {
-		
 		log.info("Address Controller - Add Address");
 		return new ResponseEntity<>(addressService.addAddress(addressDtO), HttpStatus.CREATED);
 	}
-	
+
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<?> deleteAddressById(@PathVariable Long id) {
-		
 		return new ResponseEntity<>(addressService.deleteAddress(id), HttpStatus.OK);
+	}
 
-}
 	@PutMapping("/update")
-    public ResponseEntity<?> updateAddressById(@RequestBody @Valid AddressUpdateDto addressDto) {
-		
+	public ResponseEntity<?> updateAddressById(@RequestBody @Valid AddressUpdateDto addressDto) {
 		return new ResponseEntity<>(addressService.updateAddress(addressDto), HttpStatus.OK);
-		
-    		
+	}
 
-}   
-	
-	
 }

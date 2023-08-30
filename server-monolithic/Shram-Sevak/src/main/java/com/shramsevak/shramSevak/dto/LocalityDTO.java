@@ -12,7 +12,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LocalityDTO {
-		
+	@Nonnull
+	private Long id;
 	
 	@Nonnull
 	private String locality;

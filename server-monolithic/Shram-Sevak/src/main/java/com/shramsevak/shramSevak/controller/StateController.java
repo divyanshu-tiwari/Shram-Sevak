@@ -39,7 +39,7 @@ public class StateController {
 		return ResponseEntity.ok(stateDTO);
 	}
 
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<?> deleteStateById(@PathVariable Long id) {
 		ApiResponse response = stateService.deleteStateById(id);
 		log.info("State Controller - Delete State By Id");
@@ -54,11 +54,10 @@ public class StateController {
 		return ResponseEntity.ok(response);
 	}
 
-	@PutMapping("/{stateId}")
-	public ResponseEntity<StateDTO> updateState(@PathVariable Long stateId, @RequestBody @Valid StateDTO stateDTO) {
-		StateDTO updatedStateDTO = stateService.updateState(stateId, stateDTO);
+	@PutMapping("/update")
+	public ResponseEntity<StateDTO> updateState(@RequestBody @Valid StateDTO stateDTO) {
+		StateDTO updatedStateDTO = stateService.updateState(stateDTO.getId(), stateDTO);
 		log.info("State Controller - Update State By Id");
-
 		return ResponseEntity.status(HttpStatus.CREATED).body(updatedStateDTO);
 	}
 

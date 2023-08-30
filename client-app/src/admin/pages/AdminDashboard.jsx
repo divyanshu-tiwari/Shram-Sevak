@@ -1,29 +1,38 @@
 import { Fragment, useState } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import { ShowChart } from '@mui/icons-material'
 
+import { CustomerBoard } from './admin.customer.board'
+import store from '../../utils/store/store'
+import { current } from '@reduxjs/toolkit'
+import { AdminProfile } from './admin.profile'
+import { AdminSignout } from './admin.signout'
+import { AdminDashboardHome } from './admin.dashboard.home'
+import { WorkerBoard } from './admin.worker.dashboard'
+import { CategoryTable } from './categoryViews/category.table'
+import { SkillTable } from './skillViews/skill.table'
+import { StateTable } from './stateViews/state.table'
+import { LocalityTable } from './localityViews/locality.table'
+import { CityTable } from './cityViews/city.table'
+import { useDispatch } from 'react-redux'
+import { clearCurrentUser } from '../../utils/store/user/userSlice'
 
 const user = {
-  name: 'Tom Cook',
-  email: 'tom@example.com',
-  imageUrl:
-    'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+  name: store.getState().user.value.userName,
 }
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', current: true },
   { name: 'Customers', href: '/customers', current: false },
   { name: 'Workers', href: '/workers', current: false },
-  { name: 'Orders', href: '/orders', current: false },
   { name: 'Categories', href: '/categories', current: false },
   { name: 'Skills', href: '/skills', current: false },
-  { name: 'Addresses', href: '/addresses', current: false },
+  { name: 'States', href: '/states', current: false },
+  { name: 'Cities', href: '/cities', current: false },
+  { name: 'Localities', href: '/localities', current: false },
 ]
 
 const userNavigation = [
-  { name: 'Your Profile', href: '/admin-profile' },
-  { name: 'Settings', href: '#' },
   { name: 'Sign out', href: '/signout' },
 ]
 
@@ -35,8 +44,8 @@ export default function AdminDashboard() {
 
   // alert(navigation)
 
-  const [currentPage, setCurrentPage] = useState('/dashboard')
-
+  const [currentPage, setCurrentPage] = useState({name:'Dashboard', href:'/dashboard', current:true})
+  const dispatch = useDispatch()
   return (
     <>
       <div className="min-h-full">
@@ -59,7 +68,11 @@ export default function AdminDashboard() {
                         {navigation.map((item) => (
                           <a
                             key={item.name}
-                            onClick = {() => setCurrentPage(item.href)}
+                            onClick = {() => {
+                              navigation.find((navItem) => navItem.current === true).current = false;
+                              navigation.find((navItem) => navItem === item).current = true;
+                              setCurrentPage({name: item.name, href: item.href})
+                            }}
                             className={classNames(
                               item.current
                                 ? 'bg-gray-900 text-white'
@@ -103,8 +116,10 @@ export default function AdminDashboard() {
                             {userNavigation.map((item) => (
                               <Menu.Item key={item.name}>
                                 {({ active }) => (
-                                  <a
-                                    href={item.href}
+                                  <a             
+                                    onClick={() => {
+                                      dispatch(clearCurrentUser())
+                                    }}
                                     className={classNames(
                                       active ? 'bg-gray-100' : '',
                                       'block px-4 py-2 text-sm text-gray-700'
@@ -141,7 +156,11 @@ export default function AdminDashboard() {
                     <Disclosure.Button
                       key={item.name}
                       as="a"
-                      href={item.href}
+                      onClick = {() => {
+                        navigation.find((navItem) => navItem.current === true).current = false;
+                        navigation.find((navItem) => navItem === item).current = true;
+                        setCurrentPage({name: item.name, href: item.href})
+                      }}
                       className={classNames(
                         item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                         'block rounded-md px-3 py-2 text-base font-medium'
@@ -163,7 +182,9 @@ export default function AdminDashboard() {
                       <Disclosure.Button
                         key={item.name}
                         as="a"
-                        href={item.href}
+                        onClick={() => {
+                          setCurrentPage({name: item.name, href: item.href})
+                        }}
                         className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
                       >
                         {item.name}
@@ -178,12 +199,23 @@ export default function AdminDashboard() {
 
         <header className="bg-white shadow">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h1>
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900">{currentPage.name}</h1>
           </div>
         </header>
         <main>
           <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-               
+
+                {currentPage.href === '/dashboard' && <AdminDashboardHome />} 
+                {currentPage.href === '/customers' && <CustomerBoard /> }
+                {currentPage.href === '/workers' && <WorkerBoard /> }
+                {currentPage.href === '/categories' && <CategoryTable />}
+                {currentPage.href === '/skills' && <SkillTable />}
+                {currentPage.href === '/states' && <StateTable />}
+                {currentPage.href === '/cities' && <CityTable />}
+                {currentPage.href === '/localities' && <LocalityTable />}
+                {currentPage.href === '/admin-profile' && <AdminProfile />}
+                {currentPage.href === '/signout' && <AdminSignout />}
+
           </div>
         </main>
       </div>
