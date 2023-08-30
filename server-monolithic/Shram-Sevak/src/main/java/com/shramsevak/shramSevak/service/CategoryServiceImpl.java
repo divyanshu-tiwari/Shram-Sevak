@@ -10,11 +10,7 @@ import org.springframework.stereotype.Service;
 import com.shramsevak.shramSevak.customException.ResourceNotFoundException;
 import com.shramsevak.shramSevak.dto.ApiResponse;
 import com.shramsevak.shramSevak.dto.CategoryDTO;
-
-import com.shramsevak.shramSevak.dto.StateDTO;
-
 import com.shramsevak.shramSevak.dto.SkillDTO;
-
 import com.shramsevak.shramSevak.entity.Category;
 import com.shramsevak.shramSevak.repository.CategoryRepository;
 
@@ -50,7 +46,9 @@ public class CategoryServiceImpl implements CategoryService {
 		Category category = categoryRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid Category ID"));
 		categoryRepo.delete(category);
 		return new ApiResponse("Category "+ category.getCategoryName() + " Deleted Successfully..");
+	}
 
+	@Override
 	public ApiResponse add(CategoryDTO category) {
 		Category categoryToAdd = mapper.map(category, Category.class);
 		categoryRepo.save(categoryToAdd);
@@ -86,10 +84,5 @@ public class CategoryServiceImpl implements CategoryService {
 		return mapper.map(category, CategoryDTO.class);
 
 	}
-	
-	
-	
-	
-	
 
 }

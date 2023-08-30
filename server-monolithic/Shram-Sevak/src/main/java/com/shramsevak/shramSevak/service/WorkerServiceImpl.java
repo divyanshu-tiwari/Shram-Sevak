@@ -2,9 +2,7 @@ package com.shramsevak.shramSevak.service;
 
 import static com.shramsevak.shramSevak.util.Utils.checkStatus;
 
-
 import java.time.LocalDateTime;
-
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -18,16 +16,12 @@ import org.springframework.stereotype.Service;
 
 import com.shramsevak.shramSevak.customException.ResourceNotFoundException;
 import com.shramsevak.shramSevak.customException.WorkerException;
-
 import com.shramsevak.shramSevak.dto.ApiResponse;
-import com.shramsevak.shramSevak.dto.OrderDTO;
 import com.shramsevak.shramSevak.dto.OrderResponseDTO;
-
 import com.shramsevak.shramSevak.dto.SigninRequest;
 import com.shramsevak.shramSevak.dto.SigninResponse;
 import com.shramsevak.shramSevak.dto.WorkerLocalityRequestDTO;
 import com.shramsevak.shramSevak.dto.WorkerRegistrationDto;
-
 import com.shramsevak.shramSevak.dto.WorkerResponseDTO;
 import com.shramsevak.shramSevak.dto.WorkerSkillsDTO;
 import com.shramsevak.shramSevak.dto.WorkerUpdateRequestDto;
@@ -40,7 +34,6 @@ import com.shramsevak.shramSevak.entity.WorkerStatus;
 import com.shramsevak.shramSevak.repository.LocalityRepository;
 import com.shramsevak.shramSevak.repository.OrderRepository;
 import com.shramsevak.shramSevak.repository.SkillRepository;
-
 import com.shramsevak.shramSevak.repository.WorkerRepository;
 
 import jakarta.transaction.Transactional;
@@ -74,7 +67,7 @@ public class WorkerServiceImpl implements WorkerService {
 		locality.addWorker(worker);
 		worker.setStatus(WorkerStatus.PENDING);
 		workerRepo.save(worker);
-		WorkerResponceDto workerResp = mapper.map(worker, WorkerResponceDto.class);
+		WorkerResponseDTO workerResp = mapper.map(worker, WorkerResponseDTO.class);
 		return workerResp;
 	}
 
@@ -104,10 +97,10 @@ public class WorkerServiceImpl implements WorkerService {
 
 
 	@Override
-	public WorkerResponceDto getWorkerDetails(Long id) {
+	public WorkerResponseDTO getWorkerDetails(Long id) {
 		Worker worker = workerRepo.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Invalid Customer ID!!!"));
-		return mapper.map(worker, WorkerResponceDto.class);
+		return mapper.map(worker, WorkerResponseDTO.class);
 	}
 
 	@Override
