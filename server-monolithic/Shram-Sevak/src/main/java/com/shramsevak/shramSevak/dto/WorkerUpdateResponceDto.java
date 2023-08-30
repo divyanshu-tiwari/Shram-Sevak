@@ -11,7 +11,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class WorkerResponceDto {
+public class WorkerUpdateResponceDto {
 	private Long id;
 	private String firstName;
 	private String lastName;
@@ -19,4 +19,5 @@ public class WorkerResponceDto {
 	private String contact;
 	private Gender gender;
 	private WorkerStatus status;
+	private String profilePicturePath;
 }

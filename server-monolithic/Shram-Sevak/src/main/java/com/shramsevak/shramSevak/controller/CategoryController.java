@@ -8,6 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import org.springframework.web.bind.annotation.PutMapping;
+
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,9 +18,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.shramsevak.shramSevak.dto.ApiResponse;
 import com.shramsevak.shramSevak.dto.CategoryDTO;
+import com.shramsevak.shramSevak.dto.CityDTO;
+import com.shramsevak.shramSevak.dto.CityResponseDTO;
 import com.shramsevak.shramSevak.service.CategoryService;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -36,6 +43,15 @@ public class CategoryController {
 		return ResponseEntity.ok(catDTOs);
 	}
 	
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> deleteCategoryById(@PathVariable Long id) {
+		ApiResponse response = categoryService.deteleCategoryById(id);
+		log.info("Category Controller - Delete Category By Id");
+		return ResponseEntity.ok(response);
+	}
+	
+
 	@GetMapping("/{categoryId}")
 	public ResponseEntity<?> getById(@PathVariable Long categoryId){
 		return new ResponseEntity<>(categoryService.getById(categoryId), HttpStatus.OK);
@@ -59,6 +75,7 @@ public class CategoryController {
 	@GetMapping("/{categoryId}/skills")
 	public ResponseEntity<?> getSkillsByCategoryId(@PathVariable Long categoryId){
 		return new ResponseEntity<>(categoryService.getSkillsByCategoryId(categoryId), HttpStatus.OK);
+
 	}
 
 }

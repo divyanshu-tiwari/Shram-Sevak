@@ -11,6 +11,7 @@ class CustomerService {
 
     register(customerData){
         return axios.post(BASE_URL + '/register', customerData)
+
     }
 
     getCustomerById(customerId){

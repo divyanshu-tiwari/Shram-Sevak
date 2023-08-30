@@ -4,17 +4,20 @@ import java.util.List;
 
 import com.shramsevak.shramSevak.dto.ApiResponse;
 import com.shramsevak.shramSevak.dto.CreateOrderDTO;
-import com.shramsevak.shramSevak.dto.OrderDTO;
+import com.shramsevak.shramSevak.dto.OrderResponseDTO;
+import com.shramsevak.shramSevak.dto.TransactionUpdateRequestDTO;
 
 public interface OrderService {
 	
-	public List<OrderDTO> getAll(int pageNumber, int pageSize);	
-	public OrderDTO getById(Long orderId);
-	public List<OrderDTO> getAllByWorkerId(Long workerId);
-	public List<OrderDTO> getAllByCustomerId(Long customerId);
+	public List<OrderResponseDTO> getAll(int pageNumber, int pageSize);	
+	public OrderResponseDTO getById(Long orderId);
+	public List<OrderResponseDTO> getAllByWorkerId(Long workerId);
+	public List<OrderResponseDTO> getAllByCustomerId(Long customerId);
 	
-	public ApiResponse createOrder(CreateOrderDTO orderDetails);
+	public OrderResponseDTO createOrder(CreateOrderDTO orderDetails);
 	public ApiResponse fulfillOrder(Long orderId);
 	public ApiResponse cancelOrder(Long orderId);
 	public ApiResponse suspendOrder(Long orderId);
+	
+	public ApiResponse updateTransaction(TransactionUpdateRequestDTO updateRequest);
 }

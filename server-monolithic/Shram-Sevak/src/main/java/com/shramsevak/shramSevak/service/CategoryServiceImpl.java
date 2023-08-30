@@ -10,11 +10,16 @@ import org.springframework.stereotype.Service;
 import com.shramsevak.shramSevak.customException.ResourceNotFoundException;
 import com.shramsevak.shramSevak.dto.ApiResponse;
 import com.shramsevak.shramSevak.dto.CategoryDTO;
+
+import com.shramsevak.shramSevak.dto.StateDTO;
+
 import com.shramsevak.shramSevak.dto.SkillDTO;
+
 import com.shramsevak.shramSevak.entity.Category;
 import com.shramsevak.shramSevak.repository.CategoryRepository;
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 
 @Service
 @Transactional
@@ -33,6 +38,19 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
+
+	public CategoryDTO updateCategory(Long id, @Valid CategoryDTO categoryDTO) {
+		Category category = categoryRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid Category ID"));
+		mapper.map(categoryDTO, category);
+		return mapper.map(category, CategoryDTO.class);
+	}
+
+	@Override
+	public ApiResponse deteleCategoryById(Long id) {
+		Category category = categoryRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid Category ID"));
+		categoryRepo.delete(category);
+		return new ApiResponse("Category "+ category.getCategoryName() + " Deleted Successfully..");
+
 	public ApiResponse add(CategoryDTO category) {
 		Category categoryToAdd = mapper.map(category, Category.class);
 		categoryRepo.save(categoryToAdd);
@@ -66,6 +84,7 @@ public class CategoryServiceImpl implements CategoryService {
 	public CategoryDTO getById(Long categoryId) {
 		Category category = categoryRepo.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("No such category found"));
 		return mapper.map(category, CategoryDTO.class);
+
 	}
 	
 	
