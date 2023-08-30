@@ -16,10 +16,7 @@ import { LocalityTable } from './localityViews/locality.table'
 import { CityTable } from './cityViews/city.table'
 import { useDispatch } from 'react-redux'
 import { clearCurrentUser } from '../../utils/store/user/userSlice'
-
-const user = {
-  name: store.getState().user.value.userName,
-}
+import { useSelector } from 'react-redux'
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', current: true },
@@ -41,7 +38,7 @@ function classNames(...classes) {
 }
 
 export default function AdminDashboard() {
-
+  const user = useSelector((state) => state.user?.value.userName)
   // alert(navigation)
 
   const [currentPage, setCurrentPage] = useState({name:'Dashboard', href:'/dashboard', current:true})
