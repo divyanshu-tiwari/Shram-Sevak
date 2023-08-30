@@ -110,9 +110,12 @@ public class WorkerServiceImpl implements WorkerService {
      Pageable pageable = PageRequest.of(pageNumber, pageSize);
 		
 		List<Worker> workerList = workerRepo.findAll(pageable).getContent();
-		return workerList.stream().
+		List<WorkerResponseDTO> workerDtolist = workerList.stream().
 				map( worker -> mapper.map(worker, WorkerResponseDTO.class))
 				.collect(Collectors.toList());
+		if(workerDtolist.isEmpty())
+			throw new ResourceNotFoundException("No workers found");
+		return workerDtolist;
 		
 	}
 
