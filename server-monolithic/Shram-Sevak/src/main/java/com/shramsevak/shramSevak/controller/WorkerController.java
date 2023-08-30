@@ -32,50 +32,45 @@ public class WorkerController {
 
 	@Autowired
 	private WorkerService workerService;
-	
+
 	@PostMapping("/register")
 	public ResponseEntity<?> registerWorker(@RequestBody @Valid WorkerRegistrationDto workerDto) {
 		log.info("Worker Controller - register worker");
 		return new ResponseEntity<>(workerService.register(workerDto), HttpStatus.CREATED);
 	}
-	
-	 @GetMapping("/getWorker/{id}")
-	    public ResponseEntity<?> getCustomerDetailsById(@PathVariable Long id){
-	    	return ResponseEntity.ok(workerService.getWorkerDetails(id));
-	 }
-	 
-	 @GetMapping
-		public ResponseEntity<?> getAllCustPaginated(
-				@RequestParam(defaultValue = "0", required = false) int pageNumber,
-			    @RequestParam(defaultValue = "3", required = false) int pageSize)
-	{
-			System.out.println("in get all customers" +pageNumber+" "+pageSize);
-			List<WorkerResponceDto> list = workerService.
-					getAllWorkers(pageNumber,pageSize);
-			if (list.isEmpty())
-				return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-			
-			return ResponseEntity.ok(list);
-		}
 
+	@GetMapping("/getWorker/{id}")
+	public ResponseEntity<?> getCustomerDetailsById(@PathVariable Long id) {
+		return ResponseEntity.ok(workerService.getWorkerDetails(id));
+	}
+
+	@GetMapping
+	public ResponseEntity<?> getAllWorkerPaginated(@RequestParam(defaultValue = "0", required = false) int pageNumber,
+			@RequestParam(defaultValue = "3", required = false) int pageSize) {
+		System.out.println("in get all customers" + pageNumber + " " + pageSize);
+		List<WorkerResponceDto> list = workerService.getAllWorkers(pageNumber, pageSize);
+		if (list.isEmpty())
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+
+		return ResponseEntity.ok(list);
+	}
 
 	@DeleteMapping("/deletePermanent/{Id}")
 	public ResponseEntity<?> deleteWorkerPermanently(@PathVariable Long Id) {
 		log.info("Worker Controller - delete worker");
 		return new ResponseEntity<>(workerService.deleteByIdPermanently(Id), HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/delete/{Id}")
 	public ResponseEntity<?> deleteWorker(@PathVariable Long Id) {
 		log.info("Worker Controller - delete worker temparary");
 		return new ResponseEntity<>(workerService.deleteById(Id), HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/signin")
 	public ResponseEntity<?> workerLogin(@RequestBody @Valid SigninRequest request) {
 		System.out.println("Worker login " + request);
-		
-			return new ResponseEntity<>(workerService.authenticate(request),
-					HttpStatus.OK);
-		}
+
+		return new ResponseEntity<>(workerService.authenticate(request), HttpStatus.OK);
+	}
 }

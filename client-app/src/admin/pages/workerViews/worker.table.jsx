@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react"
-import CustomerService from "../../../utils/service/customer.service";
 import { Table, TableHead, TableBody } from "@mui/material";
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
@@ -11,18 +10,21 @@ import { Button } from "@mui/material";
 import HistoryIcon from '@mui/icons-material/History';
 import BlockIcon from '@mui/icons-material/Block';
 import CheckIcon from '@mui/icons-material/Check';
+import workerService from "../../../utils/service/worker.service";
 
-export const CustomerTable = ({ setPage, navs, historyFor }) => {
+export const WorkerTable = ({ setPage, navs, historyFor }) => {
 
-    const [customerList, setCustomerList] = useState([]);
+    const [workerList, setWorkerList] = useState([]);
     const [pageRefresh, setPageRefresh] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
-    const [infoMessage, setInfoMessage] = useState('');
 
     useEffect(() => {
-        CustomerService.getAll().then((response) => {
-            setCustomerList(response.data)
+        workerService.getAll().then((response) => {
+            setWorkerList(response.data)
         })
+        .catch((error) => {
+            console.log(error)
+        })
+
     }, [pageRefresh])
 
     return (
@@ -42,33 +44,33 @@ export const CustomerTable = ({ setPage, navs, historyFor }) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {customerList.map((customer) => (
-                            <StyledTableRow key={customer.id}>
+                        {workerList.map((worker) => (
+                            <StyledTableRow key={worker.id}>
                                 <StyledTableCell component="th" scope="row">
-                                    {customer.id}
+                                    {worker.id}
                                 </StyledTableCell>
-                                <StyledTableCell>{customer.firstName}</StyledTableCell>
-                                <StyledTableCell>{customer.lastName}</StyledTableCell>
-                                <StyledTableCell>{customer.email}</StyledTableCell>
-                                <StyledTableCell>{customer.contact}</StyledTableCell>
-                                <StyledTableCell>{customer.gender}</StyledTableCell>
-                                <StyledTableCell>{customer.status}</StyledTableCell>
+                                <StyledTableCell>{worker.firstName}</StyledTableCell>
+                                <StyledTableCell>{worker.lastName}</StyledTableCell>
+                                <StyledTableCell>{worker.email}</StyledTableCell>
+                                <StyledTableCell>{worker.contact}</StyledTableCell>
+                                <StyledTableCell>{worker.gender}</StyledTableCell>
+                                <StyledTableCell>{worker.status}</StyledTableCell>
                                 <StyledTableCell>
                                     <Button startIcon={<HistoryIcon />} onClick={() => {
-                                        historyFor(customer.id)
+                                        historyFor(worker.id)
                                         setPage(navs.history)
                                         }}>
                                         ORDER HISTORY
                                     </Button>
 
-                                    {customer.status ==='ACTIVE' && <Button style={{color:'red'}} startIcon={<BlockIcon  />} onClick={() => {
-                                        CustomerService.suspendAccount(customer.id)
+                                    {worker.status ==='ACTIVE' && <Button style={{color:'red'}} startIcon={<BlockIcon  />} onClick={() => {
+                                        workerService.suspendAccount(worker.id)
                                         setPageRefresh(!pageRefresh)
                                         }} >
                                         SUSPEND ACCOUNT
                                     </Button>}
-                                    {customer.status === 'SUSPENDED' && <Button style={{color:'green'}} startIcon={<CheckIcon  />} onClick={() => {
-                                        CustomerService.activateAccount(customer.id)
+                                    {worker.status === 'SUSPENDED' && <Button style={{color:'green'}} startIcon={<CheckIcon  />} onClick={() => {
+                                        workerService.activateAccount(worker.id)
                                         setPageRefresh(!pageRefresh)
                                         }} >
                                         ACTIVATE ACCOUNT

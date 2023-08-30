@@ -19,12 +19,12 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 
-export const CustomerHistory = ({ setPage, navs, customerId }) => {
+export const WorkerHistory = ({ setPage, navs, workerId }) => {
 
     const [history, setHistory] = useState([])
 
     useEffect(() => {
-        orderService.getByCustomerId(customerId)
+        orderService.getByWorkerId(workerId)
             .then((response) =>
                 setHistory(response.data)
             )

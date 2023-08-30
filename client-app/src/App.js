@@ -9,7 +9,6 @@ import ChooseLogin from './customer/components/Pages/HomePage/ChooseLogin/Choose
 import AdminDashboard from './admin/pages/AdminDashboard';
 import { Unauthorized } from './pages/unauthorized.page';
 import { AdminAuthGuard } from './utils/guards/admin.auth.guard';
-import { AdminLoginGuard } from './utils/guards/admin.login.guard';
 import { Role } from './utils/models/role';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -26,16 +25,12 @@ function App() {
         <Route path="/loginCustomer" element={<FormCustomer />} />
         <Route path="/loginWorker" element={<FormWorker />} />
 
-        <Route path="/admin" element={
-        // <AdminLoginGuard roles={[Role.ADMIN]}>
-          <AdminLogin />
-        // </AdminLoginGuard>
-        } />
+        <Route path="/admin" element={<AdminLogin />} />
 
       <Route path='/admin-dashboard' element={
-        // <AdminAuthGuard roles={[Role.ADMIN]}>
+        <AdminAuthGuard roles={[Role.ADMIN]}>
           <AdminDashboard />
-        // </AdminAuthGuard>
+        </AdminAuthGuard>
       } />
 
       <Route path="/login" element={<ChooseLogin />} />

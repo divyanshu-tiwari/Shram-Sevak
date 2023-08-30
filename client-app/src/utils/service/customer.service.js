@@ -13,6 +13,18 @@ class CustomerService {
         return axios.post(BASE_URL + '/register', customerData)
     }
 
+    getCustomerById(customerId){
+        return axios.get(BASE_URL + '/getCustomer/' + customerId)
+    }
+
+    suspendAccount(customerId){
+        return axios.patch(BASE_URL + '/suspend/' + customerId)
+    }
+
+    activateAccount(customerId){
+        return axios.patch(BASE_URL + '/activate/' + customerId)
+    }
+
     getAll(){
         return axios.get(BASE_URL + '/all')
     }

@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -84,6 +85,16 @@ public class CustomerController {
 		System.out.println("Customer login " + request);
 
 		return new ResponseEntity<>(custService.authenticate(request), HttpStatus.OK);
+	}
+	
+	@PatchMapping("/suspend/{customerId}")
+	public ResponseEntity<?> suspendCustomer(@PathVariable Long customerId){
+		return new ResponseEntity<>(custService.suspendCustomer(customerId), HttpStatus.OK);
+	}
+	
+	@PatchMapping("/activate/{customerId}")
+	public ResponseEntity<?> activateCustomer(@PathVariable Long customerId){
+		return new ResponseEntity<>(custService.activateCustomer(customerId), HttpStatus.OK);
 	}
 
 }

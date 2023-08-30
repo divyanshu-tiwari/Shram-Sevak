@@ -78,9 +78,9 @@ public class SkillController {
 	}
 
 	// Update
-	@PutMapping("/{id}")
-	public ResponseEntity<?> updateSkill(@PathVariable Long id, @RequestBody @Valid SkillDTO skillDTO) {
-		SkillResponseDTO updatSkillDto = skillService.updateSkill(id, skillDTO);
+	@PutMapping("/update")
+	public ResponseEntity<?> updateSkill(@RequestBody @Valid SkillDTO skillDTO) {
+		SkillResponseDTO updatSkillDto = skillService.updateSkill(skillDTO.getId(), skillDTO);
 		log.info("Skill Controller - Update Skill By Id");
 		return ResponseEntity.status(HttpStatus.CREATED).body(updatSkillDto);
 
