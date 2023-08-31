@@ -11,6 +11,8 @@ import lombok.ToString;
 @AllArgsConstructor
 public class CityDTO {
 	@Nonnull
+	private Long id;
+	@Nonnull
 	private String city;
 	
 	@Nonnull

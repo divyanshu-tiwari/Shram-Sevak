@@ -15,12 +15,13 @@ import com.shramsevak.shramSevak.customException.OrderException;
 import com.shramsevak.shramSevak.customException.WorkerException;
 import com.shramsevak.shramSevak.dto.ApiResponse;
 import com.shramsevak.shramSevak.dto.CreateOrderDTO;
-import com.shramsevak.shramSevak.dto.OrderDTO;
+import com.shramsevak.shramSevak.dto.OrderResponseDTO;
 import com.shramsevak.shramSevak.dto.TransactionUpdateRequestDTO;
 import com.shramsevak.shramSevak.entity.Customer;
 import com.shramsevak.shramSevak.entity.Order;
 import com.shramsevak.shramSevak.entity.OrderStatus;
 import com.shramsevak.shramSevak.entity.Transaction;
+import com.shramsevak.shramSevak.entity.TransactionStatus;
 import com.shramsevak.shramSevak.entity.Worker;
 import com.shramsevak.shramSevak.repository.CustomerRepository;
 import com.shramsevak.shramSevak.repository.OrderRepository;
@@ -44,53 +45,59 @@ public class OrderServiceImpl implements OrderService{
 	private CustomerRepository customerRepo;
 	
 	@Override
-	public List<OrderDTO> getAll(int pageNumber, int pageSize) {
+	public List<OrderResponseDTO> getAll(int pageNumber, int pageSize) {
 		Pageable pageable = PageRequest.of(pageNumber, pageSize);
-		return orderRepo.findAll(pageable).getContent().stream().map(order -> mapper.map(order, OrderDTO.class)).collect(Collectors.toList());
+		List<Order> listOfOrders = orderRepo.findAll(pageable).getContent();
+		if(listOfOrders.isEmpty())
+			throw new OrderException("No order exists");	
+		return listOfOrders.stream().map(order -> mapper.map(order, OrderResponseDTO.class)).collect(Collectors.toList());
 	}
 
 	@Override
-	public OrderDTO getById(Long orderId) {
+	public OrderResponseDTO getById(Long orderId) {
 		Order order = orderRepo.findById(orderId).orElseThrow(()-> new OrderException("Order not found"));
-		return mapper.map(order, OrderDTO.class);
+		return mapper.map(order, OrderResponseDTO.class);
 	} 
 
 	@Override
-	public List<OrderDTO> getAllByWorkerId(Long workerId) {
+	public List<OrderResponseDTO> getAllByWorkerId(Long workerId) {
 		log.info("in getAllByWorkerId => workerId : " + workerId );
 		
-		List<OrderDTO> orders = orderRepo.findByWorkerId(workerId).stream().map(order ->  mapper.map(order, OrderDTO.class)).collect(Collectors.toList());
+		List<OrderResponseDTO> orders = orderRepo.findByWorkerId(workerId).stream().map(order ->  mapper.map(order, OrderResponseDTO.class)).collect(Collectors.toList());
 		if(orders.isEmpty())
 			throw new OrderException("No orders found for the worker");
 		return orders;
 	}
+	
+	
 
 	@Override
-	public List<OrderDTO> getAllByCustomerId(Long customerId) {
+	public List<OrderResponseDTO> getAllByCustomerId(Long customerId) {
 		log.info("in getAllByCustomerId => customerId : " + customerId );
 		
-		List<OrderDTO> orders = orderRepo.findByCustomerId(customerId).stream().map(order ->  mapper.map(order, OrderDTO.class)).collect(Collectors.toList());
+		List<OrderResponseDTO> orders = orderRepo.findByCustomerId(customerId).stream().map(order ->  mapper.map(order, OrderResponseDTO.class)).collect(Collectors.toList());
 		if(orders.isEmpty())
 			throw new OrderException("No orders found for the customer");
 		return orders;
 	}
 	
 	@Override
-	public OrderDTO createOrder(CreateOrderDTO orderDetails) {
+	public OrderResponseDTO createOrder(CreateOrderDTO orderDetails) {
 		Customer customer = customerRepo.findById(orderDetails.getCustomerId()).orElseThrow(() -> new CustomerException("No such customer found."));
 		Worker worker = workerRepo.findById(orderDetails.getWorkerId()).orElseThrow(() -> new WorkerException("No such worker found."));
 		Order order = mapper.map(orderDetails, Order.class);
 		order.setStatus(OrderStatus.CREATED);
+		
 		customer.addOrder(order);
 		worker.addOrder(order);
 		orderRepo.save(order);
-		return mapper.map(order, OrderDTO.class);
+		return mapper.map(order, OrderResponseDTO.class);
 	}
 
 	@Override
 	public ApiResponse fulfillOrder(Long orderId) {
 		Order order = orderRepo.findById(orderId).orElseThrow(() -> new OrderException("No such order found."));
-		if(order.getStartTime().isBefore(LocalDateTime.now()))
+		if(order.getStartTime().isAfter(LocalDateTime.now()) || !order.getStatus().equals(OrderStatus.CONFIRMED))
 			throw new OrderException("INVALID OPERATION : can not fulfill an order before its scheduled time");
 		order.setStatus(OrderStatus.FULFILLED);
 		return new ApiResponse("Order fulfilled. ORDER_ID : " + order.getId());
@@ -99,7 +106,7 @@ public class OrderServiceImpl implements OrderService{
 	@Override
 	public ApiResponse cancelOrder(Long orderId) {
 		Order order = orderRepo.findById(orderId).orElseThrow(() -> new OrderException("No such order found."));
-		if(!order.getStatus().equals(OrderStatus.CREATED))
+		if(!(order.getStatus().equals(OrderStatus.CREATED) || order.getStatus().equals(OrderStatus.CONFIRMED)))
 			throw new OrderException("INVALID OPERATION : can not cancel the order in " + order.getStatus() + " state.");
 		order.setStatus(OrderStatus.CANCELLED);
 		if(LocalDateTime.now().minusHours(1).isBefore(order.getStartTime()))
@@ -122,7 +129,11 @@ public class OrderServiceImpl implements OrderService{
 		Transaction transaction = mapper.map(updateRequest, Transaction.class);
 		transaction.setTransactionTimestamp(LocalDateTime.now());
 		order.setTransaction(transaction);
+		if(transaction.getTransactionStatus().equals(TransactionStatus.SUCCESS))
+			order.setStatus(OrderStatus.CONFIRMED);
 		return new ApiResponse("Transaction updated successfully. " + "ORDER_ID : " + order.getId() + " TRANSACTION_STATUS : " + order.getTransaction().getTransactionStatus().name());
 	}
+
+	
 	
 }

@@ -44,42 +44,40 @@ public class LocalityServiceImpl implements LocalityService {
 
 	@Override
 	public List<LocalityResponceDTO> getAllLocalitiesByCityId(Long id) {
-		List<Locality> localities =localityRepo.findByCityId(id);
+		List<Locality> localities = localityRepo.findByCityId(id);
 		localities.stream().forEach(locality -> locality.getLocality());
-		return localities.stream()
-				.map(locality -> mapper.map(locality, LocalityResponceDTO.class))
+		return localities.stream().map(locality -> mapper.map(locality, LocalityResponceDTO.class))
 				.collect(Collectors.toList());
 	}
 
 	@Override
 	public Long getPin(Long id) {
-		Locality locality=localityRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid Locality Id"));
-		Long pinCode=locality.getPincode();
+		Locality locality = localityRepo.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Invalid Locality Id"));
+		Long pinCode = locality.getPincode();
 		return pinCode;
 	}
 
 	@Override
 	public LocalityResponceDTO getLocalityById(Long id) {
-		
+
 		Locality locality = localityRepo.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Invalid Locality ID"));		 
+				.orElseThrow(() -> new ResourceNotFoundException("Invalid Locality ID"));
 		return mapper.map(locality, LocalityResponceDTO.class);
 	}
 
 	@Override
 	public List<LocalityResponceDTO> getAllLocalies() {
-		return localityRepo
-				.findAll()
-				.stream()
-				.map(locality->mapper.map(locality, LocalityResponceDTO.class))
+		return localityRepo.findAll().stream().map(locality -> mapper.map(locality, LocalityResponceDTO.class))
 				.collect(Collectors.toList());
 	}
 
 	@Override
 	public ApiResponse deleteLocalityById(Long id) {
-		Locality locality = localityRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid Locality ID"));		 
+		Locality locality = localityRepo.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Invalid Locality ID"));
 		localityRepo.delete(locality);
-		return new ApiResponse("Locality "+locality.getLocality()+"Delete Successfully");
+		return new ApiResponse("Locality " + locality.getLocality() + "Delete Successfully");
 	}
 
 	@Override
@@ -91,9 +89,9 @@ public class LocalityServiceImpl implements LocalityService {
 	@Override
 	public LocalityResponceDTO updateLocality(Long localityId, @Valid LocalityDTO localityDTO) {
 		Locality locality = localityRepo.findById(localityId)
-				.orElseThrow(() -> new ResourceNotFoundException("Invalid Locality ID"));		 
-		City city =cityRepo.findById(localityDTO.getCityId())
-				.orElseThrow(()-> new ResourceNotFoundException("Invalid City Id"));
+				.orElseThrow(() -> new ResourceNotFoundException("Invalid Locality ID"));
+		City city = cityRepo.findById(localityDTO.getCityId())
+				.orElseThrow(() -> new ResourceNotFoundException("Invalid City Id"));
 		mapper.map(localityDTO, locality);
 		city.addLocality(locality);
 		return mapper.map(locality, LocalityResponceDTO.class);

@@ -14,16 +14,10 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 
 public class SkillDTO {
-    
-	
+	@Nonnull
+	private Long id;
 	@Nonnull
 	private String skillName;
-	
 	@Nonnull
-	private Long categoryId;
-	
-    
-    
-	 
-	
+	private Long categoryId;	
 }
