@@ -15,8 +15,8 @@ import ChooseSkills from './Worker/components/Login&Registration/ChooseSkills';
 import AdminDashboard from './admin/pages/AdminDashboard';
 import { Unauthorized } from './pages/unauthorized.page';
 import { AdminAuthGuard } from './utils/guards/admin.auth.guard';
-import { AdminLoginGuard } from './utils/guards/admin.login.guard';
 import { Role } from './utils/models/role';
+
 import RegistrationSuccess from './Worker/components/Login&Registration/RegistrationSuccess';
 
 import WorkerDashboard from './Worker/components/dashboard/WorkerDashboard';
@@ -36,6 +36,13 @@ import ChangeSkills from './Worker/components/dashboard/ChangeSkills';
 import ChangeWorkingLocation from './Worker/components/dashboard/ChangeWorkingLocation';
 import Contact from './customer/components/navigation/Contact';
 import About from './customer/components/navigation/About';
+
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+
+
 
 function App() {
   return (
@@ -66,11 +73,7 @@ function App() {
         <Route path="/change-working-location" element={<ChangeWorkingLocation/>}/>
 
 
-        <Route path="/admin" element={
-        // <AdminLoginGuard roles={[Role.ADMIN]}>
-          <AdminLogin />
-        // </AdminLoginGuard>
-        } />
+        <Route path="/admin" element={<AdminLogin />} />
 
       <Route path='/admin-dashboard' element={
         <AdminAuthGuard roles={[Role.ADMIN]}>

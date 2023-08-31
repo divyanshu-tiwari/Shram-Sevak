@@ -5,9 +5,6 @@ import static org.apache.commons.io.FileUtils.writeByteArrayToFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,6 +15,7 @@ import com.shramsevak.shramSevak.customException.ResourceNotFoundException;
 import com.shramsevak.shramSevak.dto.ApiResponse;
 import com.shramsevak.shramSevak.entity.Customer;
 import com.shramsevak.shramSevak.repository.CustomerRepository;
+
 import jakarta.annotation.PostConstruct;
 
 public class ImageHandlingServiceImplCustomer implements ImageHandlingService {

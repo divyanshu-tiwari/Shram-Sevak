@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import com.shramsevak.shramSevak.customException.ResourceNotFoundException;
 import com.shramsevak.shramSevak.customException.WorkerException;
 import com.shramsevak.shramSevak.dto.ApiResponse;
-import com.shramsevak.shramSevak.dto.OrderDTO;
 import com.shramsevak.shramSevak.dto.OrderResponseDTO;
 import com.shramsevak.shramSevak.dto.SigninRequest;
 import com.shramsevak.shramSevak.dto.SigninResponse;
@@ -39,6 +38,9 @@ import com.shramsevak.shramSevak.repository.WorkerRepository;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+
+
+
 @Service
 @Transactional
 public class WorkerServiceImpl implements WorkerService {
@@ -56,61 +58,64 @@ public class WorkerServiceImpl implements WorkerService {
 	
 
 	
+
 	@Override
 	public WorkerResponseDTO register(WorkerRegistrationDto workerDto) {
 		Worker worker = mapper.map(workerDto, Worker.class);
-		Locality locality = localityRepo.findById(workerDto.getLocalityId()).orElseThrow(() -> new RuntimeException("Invalid locality ID"));
+		Locality locality = localityRepo.findById(workerDto.getLocalityId())
+				.orElseThrow(() -> new RuntimeException("Invalid locality ID"));
 		locality.addWorker(worker);
 		worker.setStatus(WorkerStatus.PENDING);
 		workerRepo.save(worker);
-		WorkerResponseDTO workerResp=mapper.map(worker, WorkerResponseDTO.class);
+		WorkerResponseDTO workerResp = mapper.map(worker, WorkerResponseDTO.class);
 		return workerResp;
 	}
-	
 
-   @Override
+	@Override
 	public String deleteByIdPermanently(Long id) {
-		Worker worker=workerRepo.findById(id).orElseThrow(() -> new WorkerException("Invalid myworker ID"));
+		Worker worker = workerRepo.findById(id).orElseThrow(() -> new WorkerException("Invalid myworker ID"));
 		workerRepo.delete(worker);
-		
-	  return "Worker " + worker.getFirstName()+" "+worker.getLastName()+ "'s  details deleted Permanantly!";
+
+		return "Worker " + worker.getFirstName() + " " + worker.getLastName() + "'s  details deleted Permanantly!";
 	}
 
 	@Override
 	public String deleteById(Long id) {
-		Worker worker=workerRepo.findById(id).orElseThrow(() -> new WorkerException("Invalid worker ID"));
+		Worker worker = workerRepo.findById(id).orElseThrow(() -> new WorkerException("Invalid worker ID"));
 		checkStatus(worker);
 		worker.setStatus(WorkerStatus.INACTIVE);
-		return worker.getFirstName()+" "+worker.getLastName()+"s  details deleted!";
+		return worker.getFirstName() + " " + worker.getLastName() + "s  details deleted!";
 	}
 
-
 	@Override
-
 	public SigninResponse authenticate(@Valid SigninRequest request) {
-	 Worker worker = workerRepo.findByContactAndPassword(request.getContact(), request.getPassword())
+		Worker worker = workerRepo.findByContactAndPassword(request.getContact(), request.getPassword())
 				.orElseThrow(() -> new ResourceNotFoundException("Bad Credentials , Invalid Login!!!!!!!!!!!!!"));
-		
+
 		return mapper.map(worker, SigninResponse.class);
 	}
 
-  @Override
-	public WorkerResponseDTO getWorkerDetails(Long id) {
-    Worker worker=workerRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid Customer ID!!!"));
-		
-		return mapper.map(worker,WorkerResponseDTO.class);
-	}
-
 
 	@Override
+	public WorkerResponseDTO getWorkerDetails(Long id) {
+		Worker worker = workerRepo.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Invalid Customer ID!!!"));
+		return mapper.map(worker, WorkerResponseDTO.class);
+	}
+
+	@Override
+
 	public List<WorkerResponseDTO> getAllWorkers(int pageNumber, int pageSize) {
 		
      Pageable pageable = PageRequest.of(pageNumber, pageSize);
 		
 		List<Worker> workerList = workerRepo.findAll(pageable).getContent();
-		return workerList.stream().
+		List<WorkerResponseDTO> workerDtolist = workerList.stream().
 				map( worker -> mapper.map(worker, WorkerResponseDTO.class))
 				.collect(Collectors.toList());
+		if(workerDtolist.isEmpty())
+			throw new ResourceNotFoundException("No workers found");
+		return workerDtolist;
 		
 	}
 
@@ -190,10 +195,5 @@ public class WorkerServiceImpl implements WorkerService {
 		
 		return new ApiResponse("Locality added to worker successfully");
 	}
-
-
-
-
-	
 
 }

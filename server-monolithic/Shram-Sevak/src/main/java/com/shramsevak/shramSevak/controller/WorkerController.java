@@ -37,79 +37,78 @@ public class WorkerController {
 
 	@Autowired
 	private WorkerService workerService;
-	
+
 	@PostMapping("/register")
 	public ResponseEntity<?> registerWorker(@RequestBody @Valid WorkerRegistrationDto workerDto) {
 		log.info("Worker Controller - register worker");
 		return new ResponseEntity<>(workerService.register(workerDto), HttpStatus.CREATED);
 	}
-	
-	 @GetMapping("/getWorker/{id}")
-	    public ResponseEntity<?> getCustomerDetailsById(@PathVariable Long id){
-	    	return ResponseEntity.ok(workerService.getWorkerDetails(id));
-	 }
-	 
-	 @GetMapping
-		public ResponseEntity<?> getAllCustPaginated(
-				@RequestParam(defaultValue = "0", required = false) int pageNumber,
-			    @RequestParam(defaultValue = "3", required = false) int pageSize)
-	{
-			System.out.println("in get all customers" +pageNumber+" "+pageSize);
-			List<WorkerResponseDTO> list = workerService.
-					getAllWorkers(pageNumber,pageSize);
-			if (list.isEmpty())
-				return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-			
-			return ResponseEntity.ok(list);
-		}
 
+	@GetMapping
+	public ResponseEntity<?> getAllCustPaginated(@RequestParam(defaultValue = "0", required = false) int pageNumber,
+			@RequestParam(defaultValue = "3", required = false) int pageSize) {
+		System.out.println("in get all customers" + pageNumber + " " + pageSize);
+		List<WorkerResponseDTO> list = workerService.getAllWorkers(pageNumber, pageSize);
+		if (list.isEmpty())
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+
+		return ResponseEntity.ok(list);
+	}
+
+	@GetMapping("/getWorker/{id}")
+	public ResponseEntity<?> getCustomerDetailsById(@PathVariable Long id) {
+		return ResponseEntity.ok(workerService.getWorkerDetails(id));
+	}
 
 	@DeleteMapping("/deletePermanent/{Id}")
 	public ResponseEntity<?> deleteWorkerPermanently(@PathVariable Long Id) {
 		log.info("Worker Controller - delete worker");
 		return new ResponseEntity<>(workerService.deleteByIdPermanently(Id), HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/delete/{Id}")
 	public ResponseEntity<?> deleteWorker(@PathVariable Long Id) {
 		log.info("Worker Controller - delete worker temparary");
 		return new ResponseEntity<>(workerService.deleteById(Id), HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/signin")
 	public ResponseEntity<?> workerLogin(@RequestBody @Valid SigninRequest request) {
 		System.out.println("Worker login " + request);
-		
-			return new ResponseEntity<>(workerService.authenticate(request),
-					HttpStatus.OK);
-		}
-	
+
+		return new ResponseEntity<>(workerService.authenticate(request), HttpStatus.OK);
+	}
+
 	@PutMapping("/{id}")
-	public ResponseEntity<?> updateWorker(@RequestBody @Valid WorkerUpdateRequestDto worker)
-	{
+	public ResponseEntity<?> updateWorker(@RequestBody @Valid WorkerUpdateRequestDto worker) {
 		log.info("worker controller - update worker information");
 		return new ResponseEntity<>(workerService.updateWorker(worker), HttpStatus.OK);
 	}
 
 	@GetMapping("/available/skill/{skillId}/start/{startTime}/end/{endTime}")
-	public ResponseEntity<?> getAvailableWorkers(@PathVariable Long skillId, @PathVariable LocalDateTime startTime, @PathVariable LocalDateTime endTime, 
-			@RequestParam(defaultValue = "0", required = false) int pageNumber,
-			@RequestParam(defaultValue = "3", required = false) int pageSize){
-		return new ResponseEntity<>(workerService.getAvailableWorkersBySlotAndSkill(skillId, startTime, endTime, pageNumber, pageSize), HttpStatus.OK);}
-  
+	public ResponseEntity<?> getAvailableWorkers(@PathVariable Long skillId, @PathVariable LocalDateTime startTime,
+			@PathVariable LocalDateTime endTime, @RequestParam(defaultValue = "0", required = false) int pageNumber,
+			@RequestParam(defaultValue = "3", required = false) int pageSize) {
+		return new ResponseEntity<>(
+				workerService.getAvailableWorkersBySlotAndSkill(skillId, startTime, endTime, pageNumber, pageSize),
+				HttpStatus.OK);
+	}
+
 	@GetMapping("/active/{workerId}")
-	public ResponseEntity<?> getAllConfirmedByWorkerId(@PathVariable Long workerId){
+	public ResponseEntity<?> getAllConfirmedByWorkerId(@PathVariable Long workerId) {
 		return new ResponseEntity<>(workerService.getAllConfirmedByWorkerId(workerId), HttpStatus.OK);
 	}
-	
+
 	@PatchMapping("/skills")
-	public ResponseEntity<?> updateSkillsByWorkerId(@RequestBody @Valid WorkerSkillsDTO workerSkills){
+	public ResponseEntity<?> updateSkillsByWorkerId(@RequestBody @Valid WorkerSkillsDTO workerSkills) {
 		return new ResponseEntity<>(workerService.updateSkillsByWorkerId(workerSkills), HttpStatus.OK);
 	}
-	
+
 	@PatchMapping("/locality")
-	public ResponseEntity<?> updateLocalityByWorkerIdAndLocalityId(@RequestBody @Valid WorkerLocalityRequestDTO workerLocality){
-		
-		return new ResponseEntity<>(workerService.updateLocalityByWorkerIdAndLocalityId(workerLocality),HttpStatus.OK);
+	public ResponseEntity<?> updateLocalityByWorkerIdAndLocalityId(
+			@RequestBody @Valid WorkerLocalityRequestDTO workerLocality) {
+
+		return new ResponseEntity<>(workerService.updateLocalityByWorkerIdAndLocalityId(workerLocality), HttpStatus.OK);
+
 	}
 }

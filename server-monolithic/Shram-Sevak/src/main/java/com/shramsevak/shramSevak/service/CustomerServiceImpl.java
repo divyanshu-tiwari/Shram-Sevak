@@ -2,7 +2,6 @@ package com.shramsevak.shramSevak.service;
 
 import static com.shramsevak.shramSevak.util.Utils.checkStatusC;
 
-import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.shramsevak.shramSevak.customException.CustomerException;
@@ -20,7 +20,6 @@ import com.shramsevak.shramSevak.dto.CustomerSignUpRequest;
 import com.shramsevak.shramSevak.dto.CustomerUpdateDto;
 import com.shramsevak.shramSevak.dto.SigninRequest;
 import com.shramsevak.shramSevak.dto.SigninResponse;
-
 import com.shramsevak.shramSevak.entity.Customer;
 import com.shramsevak.shramSevak.entity.CustomerStatus;
 import com.shramsevak.shramSevak.repository.CustomerRepository;
@@ -82,46 +81,54 @@ public class CustomerServiceImpl implements CustomerService {
 		Pageable pageable = PageRequest.of(pageNumber, pageSize);
 
 		List<Customer> custList = customerRepo.findAll(pageable).getContent();
-		return custList.stream()
-				.map(cust -> mapper.map(cust, CustomerResponceDto.class))
-				.collect(Collectors.toList());
+		return custList.stream().map(cust -> mapper.map(cust, CustomerResponceDto.class)).collect(Collectors.toList());
 
 	}
 
 	@Override
-	public ApiResponse updateCustomer( CustomerUpdateDto customerDto) {
+	public ApiResponse updateCustomer(CustomerUpdateDto customerDto) {
 		Customer customer = customerRepo.findById(customerDto.getId())
 				.orElseThrow(() -> new ResourceNotFoundException("Invalid Customer ID , Customer not found !!!!"));
-		
-		 if (customerDto.getFirstName() != null) {
-	            customer.setFirstName(customerDto.getFirstName());
-	        }
-	        if (customerDto.getLastName() != null) {
-	            customer.setLastName(customerDto.getLastName());
-	        }
-	        if (customerDto.getEmail() != null) {
-	            customer.setEmail(customerDto.getEmail());
-	        }
-	        if (customerDto.getContact() != null) {
-	            customer.setContact(customerDto.getContact());
-	        }
-	        
-	        customerRepo.save(customer);
-	        
-	        return new ApiResponse("Updated details for  Customer , " + customer.getFirstName());
-		
-		
-		
-		
+
+		if (customerDto.getFirstName() != null) {
+			customer.setFirstName(customerDto.getFirstName());
+		}
+		if (customerDto.getLastName() != null) {
+			customer.setLastName(customerDto.getLastName());
+		}
+		if (customerDto.getEmail() != null) {
+			customer.setEmail(customerDto.getEmail());
+		}
+		if (customerDto.getContact() != null) {
+			customer.setContact(customerDto.getContact());
+		}
+
+		customerRepo.save(customer);
+
+		return new ApiResponse("Updated details for  Customer , " + customer.getFirstName());
+
 	}
 
 	public SigninResponse authenticate(@Valid SigninRequest request) {
 		Customer customer = customerRepo.findByContactAndPassword(request.getContact(), request.getPassword())
 				.orElseThrow(() -> new ResourceNotFoundException("Bad Credentials , Invalid Login!!!!!!!!!!!!!"));
-		
+
 		return mapper.map(customer, SigninResponse.class);
 	}
-		
 
+	@Override
+	public ApiResponse suspendCustomer(Long customerId) {
+		Customer customer = customerRepo.findById(customerId).orElseThrow(() -> new CustomerException("No such customer found"));
+		customer.setStatus(CustomerStatus.SUSPENDED);
+		return new ApiResponse("Customer blocked successfully");
+	}
 
+	@Override
+	public ApiResponse activateCustomer(Long customerId) {
+		Customer customer = customerRepo.findById(customerId).orElseThrow(() -> new CustomerException("No such customer found"));
+		customer.setStatus(CustomerStatus.ACTIVE);
+		return new ApiResponse("Customer blocked successfully");
+	}
+
+	
 }

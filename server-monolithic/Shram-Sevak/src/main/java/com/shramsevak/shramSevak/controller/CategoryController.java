@@ -8,19 +8,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.shramsevak.shramSevak.dto.ApiResponse;
 import com.shramsevak.shramSevak.dto.CategoryDTO;
-import com.shramsevak.shramSevak.dto.CityDTO;
-import com.shramsevak.shramSevak.dto.CityResponseDTO;
 import com.shramsevak.shramSevak.service.CategoryService;
 
-import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -33,13 +31,13 @@ public class CategoryController {
 	private CategoryService categoryService;
 	
 	@GetMapping("/all")
-	public ResponseEntity<List<CategoryDTO>> getAllStates(){
+	public ResponseEntity<?> getAllCategory(){
 		log.info("get all categories");
 		List<CategoryDTO> catDTOs = categoryService.getAllCategories();
-		
 		return ResponseEntity.ok(catDTOs);
 	}
 	
+
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteCategoryById(@PathVariable Long id) {
 		ApiResponse response = categoryService.deteleCategoryById(id);
@@ -47,11 +45,31 @@ public class CategoryController {
 		return ResponseEntity.ok(response);
 	}
 	
-	@PutMapping("/{id}")
-	public ResponseEntity<?> updateCategory(@PathVariable Long id, @RequestBody @Valid CategoryDTO categoryDTO) {
-		CategoryDTO updatedCategoryDTO = categoryService.updateCategory(id, categoryDTO);
-		log.info("Category Controller - Update Category By Id");
-		return ResponseEntity.status(HttpStatus.CREATED).body(updatedCategoryDTO);
+
+	@GetMapping("/{categoryId}")
+	public ResponseEntity<?> getById(@PathVariable Long categoryId){
+		return new ResponseEntity<>(categoryService.getById(categoryId), HttpStatus.OK);
+	}
+	
+	@PostMapping("/add")
+	public ResponseEntity<?> addCategory(@RequestBody CategoryDTO category){
+		return new ResponseEntity<>(categoryService.add(category), HttpStatus.OK);
+	}
+	
+	@DeleteMapping("/delete/{categoryId}")
+	public ResponseEntity<?> deleteCategory(@PathVariable Long categoryId){
+		return new ResponseEntity<>(categoryService.delete(categoryId), HttpStatus.OK);
+	}
+	
+	@PatchMapping("/update")
+	public ResponseEntity<?> updateCategory(@RequestBody CategoryDTO category){
+		return new ResponseEntity<>(categoryService.update(category), HttpStatus.OK);
+	}
+	
+	@GetMapping("/{categoryId}/skills")
+	public ResponseEntity<?> getSkillsByCategoryId(@PathVariable Long categoryId){
+		return new ResponseEntity<>(categoryService.getSkillsByCategoryId(categoryId), HttpStatus.OK);
+
 	}
 
 }
