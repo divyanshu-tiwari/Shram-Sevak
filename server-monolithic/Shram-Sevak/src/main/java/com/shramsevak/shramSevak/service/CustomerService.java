@@ -8,7 +8,6 @@ import com.shramsevak.shramSevak.dto.CustomerSignUpRequest;
 import com.shramsevak.shramSevak.dto.CustomerUpdateDto;
 import com.shramsevak.shramSevak.dto.SigninRequest;
 import com.shramsevak.shramSevak.dto.SigninResponse;
-import com.shramsevak.shramSevak.entity.Customer;
 
 import jakarta.validation.Valid;
 

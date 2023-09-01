@@ -48,7 +48,7 @@ public class AdminServiceImpl implements AdminService {
 	public ApiResponse deleteById(Long id) {
 		Admin admin = adminRepo.findById(id).orElseThrow(() -> new AdminException("Invalid admin ID"));
 		adminRepo.delete(admin);
-		return new ApiResponse("Admin with username " + admin.getUserName() + " deleted Permanantly!");
+		return new ApiResponse("Admin with username " + admin.getUsername() + " deleted Permanantly!");
 	}
 
 	@Override

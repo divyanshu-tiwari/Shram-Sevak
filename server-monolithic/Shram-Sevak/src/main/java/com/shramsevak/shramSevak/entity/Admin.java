@@ -48,6 +48,4 @@ public class Admin extends BaseEntity implements ShramSevakUser{
 		return userName;
 	}
 	
-	
-	
 }
