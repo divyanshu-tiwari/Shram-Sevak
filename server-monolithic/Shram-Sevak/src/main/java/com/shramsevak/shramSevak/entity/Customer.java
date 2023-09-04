@@ -38,8 +38,8 @@ public class Customer extends BaseEntity implements ShramSevakUser{
 	@Column(length = 50, nullable = false)
 	private String lastName;
 
-	@Column(length = 100, nullable = true, unique = true)
-	private String email;
+	@Column(length = 100, nullable = true)
+	private String email="Email@com";
 
 	@Column(length = 20, nullable = false)
 	private String password;
@@ -52,7 +52,7 @@ public class Customer extends BaseEntity implements ShramSevakUser{
 	private Gender gender;
 
 	@Column(nullable = true)
-    @ColumnDefault("'images/customers/customerDefaultImage.jpg'")
+    @ColumnDefault("'images/customers/customerDefaultImage.png'")
 	private String profilePicturePath;
 
 	@Enumerated(EnumType.STRING)

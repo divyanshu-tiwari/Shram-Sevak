@@ -1,31 +1,27 @@
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useState } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import { ShowChart } from '@mui/icons-material'
+import WorkerProfile from './WorkerProfile'
+import SignOut from '../Login&Registration/SignOut'
+import WorkerDelete from './WorkerDelete'
+import ViewAllOrders from './ViewAllOrders'
 import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import ActiveOrders from './ActiveOrders'
+import ChangeSkills from './ChangeSkills'
+import ChangeWorkingLocation from './ChangeWorkingLocation'
 
 
-const user = {
-  name: 'Tom Cook',
-  email: 'tom@example.com',
-  imageUrl:
-    'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-}
+
 
 const navigation = [
-  { name: 'Dashboard', href: '/dashboard', current: true },
-  { name: 'Customers', href: '/customers', current: false },
-  { name: 'Workers', href: '/workers', current: false },
-  { name: 'Orders', href: '/orders', current: false },
-  { name: 'Categories', href: '/categories', current: false },
-  { name: 'Skills', href: '/skills', current: false },
-  { name: 'Addresses', href: '/addresses', current: false },
+  { name: 'Dashboard', href: '/active-orders', current: true },
+  { name: 'View All Orders', href: '/view-all-orders', current: false },
+  { name: 'Skills', href: '/change-worker-skills', current: false },
+  { name: 'Locality', href: '/change-working-location', current: false },
 ]
 
 const userNavigation = [
-  { name: 'Your Profile', href: '/admin-profile' },
-  { name: 'Settings', href: '#' },
+  { name: 'Your Profile', href: '/worker-profile' },
   { name: 'Sign out', href: '/signout' },
 ]
 
@@ -33,27 +29,18 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function WorkerDashboard() {
+export default function AdminDashboard() {
 
   // alert(navigation)
 
-  const [currentPage, setCurrentPage] = useState('/dashboard')
-  const currentUser = useSelector((state) => state.user)
-    // For navigation
-    const navigate = useNavigate()
-
-  useEffect(() => {
-    if (currentUser?.value.id){
-      navigate("/worker-dashboard")
-      console.log(currentUser.value.id)
-    }
-    else{
-      navigate("/login")
-
-    }
-  }, [])
-
-
+  const [currentPage, setCurrentPage] = useState({name:'Dashboard', href:'/active-orders', current:true})
+  const currentUser = useSelector((state) => state.user);
+  const user = {
+    name: currentUser.value.name,
+    email: 'tom@example.com',
+    imageUrl:
+      'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+  }
   return (
     <>
       <div className="min-h-full">
@@ -76,7 +63,11 @@ export default function WorkerDashboard() {
                         {navigation.map((item) => (
                           <a
                             key={item.name}
-                            onClick = {() => setCurrentPage(item.href)}
+                            onClick = {() => {
+                              navigation.find((navItem) => navItem.current === true).current = false;
+                              navigation.find((navItem) => navItem === item).current = true;
+                              setCurrentPage({name: item.name, href: item.href})
+                            }}
                             className={classNames(
                               item.current
                                 ? 'bg-gray-900 text-white'
@@ -120,8 +111,11 @@ export default function WorkerDashboard() {
                             {userNavigation.map((item) => (
                               <Menu.Item key={item.name}>
                                 {({ active }) => (
-                                  <a
-                                    href={item.href}
+                                  <a             
+                                    onClick={() => {
+                                      // navigation.find((navItem) => navItem.current === true).current = false;
+                                      setCurrentPage({name: item.name, href: item.href})
+                                    }}
                                     className={classNames(
                                       active ? 'bg-gray-100' : '',
                                       'block px-4 py-2 text-sm text-gray-700'
@@ -195,12 +189,19 @@ export default function WorkerDashboard() {
 
         <header className="bg-white shadow">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h1>
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900">{currentPage.name}</h1>
           </div>
         </header>
         <main>
           <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-               
+                {currentPage.href === '/worker-profile' && <WorkerProfile /> }
+                {currentPage.href === '/signout' && <SignOut/>}
+                {currentPage.href === '/delete' && <WorkerDelete />}
+                {currentPage.href === '/view-all-orders' && <ViewAllOrders />}
+                {currentPage.href === '/active-orders' && <ActiveOrders />}
+                {currentPage.href === '/change-worker-skills' && <ChangeSkills />}
+                {currentPage.href === '/change-working-location' && <ChangeWorkingLocation/>}
+
           </div>
         </main>
       </div>

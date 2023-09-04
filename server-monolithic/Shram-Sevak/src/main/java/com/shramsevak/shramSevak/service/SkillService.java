@@ -6,8 +6,9 @@ import com.shramsevak.shramSevak.dto.ApiResponse;
 import com.shramsevak.shramSevak.dto.SkillAddDto;
 import com.shramsevak.shramSevak.dto.SkillDTO;
 import com.shramsevak.shramSevak.dto.SkillResponseDTO;
-
+import com.shramsevak.shramSevak.dto.WorkerResponseDTO;
 import jakarta.validation.Valid;
+
 
 public interface SkillService {
 	
@@ -26,5 +27,8 @@ public interface SkillService {
 	List<SkillResponseDTO> getAllSkills();
 	
 	List<SkillResponseDTO> getAllSkillsByCategoryId(Long categoryId);
+
+	List<WorkerResponseDTO> getWorkers(Long id);
+	
 
 }
