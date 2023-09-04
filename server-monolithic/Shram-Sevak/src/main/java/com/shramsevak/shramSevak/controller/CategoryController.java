@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.shramsevak.shramSevak.dto.ApiResponse;
 import com.shramsevak.shramSevak.dto.CategoryDTO;
 import com.shramsevak.shramSevak.service.CategoryService;
 
@@ -35,14 +34,6 @@ public class CategoryController {
 		log.info("get all categories");
 		List<CategoryDTO> catDTOs = categoryService.getAllCategories();
 		return ResponseEntity.ok(catDTOs);
-	}
-	
-
-	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteCategoryById(@PathVariable Long id) {
-		ApiResponse response = categoryService.deteleCategoryById(id);
-		log.info("Category Controller - Delete Category By Id");
-		return ResponseEntity.ok(response);
 	}
 	
 
