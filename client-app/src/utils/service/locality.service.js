@@ -18,7 +18,7 @@ class LocalityService {
     }
 
     delete(localityId){
-        return axios.delete(BASE_URL + '/' + localityId)
+        return axios.delete(BASE_URL + '/delete/' + localityId)
     }
 
     update(localityData){
