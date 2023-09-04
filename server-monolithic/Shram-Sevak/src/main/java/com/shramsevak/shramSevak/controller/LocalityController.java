@@ -41,7 +41,7 @@ public class LocalityController {
 		return ResponseEntity.ok(localityDTO);
 	}
 	
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/delete{id}")
 	public ResponseEntity<?>deleteLocalityById(@PathVariable Long id){
 		ApiResponse response = localityService.deleteLocalityById(id);
 		log.info("Locality Controller - Delete Locality By Id");
