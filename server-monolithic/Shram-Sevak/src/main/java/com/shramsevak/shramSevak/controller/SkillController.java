@@ -70,7 +70,7 @@ public class SkillController {
 
 
 	// Delete By ID
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/delete/{id}")
 	ResponseEntity<?> deleteSkillById(@PathVariable Long id) {
 		ApiResponse response = skillService.deleteSkillById(id);
 		log.info("Skill Controller - Delete Skill By Id");
