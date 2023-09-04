@@ -2,6 +2,9 @@ package com.shramsevak.shramSevak.entity;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -40,15 +43,17 @@ public class Order extends BaseEntity  {
 	@Column(nullable = false)
 	private Long price;
 	
+	@JsonProperty(access = Access.READ_ONLY)
 	@Embedded
 	private Transaction transaction;
 	
 	// RELATIONS
-	
+	@JsonProperty(access = Access.READ_ONLY)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "customer_id", nullable = false)
 	private Customer customer;
 	
+	@JsonProperty(access = Access.READ_ONLY)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "worker_id", nullable = true)
 	private Worker worker;

@@ -28,5 +28,9 @@ public interface CustomerService {
 
 	ApiResponse updateCustomer( CustomerUpdateDto customerDto);
 
+	ApiResponse suspendCustomer(Long customerId);
+
+	ApiResponse activateCustomer(Long customerId);
+
 
 }

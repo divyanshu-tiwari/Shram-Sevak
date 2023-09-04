@@ -61,6 +61,14 @@ public class SkillController {
 		return ResponseEntity.ok(skillService.addRegSkills(skillAddDto));
 	}
 
+	
+	@GetMapping("/getWorkers/{id}")
+	public ResponseEntity<?> getWorkerList(@PathVariable Long id){
+		return ResponseEntity.ok(skillService.getWorkers(id));
+	}
+	
+
+
 	// Delete By ID
 	@DeleteMapping("/{id}")
 	ResponseEntity<?> deleteSkillById(@PathVariable Long id) {
@@ -78,9 +86,9 @@ public class SkillController {
 	}
 
 	// Update
-	@PutMapping("/{id}")
-	public ResponseEntity<?> updateSkill(@PathVariable Long id, @RequestBody @Valid SkillDTO skillDTO) {
-		SkillResponseDTO updatSkillDto = skillService.updateSkill(id, skillDTO);
+	@PutMapping("/update")
+	public ResponseEntity<?> updateSkill(@RequestBody @Valid SkillDTO skillDTO) {
+		SkillResponseDTO updatSkillDto = skillService.updateSkill(skillDTO.getId(), skillDTO);
 		log.info("Skill Controller - Update Skill By Id");
 		return ResponseEntity.status(HttpStatus.CREATED).body(updatSkillDto);
 
@@ -92,5 +100,6 @@ public class SkillController {
 
 		return ResponseEntity.ok(skillService.getAllSkillsByCategoryId(CategoryId));
 	}
+
 
 }

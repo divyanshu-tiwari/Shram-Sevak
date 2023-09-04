@@ -9,7 +9,7 @@ export const WorkerAuthGuard = ({ children, roles }) => {
         if (!currentUser.value) {
             return (<Navigate to={{ pathname: '/login' }} />)
         }
-        // alert("In AUTH-GUARD Current user role: " + currentUser.value.role)
+         //alert("In AUTH-GUARD Current user role: " + currentUser.value.role)
         if (roles?.indexOf(currentUser.value.role) === -1) {
             return (<Navigate to={{ pathname: '/401' }} />)
         }

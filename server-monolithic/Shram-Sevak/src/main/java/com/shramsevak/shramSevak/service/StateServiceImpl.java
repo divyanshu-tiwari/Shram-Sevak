@@ -28,7 +28,7 @@ public class StateServiceImpl implements StateService {
 	public ApiResponse addState(StateDTO stateDTO) {
 		State stateEntity = mapper.map(stateDTO, State.class);
 		State savedState = stateRepo.save(stateEntity);
-		return new ApiResponse("State " + savedState.getState() + " Added Successfully...");
+		return new ApiResponse("State " + savedState.getState() + " added Successfully...");
 	}
 
 	@Override

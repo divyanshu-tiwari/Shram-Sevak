@@ -55,9 +55,9 @@ public class LocalityController {
 		return ResponseEntity.ok(response);
 	}
 	
-	@PutMapping("/{id}")
-	public ResponseEntity<?> updateLocalityById(@PathVariable Long id ,@RequestBody @Valid LocalityDTO localityDTO){
-		LocalityResponceDTO updateLocalityDTO =localityService.updateLocality(id, localityDTO);
+	@PutMapping("/update")
+	public ResponseEntity<?> updateLocalityById(@RequestBody @Valid LocalityDTO localityDTO){
+		LocalityResponceDTO updateLocalityDTO =localityService.updateLocality(localityDTO.getId(), localityDTO);
 		log.info("Locality Controller - Update Locality By Id");
 		return ResponseEntity.status(HttpStatus.CREATED).body(updateLocalityDTO);
 	}

@@ -18,5 +18,6 @@ public class CreateOrderDTO {
 	private LocalDateTime endTime;
 	private Long customerId;
 	private Long workerId;
+	private Long price;
 //	private TransactionDTO transaction;
 }
