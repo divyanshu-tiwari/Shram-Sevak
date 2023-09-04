@@ -27,11 +27,23 @@ public class SecurityConfig {
 			http
 			.csrf(csrf -> csrf.disable())
 			.authorizeHttpRequests(authz -> authz
-					.requestMatchers("/admin").hasRole("ADMIN")
-//					.requestMatchers("")
-					.anyRequest().authenticated()
-					
-					)
+					.requestMatchers("/admin**/**", 
+							"/category/add",
+							"/category/update",
+							"/category/delete**",
+							"/skill/add",
+							"/skill/update",
+							"/skill/delete**",
+							"/state/add",
+							"/state/update",
+							"/state/delete**",
+							"/city/add",
+							"/city/update",
+							"/city/delete**",
+							"/locality/add",
+							"/locality/update",
+							"/locality/delete**").hasRole("ADMIN")
+					.anyRequest().authenticated())
 			.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 			.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 			
