@@ -21,7 +21,7 @@ class skillService {
     }
 
     delete(skillId){
-        return axios.delete(BASE_URL + '/' + skillId)
+        return axios.delete(BASE_URL + '/delete/' + skillId)
     }
 }
 
