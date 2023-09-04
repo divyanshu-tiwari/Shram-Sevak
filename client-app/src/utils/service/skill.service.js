@@ -9,6 +9,14 @@ class skillService {
         return axios.get(BASE_URL + '/all')
     }
 
+    getAllByCategoryId(categoryId){
+        return  axios.get(BASE_URL+'/category/'+categoryId)        
+    }
+
+    addWorkerSkillset(workerAndSkillData){
+        return axios.post(BASE_URL+'/addSkills',workerAndSkillData)
+    }
+
     getById(skillId){
         return axios.get(BASE_URL + '/' + skillId)
     }

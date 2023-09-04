@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import workerService from '../../../utils/service/worker.service';
+import orderService from '../../../utils/service/order.service';
 
 function ActiveOrders() {
   const [orders, setOrders] = useState([]);
@@ -12,18 +14,20 @@ function ActiveOrders() {
   }, []);
 
   const fetchOrders = async () => {
-    try {
+ 
      const workerId = parseInt(currentUser.value.id,10)
-      const response = await axios.get(`http://localhost:8080/worker/active/${workerId}`);
-      setOrders(response.data);
-    } catch (error) {
+       workerService.getAllActiveOrdersByWorkerId(workerId) //axios.get(`http://localhost:8080/worker/active/${workerId}`);
+      .then( response=>{
+        setOrders(response.data);
+      }) 
+      .catch (error => {
       console.error('Error fetching orders:', error);
-    }
-  };
+    }) 
+  }
 
   const markOrderAsCompleted = async (orderId) => {
     
-      await axios.patch(`http://localhost:8080/order/fulfill/${orderId}`)
+      await orderService.markAsFulFilled(orderId) //axios.patch(`http://localhost:8080/order/fulfill/${orderId}`)
       .then(response=>{
         console.log("Ordered marked as fulfilled "+response.data)
         alert(response.data.message)
@@ -35,7 +39,7 @@ function ActiveOrders() {
         console.log(error)
         
       })
-  };
+  }
 
   return (
     <div className="p-6">

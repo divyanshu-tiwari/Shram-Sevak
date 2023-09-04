@@ -23,7 +23,7 @@ const SignOut = () => {
   };
 
   return (
-    <div className="min-w-screen relative flex min-h-screen flex-col items-center justify-center bg-white pt-4">
+    <div className="min-w-screen relative flex min-h-screen flex-col items-center justify-center bg-slate-400 pt-4">
       <div className="fixed overflow-y-auto">
         <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
           {open && (

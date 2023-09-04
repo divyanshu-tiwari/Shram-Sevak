@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from 'react-redux';
+import stateService from "../../../utils/service/state.service";
+import cityService from "../../../utils/service/city.service";
 
 
 const ChangeWorkingLocation = () => {
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
   const [localities, setLocalities] = useState([]);
-  const [selectedPincode, setPincode] = useState();
   const [selectedState, setSelectedState] = useState();
   const [selectedCity, setSelectedCity] = useState(null);
   const [selectedLocality, setSelectedLocality] = useState(null);
+  const [selectedPincode, setPincode] = useState();
   const currentUser = useSelector((state) => state.user);
   const [formData, setFormData] = useState({
     workerId: currentUser.value.id,
@@ -18,7 +20,7 @@ const ChangeWorkingLocation = () => {
   });
 
   useEffect(() => {
-    axios.get("http://localhost:8080/state/all")
+      stateService.getAll() //axios.get("http://localhost:8080/state/all")
       .then((response) => {
         setStates(response.data);
       })
@@ -35,7 +37,7 @@ const ChangeWorkingLocation = () => {
     setCities([]);
     setLocalities([]);
     if (selectedState !== null) {
-      axios.get(`http://localhost:8080/city/state/${event.target.value}`)
+        cityService.getAllCitiesByStateId(event.target.value) //axios.get(`http://localhost:8080/city/state/${event.target.value}`)
         .then((response) => {
           setCities(response.data);
         })

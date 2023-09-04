@@ -10,6 +10,7 @@ import { Role } from '../../../utils/models/role';
 import { setCurrentUser } from '../../../utils/store/user/userSlice';
 import { useDispatch } from 'react-redux';
 import { getUserRole } from '../../../utils/service/base.service';
+import workerService from '../../../utils/service/worker.service';
 
 
 
@@ -35,7 +36,7 @@ const Form = ({ showNavbar = true }) => {
     pincode: ""
   });
 
-  //Handle Worker Sign-In
+  //Handling Worker Sign-In
   function handleLogin(event) {
     event.preventDefault();
 
@@ -47,7 +48,7 @@ const Form = ({ showNavbar = true }) => {
     } else {
       setContactError("");
       setPasswordError("");
-      axios.post('http://localhost:8080/worker/signin', formData)
+      workerService.signin(formData)       //axios.post('http://localhost:8080/worker/signin', formData)
         .then(response => {
           console.log("Successful login : " + response.data)
           // need to provide dummy token when web-service is not returning it.
@@ -58,7 +59,7 @@ const Form = ({ showNavbar = true }) => {
         .catch(error => {
           console.log(error)
           setErrorMessage('Invalid login credentials')
-          alert(errorMessage)
+          alert("Invalid Log-in Credentials")
         })
     }
   }
@@ -139,7 +140,7 @@ const Form = ({ showNavbar = true }) => {
                     console.log(JSON.stringify(formData))
                     if (page === FormTitles.length - 1) {
                       try {
-                        const response = await axios.post('http://localhost:8080/worker/register', formData);
+                        const response = await workerService.register(formData)          //axios.post('http://localhost:8080/worker/register', formData);
                         if (response.status === 201) {
                           console.log('Worker Registered successfully!');
                           navigate('/chooseskills', { state: response.data.id });
@@ -172,7 +173,7 @@ const Form = ({ showNavbar = true }) => {
                 value={formData.contact}
                 onChange={(event) => {
                   setFormData({ ...formData, contact: event.target.value });
-                  setContactError(""); // Clear the error message when input changes
+                  setContactError(""); 
                 }}
               />
               {contactError && <p className="text-red-700">{contactError}</p>}
@@ -184,7 +185,7 @@ const Form = ({ showNavbar = true }) => {
                 value={formData.password}
                 onChange={(event) => {
                   setFormData({ ...formData, password: event.target.value });
-                  setPasswordError(""); // Clear the error message when input changes
+                  setPasswordError(""); 
                 }}
               />
               {passwordError && <p className="text-red-700">{passwordError}</p>}

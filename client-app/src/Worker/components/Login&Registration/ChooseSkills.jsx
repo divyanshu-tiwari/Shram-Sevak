@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
+import categoryService from '../../../utils/service/category.service';
+import skillService from '../../../utils/service/skill.service';
 
 const ChooseSkills = () => {
   const [categories, setCategories] = useState([]);
@@ -18,7 +20,7 @@ const ChooseSkills = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/category/all');
+      const response = await categoryService.getAll()  //axios.get('http://localhost:8080/category/all');
       setCategories(response.data);
     } catch (error) {
       console.error(error);
@@ -28,7 +30,7 @@ const ChooseSkills = () => {
   const fetchSkills = async (categoryId) => {
     try {
       console.log("Category ID is"+categoryId)
-      const response = await axios.get(`http://localhost:8080/skill/category/${categoryId}`);
+      const response = await skillService.getAllByCategoryId(categoryId) //axios.get(`http://localhost:8080/skill/category/${categoryId}`);
       setSkills(response.data);
       console.log(response.status)
     } catch (error) {
@@ -123,7 +125,7 @@ const ChooseSkills = () => {
           workerId : workerID
           }
         try {
-          const response = await axios.post('http://localhost:8080/skill/addSkills', reqData)
+          const response = await skillService.addWorkerSkillset(reqData) //axios.post('http://localhost:8080/skill/addSkills', reqData)
           if (response.status === 200) {
             try {
               navigate('/registationsuccess');

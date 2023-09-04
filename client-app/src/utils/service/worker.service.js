@@ -13,6 +13,14 @@ class WorkerService {
         return axios.post(BASE_URL + '/register', workerData)
     }
 
+    getAllActiveOrdersByWorkerId(workerId){
+        return axios.get(BASE_URL+'/active/'+workerId) 
+    }
+
+    updateWorkerSkillset(workerAndSkillData){
+        return axios.patch(BASE_URL+'/skills',workerAndSkillData) //axios.patch('http://localhost:8080/worker/skills', reqData)
+    }
+
     getAll(){
         return axios.get(BASE_URL)
     }

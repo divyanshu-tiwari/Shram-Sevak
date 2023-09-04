@@ -9,6 +9,10 @@ class CityService {
         return axios.get(BASE_URL + '/all')
     }
 
+    getAllCitiesByStateId(stateId){
+        return axios.get(BASE_URL+'/state/'+stateId)
+    }
+
     getById(cityId){
         return axios.get(BASE_URL + '/' + cityId)
     }
