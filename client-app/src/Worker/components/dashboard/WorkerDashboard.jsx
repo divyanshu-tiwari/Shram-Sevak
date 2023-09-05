@@ -9,6 +9,8 @@ import { useSelector } from 'react-redux'
 import ActiveOrders from './ActiveOrders'
 import ChangeSkills from './ChangeSkills'
 import ChangeWorkingLocation from './ChangeWorkingLocation'
+import logo from '../../../Images/Logo3.png'
+import { Link } from 'react-router-dom'
 
 
 
@@ -31,16 +33,11 @@ function classNames(...classes) {
 
 export default function AdminDashboard() {
 
-  // alert(navigation)
-
   const [currentPage, setCurrentPage] = useState({name:'Dashboard', href:'/active-orders', current:true})
   const currentUser = useSelector((state) => state.user);
   const user = {
     name: currentUser.value.name,
-    email: 'tom@example.com',
-    imageUrl:
-      'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-  }
+    }
   return (
     <>
       <div className="min-h-full">
@@ -52,8 +49,8 @@ export default function AdminDashboard() {
                   <div className="flex items-center">
                     <div className="flex-shrink-0">
                       <img
-                        className="h-8 w-8"
-                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                        className="h-16 w-20"
+                        src= {logo}   //"https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
                         alt="Shram Sevak"
                       />
                     </div>
@@ -61,7 +58,7 @@ export default function AdminDashboard() {
                     <div className="hidden md:block">
                       <div className="ml-10 flex items-baseline space-x-4">
                         {navigation.map((item) => (
-                          <a
+                          <Link
                             key={item.name}
                             onClick = {() => {
                               navigation.find((navItem) => navItem.current === true).current = false;
@@ -77,7 +74,7 @@ export default function AdminDashboard() {
                             aria-current={item.current ? 'page' : undefined}
                           >
                             {item.name}
-                          </a>
+                          </Link>
                         ))}
                       </div>
                     </div>
@@ -113,7 +110,6 @@ export default function AdminDashboard() {
                                 {({ active }) => (
                                   <a             
                                     onClick={() => {
-                                      // navigation.find((navItem) => navItem.current === true).current = false;
                                       setCurrentPage({name: item.name, href: item.href})
                                     }}
                                     className={classNames(
@@ -133,7 +129,7 @@ export default function AdminDashboard() {
                   </div>
                   <div className="-mr-2 flex md:hidden">
                     {/* Mobile menu button */}
-                    <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                    <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-white hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                       <span className="absolute -inset-0.5" />
                       <span className="sr-only">Open main menu</span>
                       {open ? (

@@ -25,6 +25,7 @@ const WorkerProfile = () => {
   const fetchWorker = async () => {
     try {
       const response = await axios.get(`http://localhost:8080/worker/getWorker/${currentUser.value.id}`);
+      
       setWorker(response.data);
     } catch (error) {
       console.error('Error fetching worker:', error);

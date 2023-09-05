@@ -36,6 +36,10 @@ class WorkerService {
     activateAccount(workerId){
         return axios.patch(BASE_URL + '/activate/' + workerId)
     }
+
+    deleteWorkerAccount(workerId){
+        return axios.delete(BASE_URL+'/deletePermanent/'+workerId)
+    }
 }
 
 export default new WorkerService();
