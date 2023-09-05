@@ -7,8 +7,13 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.shramsevak.shramSevak.repository.AdminRepository;
+import com.shramsevak.shramSevak.service.AdminService;
 
 @Configuration
 @EnableWebSecurity
@@ -21,6 +26,9 @@ public class SecurityConfig {
 	
 		@Autowired
 		private JWTRequestFilter jwtRequestFilter;
+		
+		@Autowired
+		private AdminRepository adminRepo;
 		
 		@Bean
 		public SecurityFilterChain authorizeRequest(HttpSecurity http) throws Exception {
@@ -48,6 +56,11 @@ public class SecurityConfig {
 			.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 			
 			return http.build();
+		}
+		
+		@Bean
+		public UserDetailsService AdminUserDetailService() {
+			UserDetails user = adminRepo.
 		}
 	}
 	
