@@ -13,6 +13,10 @@ class WorkerService {
         return axios.post(BASE_URL + '/register', workerData)
     }
 
+    getWorkerById(workerId){
+        return axios.get(BASE_URL+'/getWorker/'+workerId);
+    }
+
     getAllActiveOrdersByWorkerId(workerId){
         return axios.get(BASE_URL+'/active/'+workerId) 
     }
@@ -23,6 +27,10 @@ class WorkerService {
 
     updateWorkingLocation(workerAndLocationInfo){
         return axios.patch(BASE_URL+'/locality', workerAndLocationInfo)
+    }
+
+    updateWorkerData(workerData){
+        return axios.put(BASE_URL+'/'+workerData.id, workerData); //axios.put(`http://localhost:8080/worker/${updatedWorker.id}`, updatedWorker);
     }
 
     getAll(){
@@ -40,6 +48,8 @@ class WorkerService {
     deleteWorkerAccount(workerId){
         return axios.delete(BASE_URL+'/deletePermanent/'+workerId)
     }
+
+
 }
 
 export default new WorkerService();
