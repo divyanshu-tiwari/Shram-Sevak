@@ -3,6 +3,8 @@ import axios from "axios";
 import { useSelector } from 'react-redux';
 import stateService from "../../../utils/service/state.service";
 import cityService from "../../../utils/service/city.service";
+import localityService from "../../../utils/service/locality.service";
+import workerService from "../../../utils/service/worker.service";
 
 
 const ChangeWorkingLocation = () => {
@@ -52,7 +54,7 @@ const ChangeWorkingLocation = () => {
     setSelectedCity(event.target.value);
     setLocalities([]);
     if (selectedCity !== null) {
-      axios.get(`http://localhost:8080/locality/city/${event.target.value}`)
+        localityService.getAllByCityId(event.target.value)  // axios.get(`http://localhost:8080/locality/city/${event.target.value}`)
         .then((response) => {
           setLocalities(response.data);
         })
@@ -63,10 +65,10 @@ const ChangeWorkingLocation = () => {
     }
   };
 
-  const getPincodeBySelectedLocality = (e) => {
-    setSelectedLocality(e.target.value)
+  const getPincodeBySelectedLocality = (event) => {
+    setSelectedLocality(event.target.value)
     if (selectedLocality !== null) {
-      axios.get(`http://localhost:8080/locality/getPin/${e.target.value}`)
+        localityService.getPincodeByLocalityId(event.target.value)  //axios.get(`http://localhost:8080/locality/getPin/${event.target.value}`)
         .then((response) => {
           setPincode(response.data);
         })
@@ -74,7 +76,7 @@ const ChangeWorkingLocation = () => {
           console.error(error);
         });
 
-        setFormData({ ...formData, localityId: e.target.value });
+        setFormData({ ...formData, localityId: event.target.value });
     }
 
   }
@@ -136,18 +138,15 @@ const ChangeWorkingLocation = () => {
       className='mx-3 my-10' 
       type='button'
       onClick= { async () => {
-        try {
-          const response = await axios.patch('http://localhost:8080/worker/locality', formData)
-          if (response.status === 200) {
+          workerService.updateWorkingLocation(formData) //axios.patch('http://localhost:8080/worker/locality', formData)
+          .then(response=>{
             console.log("locality updated successfully")
             alert("locality updated successfully")
-          } else {
-            alert(response.data);
-          }
-        } catch (error) {
-        alert('An error occurred while submitting the form.');
-        console.error(error);
-        }
+          
+          })
+          .catch (error=>{
+            alert('An error occurred while submitting the form: '+error);
+          }) 
       }
       }>
         SUBMIT

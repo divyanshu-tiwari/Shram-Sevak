@@ -21,6 +21,10 @@ class WorkerService {
         return axios.patch(BASE_URL+'/skills',workerAndSkillData) //axios.patch('http://localhost:8080/worker/skills', reqData)
     }
 
+    updateWorkingLocation(workerAndLocationInfo){
+        return axios.patch(BASE_URL+'/locality', workerAndLocationInfo)
+    }
+
     getAll(){
         return axios.get(BASE_URL)
     }
