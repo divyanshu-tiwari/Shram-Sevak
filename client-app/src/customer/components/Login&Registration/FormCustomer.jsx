@@ -131,6 +131,7 @@ const Form = ({ showNavbar = true }) => {
                       } catch (error) {
 
                         console.error(error);
+                        alert("Invalid Log-in Credentials")
                       }
                     } else {
                       setPage((currPage) => currPage + 1);

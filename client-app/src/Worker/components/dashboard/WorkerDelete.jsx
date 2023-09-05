@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { useDispatch,useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { clearCurrentUser } from '../../../utils/store/user/userSlice';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import workerService from '../../../utils/service/worker.service';
 
 
 const WorkerDelete = () => {
@@ -14,16 +15,15 @@ const WorkerDelete = () => {
 
 
   const handleDelete = async () => {
-
-    try{
-      alert(currentUser.value.id)
-    const response = await axios.delete(`http://localhost:8080/worker/deletePermanent/${currentUser.value.id}`)
-    dispatch(clearCurrentUser())
-    navigate("/")
-    }catch{
-      console.error();
-    }
-
+    alert(currentUser.value.id)
+    workerService.deleteWorkerAccount(currentUser.value.id)
+      .then(response => {
+        dispatch(clearCurrentUser())
+        navigate("/")
+      })
+      .catch(error => {
+        console.error();
+      })
   }
 
   const handleCancel = () => {

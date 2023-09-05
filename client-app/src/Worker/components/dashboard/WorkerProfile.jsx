@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
+import workerService from '../../../utils/service/worker.service';
 
 
 
@@ -23,13 +24,14 @@ const WorkerProfile = () => {
   });
 
   const fetchWorker = async () => {
-    try {
-      const response = await axios.get(`http://localhost:8080/worker/getWorker/${currentUser.value.id}`);
-      setWorker(response.data);
-    } catch (error) {
-      console.error('Error fetching worker:', error);
-    }
-  };
+    workerService.getWorkerById(currentUser.value.id) //axios.get(`http://localhost:8080/worker/getWorker/${currentUser.value.id}`);
+      .then(response => {
+        setWorker(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching worker:', error);
+      })
+  }
 
   const handleEdit = () => {
     setEditing(true);
@@ -46,14 +48,16 @@ const WorkerProfile = () => {
   };
 
   const handleSave = async () => {
-    try {
-      const response = await axios.put(`http://localhost:8080/worker/${updatedWorker.id}`, updatedWorker);
-      setWorker(response.data);
-      setEditing(false);
-    } catch (error) {
-      console.error('Error updating worker:', error);
-    }
-  };
+
+    workerService.updateWorkerData(updatedWorker) //axios.put(`http://localhost:8080/worker/${updatedWorker.id}`, updatedWorker);
+      .then(response => {
+        setWorker(response.data);
+        setEditing(false);
+      })
+      .catch(error => {
+        console.error('Error updating worker:', error);
+      })
+  }
 
   useEffect(() => {
     fetchWorker();
@@ -73,34 +77,33 @@ const WorkerProfile = () => {
               onChange={handleInputChange}
               className="border p-2 rounded-md w-full"
             /><input
-            type="text"
-            name="lastName"
-            value={updatedWorker.lastName}
-            onChange={handleInputChange}
-          />
-          <input
-            type="text"
-            name="email"
-            value={updatedWorker.email}
-            onChange={handleInputChange}
-          />
-          <input
-            type="text"
-            name="contact"
-            value={updatedWorker.contact}
-            onChange={handleInputChange}
-          />
-          <select
-            name="gender"
-            value={updatedWorker.gender}
-            onChange={handleInputChange}
-          >
-            <option value="MALE" >Male</option>
-            <option value="FEMALE">Female</option>
-            <option value="OTHER">Other</option>
-          </select>        
-          {/* <button className='bg-white' onClick={handleSave}>Save</button> */}
-        </div>
+              type="text"
+              name="lastName"
+              value={updatedWorker.lastName}
+              onChange={handleInputChange}
+            />
+            <input
+              type="text"
+              name="email"
+              value={updatedWorker.email}
+              onChange={handleInputChange}
+            />
+            <input
+              type="text"
+              name="contact"
+              value={updatedWorker.contact}
+              onChange={handleInputChange}
+            />
+            <select
+              name="gender"
+              value={updatedWorker.gender}
+              onChange={handleInputChange}
+            >
+              <option value="MALE" >Male</option>
+              <option value="FEMALE">Female</option>
+              <option value="OTHER">Other</option>
+            </select>
+          </div>
           <div className="mt-4 flex justify-end">
             <button
               className="px-4 py-2  text-white "
@@ -121,7 +124,7 @@ const WorkerProfile = () => {
           <p>Gender: {worker.gender}</p>
           <p>Status: {worker.status}</p>
           <div className="mt-4 flex justify-between items-center">
-          <button
+            <button
               className="px-4 py-2 text-white "
               onClick={handleDelete}
             >

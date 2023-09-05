@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { makeUseVisualState } from "framer-motion";
-import { AlternateEmail } from "@mui/icons-material";
+import stateService from "../../../utils/service/state.service";
+import cityService from "../../../utils/service/city.service";
+import localityService from "../../../utils/service/locality.service";
 
 const ChooseWorkingLocation = ({ formData, setFormData }) => {
   const [states, setStates] = useState([]);
@@ -13,7 +14,7 @@ const ChooseWorkingLocation = ({ formData, setFormData }) => {
   const [selectedLocality, setSelectedLocality] = useState(null);
 
   useEffect(() => {
-    axios.get("http://localhost:8080/state/all")
+      stateService.getAll() //axios.get("http://localhost:8080/state/all")
       .then((response) => {
         setStates(response.data);
       })
@@ -30,7 +31,7 @@ const ChooseWorkingLocation = ({ formData, setFormData }) => {
     setCities([]);
     setLocalities([]);
     if (selectedState !== null) {
-      axios.get(`http://localhost:8080/city/state/${event.target.value}`)
+      cityService.getAllCitiesByStateId(event.target.value) //axios.get(`http://localhost:8080/city/state/${event.target.value}`)
         .then((response) => {
           setCities(response.data);
         })
@@ -45,7 +46,7 @@ const ChooseWorkingLocation = ({ formData, setFormData }) => {
     setSelectedCity(event.target.value);
     setLocalities([]);
     if (selectedCity !== null) {
-      axios.get(`http://localhost:8080/locality/city/${event.target.value}`)
+      localityService.getAllByCityId(event.target.value) //axios.get(`http://localhost:8080/locality/city/${event.target.value}`)
         .then((response) => {
           setLocalities(response.data);
         })
@@ -59,7 +60,7 @@ const ChooseWorkingLocation = ({ formData, setFormData }) => {
   const getPincodeBySelectedLocality = (e) => {
     setSelectedLocality(e.target.value)
     if (selectedLocality !== null) {
-      axios.get(`http://localhost:8080/locality/getPin/${e.target.value}`)
+        localityService.getPincodeByLocalityId(e.target.value) //axios.get(`http://localhost:8080/locality/getPin/${e.target.value}`)
         .then((response) => {
           setPincode(response.data);
         })

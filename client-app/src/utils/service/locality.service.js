@@ -9,6 +9,15 @@ class LocalityService {
         return axios.get(BASE_URL + '/all')
     }
 
+    getAllByCityId(cityId){
+        return axios.get(BASE_URL+'/city/'+cityId)
+    }
+
+    getPincodeByLocalityId(localityId){
+        return axios.get(BASE_URL+'/getPin/'+localityId)
+        //axios.get(`http://localhost:8080/locality/getPin/${e.target.value}`)
+    }
+
     getById(localityId){
         return axios.get(BASE_URL + '/' + localityId)
     }

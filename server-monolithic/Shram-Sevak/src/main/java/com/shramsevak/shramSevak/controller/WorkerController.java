@@ -107,7 +107,6 @@ public class WorkerController {
 	@PatchMapping("/locality")
 	public ResponseEntity<?> updateLocalityByWorkerIdAndLocalityId(
 			@RequestBody @Valid WorkerLocalityRequestDTO workerLocality) {
-
 		return new ResponseEntity<>(workerService.updateLocalityByWorkerIdAndLocalityId(workerLocality), HttpStatus.OK);
 
 	}

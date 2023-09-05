@@ -12,6 +12,10 @@ class OrderService {
     getByWorkerId(workerId){
         return axios.get(BASE_URL + '/worker/' + workerId)
     }
+
+    markAsFulFilled(orderId){
+        return axios.patch(BASE_URL+'/fulfill/'+orderId) //axios.patch(`http://localhost:8080/order/fulfill/${orderId}`)
+    }
  
 }
 
