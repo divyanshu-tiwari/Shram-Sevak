@@ -25,4 +25,6 @@ file:
  upload2:
   location: Images/Customers/
 
+SECRET_KEY: Tx2unn/c/eAtMpblxzwYsK9YR9pz8vDIThO09Ve1arB6ykhuYszHVECBIU8/lVWl
+EXP_TIMEOUT: 86400000
   
