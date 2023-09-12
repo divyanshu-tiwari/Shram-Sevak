@@ -1,7 +1,10 @@
 import { BASE_API_URL } from '../common/constants'
 import axios from 'axios'
+import { authHeader } from './base.service'
 
 const BASE_URL = BASE_API_URL + '/customer'
+
+axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('currentUser')}`;
 
 class CustomerService {
 

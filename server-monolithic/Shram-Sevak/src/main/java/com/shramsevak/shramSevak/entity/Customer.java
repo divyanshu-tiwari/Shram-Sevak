@@ -109,6 +109,11 @@ public class Customer extends BaseEntity implements ShramSevakUser{
 	public String getUsername() {
 		return getContact();
 	}
+
+	@Override
+	public String getName() {
+		return firstName + " " + lastName;
+	}
 	
 	
 	

@@ -19,6 +19,10 @@ public class ShramSevakUserDetails implements UserDetails {
 
 	private ShramSevakUser user;
 	
+	public ShramSevakUserDetails(ShramSevakUser user) {
+		this.user = user;
+	}
+	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return user.getRoles()
@@ -56,5 +60,7 @@ public class ShramSevakUserDetails implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
+	
+	
 	
 }

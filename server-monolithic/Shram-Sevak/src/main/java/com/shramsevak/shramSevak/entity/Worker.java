@@ -119,4 +119,10 @@ public class Worker extends BaseEntity implements ShramSevakUser {
 		return getContact();
 	}
 
+	@Override
+	public String getName() {
+		return firstName + " " + lastName;
+	}
+
+	
 }

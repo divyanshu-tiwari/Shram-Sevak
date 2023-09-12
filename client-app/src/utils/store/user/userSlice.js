@@ -1,16 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
+import jwtDecode from "jwt-decode";
 
 export const userSlice = createSlice({
     name: 'user',
     initialState: {
-        value: JSON.parse(localStorage.getItem('currentUser'))
+        value: localStorage.getItem('currentUser') !== null ? jwtDecode(localStorage.getItem('currentUser')) : null
     },
     reducers: {
         // pass the user object as the payload in action
         setCurrentUser: (state, action) => {
-            console.log("set current user : " + JSON.stringify(action?.payload))
-            localStorage.setItem('currentUser', JSON.stringify(action?.payload))
-            state.value = action?.payload;
+            console.log("set current user : " + JSON.stringify(action?.payload.message))
+            localStorage.setItem('currentUser', JSON.stringify(action?.payload.message))
+            const decodedToken = jwtDecode(action?.payload.message)
+           
+            // alert(JSON.stringify())
+            state.value = decodedToken;
         },
 
         clearCurrentUser: (state) => {

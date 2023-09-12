@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react"
-import AdminUser from "../../utils/models/admin.user"
 import { Role } from "../../utils/models/role";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import { setCurrentUser, clearCurrentUser, selectUser } from "../../utils/store/user/userSlice";
+import { setCurrentUser, selectUser } from "../../utils/store/user/userSlice";
 import { getUserRole } from "../../utils/service/base.service";
 import AdminService from "../../utils/service/admin.service";
 
@@ -54,17 +53,13 @@ export const AdminLogin = () => {
       return;
     }
 
-    // Code for plugging axios
-    
     const adminCredentials = { userName: username, password: password }
     setSubmitted(true)
     AdminService.signin(adminCredentials)
     .then(response => {
       console.log("Successful login : " + response.data)
-      // need to provide dummy token when web-service is not re
-      dispatch(setCurrentUser({...response.data, role: Role.ADMIN, token:12}))
-      if (getUserRole() === Role.ADMIN)
-        navigate('/admin-dashboard')
+      dispatch(setCurrentUser({...response.data}))
+      navigate('/admin-dashboard')
     })
     .catch(error => {
       console.log(error)

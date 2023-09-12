@@ -3,11 +3,9 @@ import store from "../store/store";
 import { clearCurrentUser } from "../store/user/userSlice";
 
 export const authHeader = () => {
-    const currentUser = store.getState().user
-
     return {
         'Content-Type': 'application/json',
-        authorization: 'Bearer' + currentUser?.token,
+        "Authorization": 'Bearer ' + getToken(),
     }
 }
 
@@ -15,7 +13,7 @@ export const authImageHeader = () => {
     const currentUser = store.getState.user
     return {
         'Content-Type': 'multipart/form-data',
-    authorization: 'Bearer ' + currentUser?.token,
+        "Authorization": 'Bearer ' + getToken(),
     }
 }
 
@@ -24,10 +22,10 @@ export const handleResponseWithLoginCheck = () => {
         (response) => response,
         (error) => {
             const currentUser = store.getState.user
-            const isLoggedIn = currentUser?.token
+            const isLoggedIn = getToken()
             const status = error?.response?.status
 
-            if(isLoggedIn && [401, 403].includes(status)) {
+            if (isLoggedIn && [401, 403].includes(status)) {
                 store.dispatch(clearCurrentUser)
                 //history.push('/login')
             }
@@ -37,6 +35,10 @@ export const handleResponseWithLoginCheck = () => {
 
 export const getUserRole = () => {
     const currentUser = store.getState().user
-    console.log("Current user in store : "+JSON.stringify(currentUser))
-    return currentUser.value.role;
-} 
+    console.log("Current user in store : " + JSON.stringify(currentUser))
+    return currentUser.value.roles;
+}
+
+export const getToken = () => {
+    return localStorage.getItem('currentUser')
+}

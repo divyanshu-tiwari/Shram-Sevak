@@ -38,8 +38,7 @@ function classNames(...classes) {
 }
 
 export default function AdminDashboard() {
-  const user = useSelector((state) => state.user?.value.userName)
-  // alert(navigation)
+  const user = useSelector((state) => state.user.value)
 
   const [currentPage, setCurrentPage] = useState({name:'Dashboard', href:'/dashboard', current:true})
   const dispatch = useDispatch()

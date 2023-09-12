@@ -3,6 +3,9 @@ package com.shramsevak.shramSevak.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.shramsevak.shramSevak.dto.AdminSigninDTO;
+import com.shramsevak.shramSevak.dto.ApiResponse;
+import com.shramsevak.shramSevak.jwtUtils.JwtUtils;
 import com.shramsevak.shramSevak.service.AdminService;
 
 import jakarta.validation.Valid;
@@ -25,7 +30,13 @@ import lombok.extern.slf4j.Slf4j;
 public class AdminController {
 
 	@Autowired
-	AdminService adminService;
+	private AdminService adminService;
+	
+	@Autowired
+	private AuthenticationManager authManager;
+	
+	@Autowired
+	JwtUtils jwtUtils;
 
 	@PostMapping("/register")
 	public ResponseEntity<?> registerAdmin(@RequestBody @Valid AdminSigninDTO adminDetails) {
@@ -36,7 +47,9 @@ public class AdminController {
 	@PostMapping("/signin")
 	public ResponseEntity<?> adminLogin(@RequestBody @Valid AdminSigninDTO adminCredentials) {
 		log.info("Admin Controller - sign admin");
-		return new ResponseEntity<>(adminService.signin(adminCredentials), HttpStatus.OK);
+		Authentication principal = authManager.authenticate(new UsernamePasswordAuthenticationToken(adminCredentials.getUserName(), adminCredentials.getPassword()));
+		String jwtToken = jwtUtils.generateJwtToken(principal);
+		return new ResponseEntity<>(new ApiResponse(jwtToken), HttpStatus.OK);
 	}
 	 
 	@GetMapping("/admin/view/{Id}")

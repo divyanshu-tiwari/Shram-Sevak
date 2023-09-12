@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.shramsevak.shramSevak.customException.AdminException;
@@ -14,6 +15,7 @@ import com.shramsevak.shramSevak.dto.AdminSigninDTO;
 import com.shramsevak.shramSevak.dto.AdminSigninResponseDTO;
 import com.shramsevak.shramSevak.dto.ApiResponse;
 import com.shramsevak.shramSevak.entity.Admin;
+import com.shramsevak.shramSevak.entity.UserRole;
 import com.shramsevak.shramSevak.repository.AdminRepository;
 
 import jakarta.transaction.Transactional;
@@ -28,10 +30,16 @@ public class AdminServiceImpl implements AdminService {
 
 	@Autowired
 	private AdminRepository adminRepo;
+	
+	@Autowired
+	private PasswordEncoder encoder;
 
 	@Override
 	public AdminSigninResponseDTO register(@Valid AdminSigninDTO adminDetails) {
-		Admin admin = mapper.map(adminDetails, Admin.class);
+		Admin admin = new Admin();
+		admin.setUserName(adminDetails.getUserName());
+		admin.setPassword(encoder.encode(adminDetails.getPassword()));
+		admin.setRole(UserRole.ROLE_ADMIN);
 		adminRepo.save(admin);
 		return mapper.map(admin, AdminSigninResponseDTO.class);
 	}

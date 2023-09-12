@@ -8,4 +8,5 @@ public interface ShramSevakUser {
 	public String getPassword();
 	public ShramSevakUser getUser();
 	public Set<Role> getRoles();
+	public String getName();
 }

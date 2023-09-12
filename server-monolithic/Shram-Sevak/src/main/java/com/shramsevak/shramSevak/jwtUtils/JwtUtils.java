@@ -44,8 +44,9 @@ public class JwtUtils {
 		T userPrincipal = (T) authentication.getPrincipal();
 		return Jwts.builder().setSubject((userPrincipal.getUsername())).setIssuedAt(new Date())
 				.setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
-				.claim("authorities", getAuthoritiesInString(userPrincipal.getAuthorities()))
-				.claim("user_id", userPrincipal.getUser().getId().toString()).signWith(key, SignatureAlgorithm.HS512)
+				.claim("roles", getAuthoritiesInString(userPrincipal.getAuthorities()))
+				.claim("id", userPrincipal.getUser().getId().toString()).signWith(key, SignatureAlgorithm.HS512)
+				.claim("name", userPrincipal.getUser().getName())
 				.compact();
 	}
 
@@ -74,7 +75,7 @@ public class JwtUtils {
 	}
 
 	public Long getUserIdFromClaims(Claims claims) {
-		String userId = (String) claims.get("user_id");
+		String userId = (String) claims.get("id");
 		return Long.parseLong(userId);
 	}
 
